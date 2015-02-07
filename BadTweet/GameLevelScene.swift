@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-private let controlRectSizes = CGFloat(45.0)
+private var controlRectSizes = CGFloat(45.0)
 
 class GameLevelScene: SKScene {
     
@@ -17,18 +17,15 @@ class GameLevelScene: SKScene {
     // MARK Physics World
     
     private var previousUpdateTime = NSTimeInterval()
-    private var gravity = CGPointMake(0.0, -45.0)
+    private var gravity = CGPointMake(0.0, -60.0)
     
     // MARK: UI elements
     
-    private let uiControllerImage = SKSpriteNode(imageNamed: "Controller")
-    private let uiUp = SKShapeNode(rectOfSize: CGSizeMake(controlRectSizes, controlRectSizes))
-    private let uiDown = SKShapeNode(rectOfSize: CGSizeMake(controlRectSizes, controlRectSizes))
-    private let uiLeft = SKShapeNode(rectOfSize: CGSizeMake(controlRectSizes, controlRectSizes))
-    private let uiRight = SKShapeNode(rectOfSize: CGSizeMake(controlRectSizes, controlRectSizes))
+    private var uiUp: SKShapeNode?
+    private var uiLeft: SKShapeNode?
+    private var uiRight: SKShapeNode?
     
-    private let uiPower = SKSpriteNode(imageNamed: "power")
-    private let uiPause = SKSpriteNode(imageNamed: "pause")
+    private let uiPause = SKSpriteNode(imageNamed: "Pause")
     
     // MARK: Game world entities
     private var player: Player?
@@ -60,13 +57,11 @@ class GameLevelScene: SKScene {
             for node in self.nodesAtPoint(location) {
                 if let shape = node as? SKShapeNode {
                     switch shape {
-                    case uiUp:
+                    case uiUp!:
                         println("up")
-                    case uiDown:
-                        println("down")
-                    case uiLeft:
+                    case uiLeft!:
                         println("left")
-                    case uiRight:
+                    case uiRight!:
                         println("right")
                     default:
                         break
@@ -95,53 +90,41 @@ class GameLevelScene: SKScene {
     // MARK: Initializers
     
     private func initUI() {
-        uiControllerImage.userInteractionEnabled = false
-        uiControllerImage.zPosition = 1000
-        uiControllerImage.anchorPoint = CGPointMake(0, 0)
-        uiControllerImage.position = CGPointMake(20.0, 20.0)
-        addChild(uiControllerImage)
         
-        let uiZPosition = uiControllerImage.zPosition + 1
-        let uiPosition = CGPointMake(uiControllerImage.position.x + 18, uiControllerImage.position.y  + 19)
+        // Define some constants
+        let edge = CGFloat(18)
+        let uiZPosition = CGFloat(50)
         
-        uiUp.zPosition = uiZPosition
-        uiUp.position = CGPointMake(
-            uiPosition.x + controlRectSizes,
-            uiPosition.y + controlRectSizes * 2)
-        addChild(uiUp)
-        
-        uiDown.zPosition = uiZPosition
-        uiDown.position = CGPointMake(
-            uiPosition.x + controlRectSizes,
-            uiPosition.y)
-        addChild(uiDown)
-        
-        uiLeft.zPosition = uiZPosition
-        uiLeft.position = CGPointMake(
-            uiPosition.x,
-            uiPosition.y + controlRectSizes)
-        addChild(uiLeft)
-        
-        uiRight.zPosition = uiZPosition
-        uiRight.position = CGPointMake(
-            uiPosition.x + controlRectSizes * 2,
-            uiPosition.y + controlRectSizes)
-        addChild(uiRight)
-        
-        uiUp.alpha = 0
-        uiDown.alpha = 0
-        uiLeft.alpha = 0
-        uiRight.alpha = 0
-        
-        uiPower.zPosition = uiZPosition
-        uiPower.anchorPoint = CGPointMake(1, 0.5)
-        uiPower.position = CGPointMake(CGRectGetMaxX(self.frame) - 18,  uiLeft.position.y)
-        addChild(uiPower)
-        
+        // Handle Pause Button
         uiPause.zPosition = uiZPosition
-        uiPause.anchorPoint = CGPointMake(0, 1)
-        uiPause.position = CGPointMake(18, CGRectGetMaxY(self.frame) - 18)
+        uiPause.anchorPoint = CGPointMake(1, 1)
+        uiPause.position = CGPointMake(CGRectGetMaxX(self.frame) - edge, CGRectGetMaxY(self.frame) - edge)
         addChild(uiPause)
+        
+        // Compute Sizes
+        let controlWidth = self.frame.width * 0.35
+        let halfConfrolWidth = controlWidth * 0.5
+        let controlHeight = self.frame.height * 0.5
+        let halfControlHeight = controlHeight * 0.5
+        
+        // Init variables
+        uiUp = SKShapeNode(rectOfSize: CGSizeMake(controlWidth, self.frame.height - uiPause.size.height - edge * 2))
+        uiLeft = SKShapeNode(rectOfSize: CGSizeMake(controlWidth, controlHeight))
+        uiRight = SKShapeNode(rectOfSize: CGSizeMake(controlWidth, controlHeight))
+        
+        // Position them
+        uiUp!.position = CGPointMake(self.frame.width - halfConfrolWidth, CGRectGetMidY(self.frame) - edge * 2.5)
+        uiLeft!.position = CGPointMake(halfConfrolWidth, CGRectGetMaxY(self.frame) - controlHeight + halfControlHeight)
+        uiRight!.position = CGPointMake(halfConfrolWidth, CGRectGetMinY(self.frame) + halfControlHeight)
+        
+        // Set some other properties and add them on screen
+        for shapeNode in [uiUp, uiRight, uiLeft] {
+            shapeNode!.zPosition = uiZPosition
+            shapeNode!.alpha = 0.0
+            addChild(shapeNode!)
+        }
+        
+        
 
     }
     
@@ -186,7 +169,8 @@ class GameLevelScene: SKScene {
             let tileCoord = CGPointMake(playerCoord.x + CGFloat(tileColumn - 1), playerCoord.y + CGFloat(tileRow - 1))
             
             let gid = tileGID(atTileCoord: tileCoord, forLayer: layer)
-            if gid != 0 { // if gid is not black space
+            // If gid is not black space
+            if gid != 0 {
                 let tileRect = self.tileRect(fromTileCoord: tileCoord)
 //                println("GID \(gid), TileCoord \(tileCoord), TileRect \(tileRect), PlayerRect \(playerRect)")
                 

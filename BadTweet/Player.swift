@@ -54,7 +54,6 @@ class Player {
         self.gravity = gravity
         
         sprite = SKSpriteNode(texture: walkTextures[0])
-//        sprite.anchorPoint = CGPointMake(0, 0)
         sprite.zPosition = 15
         
 //        let animateWalkAction = SKAction.animateWithTextures(walkTextures, timePerFrame: 0.40);
