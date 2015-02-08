@@ -14,10 +14,20 @@ class GameLevelScene: SKScene {
     
     // MARK: - Variables
     
-    // MARK Physics World
+    // MARK: Level counters
+    
+    private let world: Int
+    private let level: Int
+    private var levelToLoad: String {
+        return "World\(world)Level\(level).tmx"
+    }
+    
+    private var gameOver = false
+    
+    // MARK: Physics World
     
     private var previousUpdateTime = NSTimeInterval()
-    private var gravity = CGPointMake(0.0, -60.0)
+    private var gravity = CGPointMake(0.0, -450.0)
     
     // MARK: UI elements
     
@@ -27,6 +37,8 @@ class GameLevelScene: SKScene {
     
     private let uiPause = SKSpriteNode(imageNamed: "Pause")
     
+    private var previouslyTouchedNodes = NSMutableSet()
+    
     // MARK: Game world entities
     private var player: Player?
     
@@ -34,16 +46,26 @@ class GameLevelScene: SKScene {
     
     private var map: JSTileMap?
     private var walls: TMXLayer?
+    private var hazards: TMXLayer?
     
     // MARK: - Methods
+    
+    init(world: Int = 1, level: Int = 1, size: CGSize) {
+        self.level = level
+        self.world = world
+        super.init(size: size)
+    }
+
+    // TODO: What is this?
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: Overridden
     
     override func didMoveToView(view: SKView) {
         
         self.backgroundColor = SKColor(red: 0.2, green: 0.4, blue: 0.8, alpha: 1.0)
-        //self.anchorPoint = CGPointMake(0, 1)
-        
-        //self.physicsWorld.gravity = CGVectorMake(0.0, -9.8)
         
         initMap()
         initPlayer()
@@ -53,16 +75,18 @@ class GameLevelScene: SKScene {
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            
             for node in self.nodesAtPoint(location) {
                 if let shape = node as? SKShapeNode {
                     switch shape {
                     case uiUp!:
-                        println("up")
+                        previouslyTouchedNodes.addObject(uiUp!)
+                        player!.mightAsWellJump = true
                     case uiLeft!:
-                        println("left")
+                        previouslyTouchedNodes.addObject(uiLeft!)
+                        player!.backwardsMarch = true
                     case uiRight!:
-                        println("right")
+                        previouslyTouchedNodes.addObject(uiRight!)
+                        player!.forwardMarch = true
                     default:
                         break
                     }
@@ -72,18 +96,114 @@ class GameLevelScene: SKScene {
             }
         }
     }
+    
+    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+        
+        let currentlyTouchedNodes = NSMutableSet()
+        
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(self)
+            
+            var right = false
+            var left = false
+            
+            for node in self.nodesAtPoint(location) {
+                if let shape = node as? SKShapeNode {
+                    switch shape {
+                    case uiUp!:
+                        currentlyTouchedNodes.addObject(uiUp!)
+                        player!.mightAsWellJump = true
+                    case uiLeft!:
+                        currentlyTouchedNodes.addObject(uiLeft!)
+                        left = true
+                    case uiRight!:
+                        currentlyTouchedNodes.addObject(uiRight!)
+                        right = true
+                    default:
+                        if previouslyTouchedNodes.containsObject(uiUp!) {
+                            player!.mightAsWellJump = false
+                        }
+                        if previouslyTouchedNodes.containsObject(uiLeft!) {
+                            player!.backwardsMarch = false
+                        }
+                        if previouslyTouchedNodes.containsObject(uiRight!) {
+                            player!.forwardMarch = false
+                        }
+                        break
+                    }
+                    if right {
+//                        player!.backwardsMarch = false
+                        player!.forwardMarch = true
+                    }
+                    if !right && left {
+                        player!.backwardsMarch = true
+//                        player!.forwardMarch = false
+                    }
+                } else if let sprite = node as? SKSpriteNode {
+                    //...
+                }
+            }
+        }
+        
+        previouslyTouchedNodes = currentlyTouchedNodes
+    }
+    
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        
+        let nodesToRemoveFromSet = NSMutableSet()
+        
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(self)
+            
+            for node in self.nodesAtPoint(location) {
+                if let shape = node as? SKShapeNode {
+                    switch shape {
+                    case uiUp!:
+                        nodesToRemoveFromSet.addObject(uiUp!)
+                        player!.mightAsWellJump = false
+                    case uiLeft!:
+                        nodesToRemoveFromSet.addObject(uiLeft!)
+                        player!.backwardsMarch = false
+                    case uiRight!:
+                        nodesToRemoveFromSet.addObject(uiRight!)
+                        player!.forwardMarch = false
+                    default:
+                        break
+                    }
+                } else if let sprite = node as? SKSpriteNode {
+                    //...
+                }
+            }
+            
+        }
+        
+        for object in nodesToRemoveFromSet {
+            previouslyTouchedNodes.removeObject(object)
+        }
+    }
    
     override func update(currentTime: CFTimeInterval) {
+        // Do not perform updates if game is over
+        if gameOver {
+            return
+        }
         
         var delta = currentTime - previousUpdateTime
         if delta > 0.02 {
             delta = 0.02
         }
         
+        // TODO: Delete this line when ready to test on real device (SLOW FPS)
+        // FOR SLOW FPS
+        delta *= 2.0
+        
         previousUpdateTime = currentTime
         player!.update(delta: delta)
         
         checkForAndResolveCollisions(forPlayer: player!, forLayer: walls!)
+        handleHazarCollisions(forPlayer: player!)
+        
+        setViewPointCenter(player!.position)
         
     }
     
@@ -123,17 +243,15 @@ class GameLevelScene: SKScene {
             shapeNode!.alpha = 0.0
             addChild(shapeNode!)
         }
-        
-        
-
     }
     
     private func initMap() {
-        map = JSTileMap(named: "Level1.tmx")
+        map = JSTileMap(named: levelToLoad)
         map!.setScale(0.5)
         addChild(map!)
         
         walls = map!.layerNamed("Walls")
+        hazards = map!.layerNamed("Hazards")
     }
     
     private func initPlayer() {
@@ -163,6 +281,11 @@ class GameLevelScene: SKScene {
             
             let playerRect: CGRect = player.collisionBoundingBox
             let playerCoord: CGPoint = layer.coordForPoint(player.desiredPosition)
+            
+            if playerCoord.y >= map!.mapSize.height - 1 {
+                gameOver(.playerHasLost)
+                return
+            }
             
             let tileColumn = tileIndex % 3
             let tileRow = tileIndex / 3
@@ -223,4 +346,64 @@ class GameLevelScene: SKScene {
         //5
         player.position = player.desiredPosition
     }
+    
+    private func handleHazarCollisions(forPlayer player: Player) {
+        if gameOver {
+            return
+        }
+        let indices = [7, 1, 3, 5, 0, 2, 6, 8]
+        
+        for i in 0..<indices.count {
+            let tileIndex = indices[i];
+            
+            let playerRect = player.collisionBoundingBox
+            let playerCoord = hazards!.coordForPoint(player.desiredPosition)
+            
+            let tileColumn = tileIndex % 3;
+            let tileRow = tileIndex / 3;
+            let tileCoord = CGPointMake(playerCoord.x + CGFloat(tileColumn - 1), playerCoord.y + CGFloat(tileRow - 1))
+            
+            let gid = tileGID(atTileCoord: tileCoord, forLayer: hazards!)
+            if gid != 0 {
+                let tileRect = self.tileRect(fromTileCoord: tileCoord)
+                if CGRectIntersectsRect(playerRect, tileRect) {
+                    gameOver(.playerHasLost)
+                    return
+                }
+            }
+        }
+    }
+    
+    private func setViewPointCenter(position: CGPoint) {
+        var x = max(position.x, self.size.width / 2)
+        var y = max(position.y, self.size.height / 2)
+        x = min(x, (map!.mapSize.width * map!.tileSize.width) - self.size.width / 2)
+        y = min(y, (map!.mapSize.height * map!.tileSize.height) - self.size.height / 2)
+        // TODO: Do not devide x by 2 on the following line, this is just a LOW FPS fix
+        let actualPosition = CGPointMake(x / 2, y)
+        let centerOfView = CGPointMake(self.size.width / 2, self.size.height / 2)
+        let viewPoint = CGPointSubtract(centerOfView, actualPosition)
+        map!.position = viewPoint
+    }
+    
+    private func checkForWin() {
+        if (player!.position.x > map!.mapSize.width - 20) {
+            gameOver(.playerHasWon)
+        }
+    }
+    
+    private enum GameOverState {
+        case playerHasLost, playerHasWon
+    }
+
+    private func gameOver(state: GameOverState) {
+        gameOver = true
+        switch state {
+        case .playerHasWon:
+            println("WON")
+        case .playerHasLost:
+            println("LOST")
+        }
+    }
+    
 }

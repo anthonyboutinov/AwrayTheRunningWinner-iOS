@@ -8,6 +8,11 @@
 
 import Foundation
 
+let minMovement = CGPointMake(0.0, -450)
+let maxMovement = CGPointMake(120.0, 250.0)
+let jumpForce = CGPointMake(0.0, 310.0)
+let jumpCutoff = CGFloat(150.0)
+
 class Player {
     
     // MARK: - Variables
@@ -43,6 +48,22 @@ class Player {
         }
     }
     
+    var forwardMarch: Bool = false {
+        didSet {
+            if forwardMarch && backwardsMarch {
+                backwardsMarch = false
+            }
+        }
+    }
+    var backwardsMarch: Bool = false {
+        didSet {
+            if backwardsMarch && forwardMarch {
+                forwardMarch = false
+            }
+        }
+    }
+    
+    var mightAsWellJump = false
     var onGround = false
     
     var desiredPosition: CGPoint
@@ -70,13 +91,31 @@ class Player {
         // Make delta to be CGFloat
         let delta = CGFloat(deltaTimeInterval as Double)
         
-        let gravityStep = CGPointMake(gravity.x * delta, gravity.y * delta)
-        velocity.x += gravityStep.x
-        velocity.y += gravityStep.y
-        let velocityStep = CGPointMake(velocity.x * delta, velocity.y * delta)
+        let forwardMove = CGPointMake(800.0, 0.0)
+        let forwardMoveStep = CGPointMultiplyScalar(forwardMove, delta)
         
-        desiredPosition.x += velocityStep.x
-        desiredPosition.y += velocityStep.y
+        let gravityStep = CGPointMultiplyScalar(gravity, delta)
+        velocity = CGPointAdd(velocity, gravityStep)
+        
+        velocity = CGPointMake(velocity.x * 0.9, velocity.y)
+        
+        // Jumping
+        if mightAsWellJump && onGround {
+            velocity = CGPointAdd(velocity, jumpForce)
+        } else if !mightAsWellJump && velocity.y > jumpCutoff {
+            velocity = CGPointMake(velocity.x, jumpCutoff)
+        }
+        
+        if forwardMarch {
+            velocity = CGPointAdd(velocity, forwardMoveStep)
+        } else if backwardsMarch {
+            velocity = CGPointSubtract(velocity, forwardMoveStep)
+        }
+
+        velocity = CGPointMake(Clamp(velocity.x, minMovement.x, maxMovement.x), Clamp(velocity.y, minMovement.y, maxMovement.y))
+        
+        let velocityStep = CGPointMultiplyScalar(velocity, delta)
+        desiredPosition = CGPointAdd(desiredPosition, velocityStep)
     }
     
 }

@@ -21,6 +21,11 @@
    H4sIAAAAAAAAA+2VsQ3CMBBFXaSBnjEYgAEoUtIzQBiAARiBDrbFlmLp9LHiOzs4RvpP+rITX3yX/FziHCGEEEIIIYQQQgghNs5eJ6+713U+N3ndGuR+NsjxLwQfjhvXQD+2ZQK16MGeid+mVF/ENam1++cNQh7zqPFpD6OFQaiEAUZNrDa+Buv+OT/WIFdT7TORPuY8xfVf+hH2Ho05Sv24GOuyHFvAvlrqs9RamO8q8i/VNQpp7xH9wP9JShJNfC86uO/3LsxfHdQWhX5oJCm5vgf1Wv8HNr72v0AfAAA=
   </data>
  </layer>
+ <layer name="Hazards" width="100" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
+  </data>
+ </layer>
  <layer name="Items" width="100" height="20">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA+3OsQkAIAwAwWRUx3D7TGAhIYhwV3/xEQAAAADQs14PAHxiX7Q5dgEAnBQHGfTNQB8AAA==
