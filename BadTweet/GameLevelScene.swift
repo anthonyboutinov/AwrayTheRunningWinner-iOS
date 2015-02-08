@@ -20,9 +20,10 @@ class GameLevelScene: SKScene {
     
     // MARK: Level counters
     
-    var worldLevel: WorldLevel?
+    var worldState: WorldStateWithUI?
     
     private var gameOver = false
+    
     
     // MARK: Physics World
     
@@ -42,6 +43,8 @@ class GameLevelScene: SKScene {
     private var previouslyTouchedNodes = NSMutableSet()
     
     private let replayTag = 321
+    
+    
     
     // MARK: Game world entities
     private var player: Player?
@@ -240,7 +243,7 @@ class GameLevelScene: SKScene {
     }
     
     private func initMap() {
-        map = JSTileMap(named: worldLevel!.tmxFileName)
+        map = JSTileMap(named: worldState!.tmxFileName)
         map!.setScale(0.5)
         addChild(map!)
         
@@ -395,7 +398,7 @@ class GameLevelScene: SKScene {
             startReplayButtonText = "Continue"
             
             // Next level
-            worldLevel!.inc()
+            worldState!.inc()
             
         case .playerHasLost:
             runAction(SKAction.playSoundFileNamed("hurt.wav", waitForCompletion: false))
@@ -432,7 +435,7 @@ class GameLevelScene: SKScene {
         
         // Configure scene
         let scene = GameLevelScene()
-        scene.worldLevel = worldLevel
+        scene.worldState = worldState
         
         presentScene(scene, view!)
         

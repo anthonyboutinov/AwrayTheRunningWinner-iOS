@@ -8,7 +8,6 @@
 
 import UIKit
 import SpriteKit
-import AVFoundation
 
 class GameViewController: UIViewController {
     
@@ -16,23 +15,17 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         
         let scene = GameLevelScene()
-        scene.worldLevel = WorldLevel(1, 1)
+        scene.worldState = WorldStateWithUI()
         
         // Configure the view
         let skView = self.view as SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
-        // Disable multiple touch
-//        skView.multipleTouchEnabled = false
-        // Set anchor point to lower left corner
-        scene.anchorPoint = CGPointMake(0.0, 0.0)
-        scene.scaleMode = .ResizeFill
-        scene.size = skView.bounds.size
-        
         /* Sprite Kit applies additional optimizations to improve rendering performance */
         skView.ignoresSiblingOrder = true
-                
-        skView.presentScene(scene)
+        
+        skView.showsFPS = true
+        skView.showsNodeCount = true
+        
+        presentScene(scene, skView)
     }
     
     override func shouldAutorotate() -> Bool {
