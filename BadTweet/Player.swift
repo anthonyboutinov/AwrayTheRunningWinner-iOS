@@ -102,6 +102,7 @@ class Player {
         // Jumping
         if mightAsWellJump && onGround {
             velocity = CGPointAdd(velocity, jumpForce)
+            sprite.runAction(SKAction.playSoundFileNamed("jump.wav", waitForCompletion: false))
         } else if !mightAsWellJump && velocity.y > jumpCutoff {
             velocity = CGPointMake(velocity.x, jumpCutoff)
         }

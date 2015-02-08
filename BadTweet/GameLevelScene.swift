@@ -10,17 +10,17 @@ import SpriteKit
 
 private var controlRectSizes = CGFloat(45.0)
 
+enum GameOverState {
+    case playerHasLost, playerHasWon
+}
+
 class GameLevelScene: SKScene {
     
     // MARK: - Variables
     
     // MARK: Level counters
     
-    private var world: Int
-    private var level: Int
-    private var levelToLoad: String {
-        return "World\(world)Level\(level).tmx"
-    }
+    var worldLevel: WorldLevel?
     
     private var gameOver = false
     
@@ -41,6 +41,8 @@ class GameLevelScene: SKScene {
     
     private var previouslyTouchedNodes = NSMutableSet()
     
+    private let replayTag = 321
+    
     // MARK: Game world entities
     private var player: Player?
     
@@ -51,17 +53,6 @@ class GameLevelScene: SKScene {
     private var hazards: TMXLayer?
     
     // MARK: - Methods
-    
-    init(world: Int = 1, level: Int = 1, size: CGSize) {
-        self.level = level
-        self.world = world
-        super.init(size: size)
-    }
-
-    // TODO: What is this?
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     // MARK: Overridden
     
@@ -100,6 +91,7 @@ class GameLevelScene: SKScene {
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+        // FIXME: When moving out from uiUp, mightAsWellJump stays true
         
         let currentlyTouchedNodes = NSMutableSet()
         
@@ -248,7 +240,7 @@ class GameLevelScene: SKScene {
     }
     
     private func initMap() {
-        map = JSTileMap(named: levelToLoad)
+        map = JSTileMap(named: worldLevel!.tmxFileName)
         map!.setScale(0.5)
         addChild(map!)
         
@@ -381,7 +373,7 @@ class GameLevelScene: SKScene {
         var y = max(position.y, self.size.height / 2)
         x = min(x, (map!.mapSize.width * map!.tileSize.width) - self.size.width / 2)
         y = min(y, (map!.mapSize.height * map!.tileSize.height) - self.size.height / 2)
-        // TODO: Do not devide x by 2 on the following line, this is just a LOW FPS fix
+        // FIXME: Do not devide x by 2 on the following line, this is just a LOW FPS fix
         let actualPosition = CGPointMake(x / 2, y)
         let centerOfView = CGPointMake(self.size.width / 2, self.size.height / 2)
         let viewPoint = CGPointSubtract(centerOfView, actualPosition)
@@ -390,18 +382,43 @@ class GameLevelScene: SKScene {
     
     // MARK: Game over
     
-    private enum GameOverState {
-        case playerHasLost, playerHasWon
-    }
 
     private func gameOver(state: GameOverState) {
         gameOver = true
+        
+        var gameOverText: String?
+        var startReplayButtonText: String?
+        
         switch state {
         case .playerHasWon:
-            println("WON")
+            gameOverText = "WIN!"
+            startReplayButtonText = "Continue"
+            
+            // Next level
+            worldLevel!.inc()
+            
         case .playerHasLost:
-            println("LOST")
+            runAction(SKAction.playSoundFileNamed("hurt.wav", waitForCompletion: false))
+            gameOverText = "You died!"
+            startReplayButtonText = "Replay"
         }
+        println(gameOverText)
+        
+        // FIXME: The following code is very slow
+        
+        let gameOverLabel = SKLabelNode(fontNamed: "Helvetica-Nueue-Thin")
+        gameOverLabel.text = gameOverText!
+        gameOverLabel.fontSize = 40
+        gameOverLabel.position = CGPointMake(self.size.width / 2.0, self.size.height / 1.7)
+        addChild(gameOverLabel)
+        
+        let replay = UIButton()
+        replay.tag = replayTag;
+        replay.setTitle(startReplayButtonText, forState: UIControlState.allZeros)
+        replay.addTarget(self, action: Selector("replay"), forControlEvents: UIControlEvents.TouchUpInside)
+        replay.frame = CGRectMake(CGRectGetMidX(frame) - 100, CGRectGetMidY(frame) - 24, 200, 48)
+        replay.backgroundColor = SKColor(white: 0.4, alpha: 0.6)
+        view!.addSubview(replay)
     }
     
     private func checkForWin() {
@@ -409,5 +426,17 @@ class GameLevelScene: SKScene {
             gameOver(.playerHasWon)
         }
     }
+    
+    func replay() {
+        view!.viewWithTag(replayTag)!.removeFromSuperview()
+        
+        // Configure scene
+        let scene = GameLevelScene()
+        scene.worldLevel = worldLevel
+        
+        presentScene(scene, view!)
+        
+    }
+    
     
 }

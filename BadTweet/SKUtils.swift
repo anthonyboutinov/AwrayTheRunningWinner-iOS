@@ -8,6 +8,13 @@
 
 import Foundation
 
+func presentScene(scene: SKScene, view: SKView) {
+    scene.anchorPoint = CGPointMake(0.0, 0.0)
+    scene.scaleMode = .ResizeFill
+    scene.size = view.bounds.size
+    view.presentScene(scene)
+}
+
 // Extends CGPoint manipulations
 
 // Multiplies CGPoint's values by CGFloat

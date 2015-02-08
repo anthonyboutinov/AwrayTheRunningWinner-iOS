@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A8B00D671A87D5A3008ABABB /* jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = A8B00D651A87D5A3008ABABB /* jump.wav */; };
+		A8B00D681A87D5A3008ABABB /* hurt.wav in Resources */ = {isa = PBXBuildFile; fileRef = A8B00D661A87D5A3008ABABB /* hurt.wav */; };
 		A8BD6EFE1A86262A00E9FC95 /* JSTileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = A8BD6EFB1A86262A00E9FC95 /* JSTileMap.m */; };
 		A8BD6EFF1A86262A00E9FC95 /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = A8BD6EFD1A86262A00E9FC95 /* LFCGzipUtility.m */; };
 		A8BD6F021A86307F00E9FC95 /* World1Level1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = A8BD6F011A86307F00E9FC95 /* World1Level1.tmx */; };
@@ -15,6 +17,8 @@
 		A8BD6F0A1A8638A300E9FC95 /* tiles_spritesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = A8BD6F091A8638A300E9FC95 /* tiles_spritesheet.png */; };
 		A8BD6F0C1A86415E00E9FC95 /* bush.png in Resources */ = {isa = PBXBuildFile; fileRef = A8BD6F0B1A86415E00E9FC95 /* bush.png */; };
 		A8BD6F101A86C36200E9FC95 /* SKUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BD6F0F1A86C36200E9FC95 /* SKUtils.swift */; };
+		A8BD6F121A87546100E9FC95 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BD6F111A87546100E9FC95 /* GameOverScene.swift */; };
+		A8BD6F141A879E5000E9FC95 /* WorldLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BD6F131A879E5000E9FC95 /* WorldLevel.swift */; };
 		A8F488921A8541F700B76BEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F488911A8541F700B76BEF /* AppDelegate.swift */; };
 		A8F488961A8541F700B76BEF /* GameLevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F488951A8541F700B76BEF /* GameLevelScene.swift */; };
 		A8F488981A8541F700B76BEF /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F488971A8541F700B76BEF /* GameViewController.swift */; };
@@ -35,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A8B00D651A87D5A3008ABABB /* jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = jump.wav; sourceTree = "<group>"; };
+		A8B00D661A87D5A3008ABABB /* hurt.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hurt.wav; sourceTree = "<group>"; };
 		A8BD6EF91A86262900E9FC95 /* BadTweet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BadTweet-Bridging-Header.h"; sourceTree = "<group>"; };
 		A8BD6EFA1A86262A00E9FC95 /* JSTileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTileMap.h; sourceTree = "<group>"; };
 		A8BD6EFB1A86262A00E9FC95 /* JSTileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTileMap.m; sourceTree = "<group>"; };
@@ -46,6 +52,8 @@
 		A8BD6F091A8638A300E9FC95 /* tiles_spritesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tiles_spritesheet.png; sourceTree = "<group>"; };
 		A8BD6F0B1A86415E00E9FC95 /* bush.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bush.png; sourceTree = "<group>"; };
 		A8BD6F0F1A86C36200E9FC95 /* SKUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKUtils.swift; sourceTree = "<group>"; };
+		A8BD6F111A87546100E9FC95 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		A8BD6F131A879E5000E9FC95 /* WorldLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorldLevel.swift; sourceTree = "<group>"; };
 		A8F4888C1A8541F700B76BEF /* BadTweet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BadTweet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8F488901A8541F700B76BEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A8F488911A8541F700B76BEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +86,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A8B00D641A87D533008ABABB /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				A8B00D651A87D5A3008ABABB /* jump.wav */,
+				A8B00D661A87D5A3008ABABB /* hurt.wav */,
+			);
+			name = Sounds;
+			sourceTree = "<group>";
+		};
 		A8BD6F001A86263200E9FC95 /* JSTileMap */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,10 +145,13 @@
 			isa = PBXGroup;
 			children = (
 				A8F488951A8541F700B76BEF /* GameLevelScene.swift */,
+				A8BD6F131A879E5000E9FC95 /* WorldLevel.swift */,
+				A8BD6F111A87546100E9FC95 /* GameOverScene.swift */,
 				A8BD6F041A86330800E9FC95 /* Player.swift */,
 				A8BD6F0F1A86C36200E9FC95 /* SKUtils.swift */,
 				A8F488971A8541F700B76BEF /* GameViewController.swift */,
 				A8F488991A8541F700B76BEF /* Main.storyboard */,
+				A8B00D641A87D533008ABABB /* Sounds */,
 				A8BD6F031A86308400E9FC95 /* Levels */,
 				A8BD6F081A86387B00E9FC95 /* Spritesheets */,
 				A8F4889C1A8541F700B76BEF /* Images.xcassets */,
@@ -253,9 +273,11 @@
 				A8F488A01A8541F700B76BEF /* LaunchScreen.xib in Resources */,
 				A8F4889D1A8541F700B76BEF /* Images.xcassets in Resources */,
 				A8BD6F021A86307F00E9FC95 /* World1Level1.tmx in Resources */,
+				A8B00D671A87D5A3008ABABB /* jump.wav in Resources */,
 				A8BD6F0A1A8638A300E9FC95 /* tiles_spritesheet.png in Resources */,
 				A8F4889B1A8541F700B76BEF /* Main.storyboard in Resources */,
 				A8BD6F0C1A86415E00E9FC95 /* bush.png in Resources */,
+				A8B00D681A87D5A3008ABABB /* hurt.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,7 +296,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A8BD6F101A86C36200E9FC95 /* SKUtils.swift in Sources */,
+				A8BD6F141A879E5000E9FC95 /* WorldLevel.swift in Sources */,
 				A8F488961A8541F700B76BEF /* GameLevelScene.swift in Sources */,
+				A8BD6F121A87546100E9FC95 /* GameOverScene.swift in Sources */,
 				A8BD6EFF1A86262A00E9FC95 /* LFCGzipUtility.m in Sources */,
 				A8F488981A8541F700B76BEF /* GameViewController.swift in Sources */,
 				A8F488921A8541F700B76BEF /* AppDelegate.swift in Sources */,
