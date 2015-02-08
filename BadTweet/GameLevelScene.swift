@@ -16,8 +16,8 @@ class GameLevelScene: SKScene {
     
     // MARK: Level counters
     
-    private let world: Int
-    private let level: Int
+    private var world: Int
+    private var level: Int
     private var levelToLoad: String {
         return "World\(world)Level\(level).tmx"
     }
@@ -28,6 +28,8 @@ class GameLevelScene: SKScene {
     
     private var previousUpdateTime = NSTimeInterval()
     private var gravity = CGPointMake(0.0, -450.0)
+    // TODO: For 60fps must be 0.02, current value is for LOW FPS
+    private let maxDelta = 0.08
     
     // MARK: UI elements
     
@@ -189,12 +191,11 @@ class GameLevelScene: SKScene {
         }
         
         var delta = currentTime - previousUpdateTime
-        if delta > 0.02 {
-            delta = 0.02
+        if delta > maxDelta {
+            delta = maxDelta
         }
         
-        // TODO: Delete this line when ready to test on real device (SLOW FPS)
-        // FOR SLOW FPS
+        // TODO: Delete this line when ready to test on real device (LOW FPS)
         delta *= 2.0
         
         previousUpdateTime = currentTime
@@ -202,6 +203,7 @@ class GameLevelScene: SKScene {
         
         checkForAndResolveCollisions(forPlayer: player!, forLayer: walls!)
         handleHazarCollisions(forPlayer: player!)
+        checkForWin()
         
         setViewPointCenter(player!.position)
         
@@ -386,11 +388,7 @@ class GameLevelScene: SKScene {
         map!.position = viewPoint
     }
     
-    private func checkForWin() {
-        if (player!.position.x > map!.mapSize.width - 20) {
-            gameOver(.playerHasWon)
-        }
-    }
+    // MARK: Game over
     
     private enum GameOverState {
         case playerHasLost, playerHasWon
@@ -403,6 +401,12 @@ class GameLevelScene: SKScene {
             println("WON")
         case .playerHasLost:
             println("LOST")
+        }
+    }
+    
+    private func checkForWin() {
+        if player!.position.x > 20 * 70 {//map!.mapSize.width - 20 {
+            gameOver(.playerHasWon)
         }
     }
     

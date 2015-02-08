@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BadTweet/GameLevelScene.swift"
-            timestampString = "445045666.681722"
+            timestampString = "445048436.273781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
             landmarkName = "initMap()"
             landmarkType = "5">
          </BreakpointContent>
