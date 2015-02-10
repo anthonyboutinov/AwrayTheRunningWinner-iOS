@@ -106,12 +106,6 @@ class Player {
         } else if !mightAsWellJump && velocity.y > jumpCutoff {
             velocity = CGPointMake(velocity.x, jumpCutoff)
         }
-        
-        if forwardMarch {
-            velocity = CGPointAdd(velocity, forwardMoveStep)
-        } else if backwardsMarch {
-            velocity = CGPointSubtract(velocity, forwardMoveStep)
-        }
 
         velocity = CGPointMake(Clamp(velocity.x, minMovement.x, maxMovement.x), Clamp(velocity.y, minMovement.y, maxMovement.y))
         

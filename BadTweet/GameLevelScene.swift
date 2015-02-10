@@ -61,7 +61,7 @@ class GameLevelScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
-        self.backgroundColor = SKColor(red: 0.2, green: 0.4, blue: 0.8, alpha: 1.0)
+//        self.backgroundColor = SKColor(red: 0.2, green: 0.4, blue: 0.8, alpha: 1.0)
         
         initMap()
         initPlayer()
@@ -254,6 +254,8 @@ class GameLevelScene: SKScene {
         hazards = map!.layerNamed("Hazards")
         
         winLine = (map!.mapSize.width - 5) * map!.tileSize.width
+//        let bgColor = map!.properties.valueForKey("backgroundcolor") as String
+//        self.backgroundColor = SKColor(hex: bgColor)
     }
     
     private func initPlayer() {
