@@ -11,8 +11,44 @@ import Foundation
 // TODO: Make it 'class let'
 let defaultNumberOfLives = 3
 let coinsToLifeThreshold = 500
+// TODO: Make it 'class let' for WorldLevel
+let levelsPerWorld = 2
 
 class WorldState: Printable {
+    
+    // MARK: - Inner classes
+    
+    class WorldLevel: Printable {
+        
+        var world: Int
+        
+        // When player finishes the last level of a world, player transitions
+        // to the next world and level numeration starts over.
+        var level: Int {
+            didSet {
+                if level > levelsPerWorld {
+                    level = 1
+                    world++
+                }
+            }
+        }
+        
+        var description: String {
+            return "World \(world) Level \(level)"
+        }
+        
+        var tmxFileName: String {
+            return "World\(world)Level\(level).tmx"
+        }
+        
+        init(_ world: Int, _ level: Int) {
+            self.world = world
+            self.level = level
+        }
+        
+    }
+    
+    // MARK: - Variables
     
     var description: String {
         return "WorldState(\(worldLevel), \(numCoins) coins, \(numLives) lives)"
@@ -37,7 +73,7 @@ class WorldState: Printable {
     }
     private var worldLevel: WorldLevel
     
-    // delegating variables to private var worldLevel
+    // Delegating variables to private var worldLevel
     var world: Int {
         get {
             return worldLevel.world
@@ -54,20 +90,23 @@ class WorldState: Printable {
             worldLevel.level = newValue
         }
     }
+    
     var tmxFileName: String {
         return worldLevel.tmxFileName
     }
     
     var gameOver = false
     
-    func nextLevel() {
-        worldLevel.level++
-    }
+    // MARK: - Methods
     
     init(numCoins: Int = 0, numLives: Int = defaultNumberOfLives, world: Int = 1, level: Int = 1) {
         self.numCoins = numCoins
         self.numLives = numLives
         self.worldLevel = WorldLevel(world, level)
+    }
+    
+    func advanceToTheNextLevel() {
+        worldLevel.level++
     }
     
 }

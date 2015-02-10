@@ -395,15 +395,13 @@ class GameLevelScene: SKScene {
             gameOverText = "WIN!"
             startReplayButtonText = "Continue"
             
-            // Next level
-            worldState!.nextLevel()
+            // Advance to the next level
+            worldState!.advanceToTheNextLevel()
             
         case .playerHasLost:
             runAction(SKAction.playSoundFileNamed("hurt.wav", waitForCompletion: false))
             
             let numLives = worldState!.numLives - 1
-            worldState!.removeChildrenFromScene(scene!)
-            worldState!.numLives = numLives
             if numLives == 0 {
                 gameOverText = "GAME OVER"
                 startReplayButtonText = "Replay"
@@ -411,6 +409,9 @@ class GameLevelScene: SKScene {
                 gameOverText = "You've lost a life"
                 startReplayButtonText = "Replay"
             }
+            
+            worldState!.removeChildrenFromScene(scene!)
+            worldState!.numLives = numLives
             
 
         }

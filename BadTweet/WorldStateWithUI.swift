@@ -135,9 +135,9 @@ class WorldStateWithUI: WorldState {
         }
         
         // If nodes already have parent node,
-        if let parent = uiWorldLevelLabel.parent {
+        if let parent = uiLivesImages[0].parent {
             // Then remove them from their parent node.
-            parent.removeChildrenInArray(nodes)
+            parent.removeChildrenInArray(uiLivesImages)
             // If that is not true, then they must have been initialized already
             // and have their properties set, so 'else' closure shouldn't be
             // executed.

@@ -28,7 +28,7 @@ class GameViewController: UIViewController {
 //        backgroundMusic.volume = 0.3
 //        backgroundMusic.play()
         
-        // Init scene
+        // Init scene and world state
         let scene = GameLevelScene()
         scene.worldState = WorldStateWithUI()
         
