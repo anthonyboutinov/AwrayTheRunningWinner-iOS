@@ -53,6 +53,8 @@ class GameLevelScene: SKScene {
     private var walls: TMXLayer?
     private var hazards: TMXLayer?
     
+    private var winLine = CGFloat(0)
+    
     // MARK: - Methods
     
     // MARK: Overridden
@@ -64,7 +66,8 @@ class GameLevelScene: SKScene {
         initMap()
         initPlayer()
         initUI()
-        worldState!.addChildrenToScene(self)
+        worldState!.parentScene = self
+        worldState!.addChildrenToScene()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -92,9 +95,10 @@ class GameLevelScene: SKScene {
         }
     }
     
+    // FIXME: When moving out from uiUp, mightAsWellJump stays true
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-        // FIXME: When moving out from uiUp, mightAsWellJump stays true
         
+        // FIXME: Swift 1.2 will have simply Set instead of NSMutableSet
         let currentlyTouchedNodes = NSMutableSet()
         
         for touch: AnyObject in touches {
@@ -189,7 +193,7 @@ class GameLevelScene: SKScene {
             delta = maxDelta
         }
         
-        // TODO: Delete this line when ready to test on real device (LOW FPS)
+        // FIXME: Delete this line when ready to test on real device (LOW FPS)
         delta *= 2.0
         
         previousUpdateTime = currentTime
@@ -243,11 +247,13 @@ class GameLevelScene: SKScene {
     
     private func initMap() {
         map = JSTileMap(named: worldState!.tmxFileName)
-        map!.setScale(0.5)
+//        map!.setScale(0.5)
         addChild(map!)
         
         walls = map!.layerNamed("Walls")
         hazards = map!.layerNamed("Hazards")
+        
+        winLine = (map!.mapSize.width - 5) * map!.tileSize.width
     }
     
     private func initPlayer() {
@@ -290,55 +296,52 @@ class GameLevelScene: SKScene {
             // If gid is not black space
             if gid != 0 {
                 let tileRect = self.tileRect(fromTileCoord: tileCoord)
-//                println("GID \(gid), TileCoord \(tileCoord), TileRect \(tileRect), PlayerRect \(playerRect)")
                 
-                // Collision resolution goes here
+                // Collision resolution
                 if CGRectIntersectsRect(playerRect, tileRect) {
                     let intersection = CGRectIntersection(playerRect, tileRect)
-                    //2
                     if (tileIndex == 7) {
-                        //tile is directly below the player
+                        // Tile is directly below the player
                         player.desiredPosition = CGPointMake(player.desiredPosition.x, player.desiredPosition.y + intersection.size.height)
                         player.velocity = CGPointMake(player.velocity.x, 0.0)
                         player.onGround = true
                     } else if (tileIndex == 1) {
-                        //tile is directly above the player
+                        // Tile is directly above the player
                         player.desiredPosition = CGPointMake(player.desiredPosition.x, player.desiredPosition.y - intersection.size.height)
                     } else if (tileIndex == 3) {
-                        //tile is left of the player
+                        // Tile is left of the player
                         player.desiredPosition = CGPointMake(player.desiredPosition.x + intersection.size.width, player.desiredPosition.y)
                     } else if (tileIndex == 5) {
-                        //tile is right of the player
+                        // Tile is right of the player
                         player.desiredPosition = CGPointMake(player.desiredPosition.x - intersection.size.width, player.desiredPosition.y)
-                        //3
-                    } else {
-                        if (intersection.size.width > intersection.size.height) {
-                            //tile is diagonal, but resolving collision vertically
-                            //4
-                            player.velocity = CGPointMake(player.velocity.x, 0.0)
-                            var intersectionHeight = CGFloat(0)
-                            if (tileIndex > 4) {
-                                intersectionHeight = intersection.size.height
-                                player.onGround = true
-                            } else {
-                                intersectionHeight = -intersection.size.height
-                            }
-                            player.desiredPosition = CGPointMake(player.desiredPosition.x, player.desiredPosition.y + intersection.size.height )
+                    } else if (intersection.size.width > intersection.size.height) {
+                        
+                        // Tile is diagonal, but resolving collision vertically
+                        player.velocity = CGPointMake(player.velocity.x, 0.0)
+                        var intersectionHeight = CGFloat(0)
+                        if (tileIndex > 4) {
+                            intersectionHeight = intersection.size.height
+                            player.onGround = true
                         } else {
-                            //tile is diagonal, but resolving horizontally
-                            var intersectionWidth = CGFloat(0)
-                            if (tileIndex == 6 || tileIndex == 0) {
-                                intersectionWidth = intersection.size.width
-                            } else {
-                                intersectionWidth = -intersection.size.width
-                            }
-                            player.desiredPosition = CGPointMake(player.desiredPosition.x  + intersectionWidth, player.desiredPosition.y)
+                            intersectionHeight = -intersection.size.height
                         }
+                        player.desiredPosition = CGPointMake(player.desiredPosition.x, player.desiredPosition.y + intersection.size.height )
+                        
+                    } else {
+                        
+                        // Tile is diagonal, but resolving horizontally
+                        var intersectionWidth = CGFloat(0)
+                        if (tileIndex == 6 || tileIndex == 0) {
+                            intersectionWidth = intersection.size.width
+                        } else {
+                            intersectionWidth = -intersection.size.width
+                        }
+                        player.desiredPosition = CGPointMake(player.desiredPosition.x  + intersectionWidth, player.desiredPosition.y)
                     }
                 }
             }
         }
-        //5
+        // Apply resolved position to the player's sprite
         player.position = player.desiredPosition
     }
     
@@ -346,7 +349,6 @@ class GameLevelScene: SKScene {
         if worldState!.gameOver {
             return
         }
-        
         
         for i in 0..<indices.count {
             let tileIndex = indices[i];
@@ -374,8 +376,7 @@ class GameLevelScene: SKScene {
         var y = max(position.y, self.size.height / 2)
         x = min(x, (map!.mapSize.width * map!.tileSize.width) - self.size.width / 2)
         y = min(y, (map!.mapSize.height * map!.tileSize.height) - self.size.height / 2)
-        // FIXME: Try dividing by map scale
-        let actualPosition = CGPointMake(x / 2, y)
+        let actualPosition = CGPointMake(x, y)
         let centerOfView = CGPointMake(self.size.width / 2, self.size.height / 2)
         let viewPoint = CGPointSubtract(centerOfView, actualPosition)
         map!.position = viewPoint
@@ -410,7 +411,7 @@ class GameLevelScene: SKScene {
                 startReplayButtonText = "Replay"
             }
             
-            worldState!.removeChildrenFromScene(scene!)
+            
             worldState!.numLives = numLives
             
 
@@ -435,17 +436,19 @@ class GameLevelScene: SKScene {
     }
     
     private func checkForWin() {
-        if player!.position.x > 20 * 70 {//map!.mapSize.width - 20 {
+        if player!.position.x > winLine {
             gameOver(.playerHasWon)
         }
     }
     
     func replay() {
         view!.viewWithTag(replayTag)!.removeFromSuperview()
+        worldState!.gameOver = false
         
         // Configure scene
         let scene = GameLevelScene()
         scene.worldState = worldState
+        scene.worldState!.parentScene = scene
         
         presentScene(scene, view!)
         

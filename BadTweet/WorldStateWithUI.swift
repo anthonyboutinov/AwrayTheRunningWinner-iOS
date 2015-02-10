@@ -10,6 +10,9 @@ import Foundation
 
 class WorldStateWithUI: WorldState {
     
+    // Parent scene
+    weak var parentScene: GameLevelScene?
+    
     let uiCoinsImage = SKSpriteNode(imageNamed: "hud_coins")
     let uiCoinsText = SKLabelNode()
     let uiLivesImages: [SKSpriteNode] = [SKSpriteNode]()
@@ -18,9 +21,6 @@ class WorldStateWithUI: WorldState {
     let uiWorldLevelLabel = SKLabelNode()
     
     private let uiLifeImageTexture = SKTexture(imageNamed: "hud_heartFull")
-    
-    // TODO: Swift 1.2 will let to make nodes be 'let' not 'var'
-    private var nodes: [SKNode]
     
     override var numCoins: Int {
         didSet {
@@ -65,22 +65,15 @@ class WorldStateWithUI: WorldState {
         }
     }
     
-//    override var world: Int {
-//        didSet {
-//            updateWorldLevelLabel()
-//        }
-//    }
-//    
-//    override var level: Int {
-//        didSet {
-//            updateWorldLevelLabel()
-//        }
-//    }
-    
+    override var gameOver: Bool {
+        didSet {
+            if gameOver == true {
+                removeChildrenFromOldScene()
+            }
+        }
+    }
     
     override init(numCoins: Int = 0, numLives: Int = 3, world: Int = 1, level: Int = 1) {
-        
-        nodes = [uiLivesLabel, uiCoinsText, uiCoinsImage, uiWorldLevelLabel]
         
         super.init(numCoins: numCoins, numLives: numLives, world: world, level: level)
         
@@ -117,27 +110,32 @@ class WorldStateWithUI: WorldState {
         uiWorldLevelLabel.text = "World \(world) Level \(level)"
     }
     
-    func removeChildrenFromScene(scene: SKScene) {
-        
+    func removeChildrenFromOldScene() {
+        let nodes = [uiCoinsText, uiCoinsImage, uiWorldLevelLabel]
         uiWorldLevelLabel.parent!.removeChildrenInArray(nodes)
     }
     
-    func addChildrenToScene(scene: SKScene) {
+    func addChildrenToScene() {
+        
+        // Unwrap Optional
+        assert(self.parentScene != nil, "Propery parentScene is not set")
+        let scene = self.parentScene!
         
         // Force update worldLevelLabel, because there are no listeners set
         // for worldLevel's variables
         updateWorldLevelLabel()
         
-        // Make a copy of self.nodes and append uiLivesImages to it
-        var nodes = self.nodes
+        // Nodes are all the UI elements to be added to the scene
+        var nodes = [uiCoinsText, uiCoinsImage, uiWorldLevelLabel, uiLivesLabel]
         for life in uiLivesImages as [SKNode] {
             nodes.append(life)
         }
         
         // If nodes already have parent node,
-        if let parent = uiLivesImages[0].parent {
+        if let oldParent = uiLivesLabel.parent {
             // Then remove them from their parent node.
-            parent.removeChildrenInArray(uiLivesImages)
+            oldParent.removeChildrenInArray(uiLivesImages)
+            oldParent.removeChildrenInArray([uiLivesLabel])
             // If that is not true, then they must have been initialized already
             // and have their properties set, so 'else' closure shouldn't be
             // executed.
