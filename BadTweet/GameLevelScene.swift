@@ -414,7 +414,22 @@ class GameLevelScene: SKScene {
                         // Tile is directly above the player
                         let tile = layer.tileAtCoord(tileCoord)
                         println(tile)
-                        println(tile.userData)
+                        
+                        if let properties: NSMutableDictionary = map!.tileProperties[NSInteger(gid)] as? NSMutableDictionary {
+                            if let durability = properties["durability"] as? String {
+                                
+                                
+                            }
+                            if let contains = properties["contains"] as? String {
+                                if contains == "coin" {
+                                    worldState!.numCoins++
+                                }
+                                tile.removeFromParent()
+                                return
+                            }
+                        }
+                        
+                        
                     }
                 }
             }
