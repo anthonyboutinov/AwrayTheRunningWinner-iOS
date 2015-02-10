@@ -642,7 +642,7 @@
     } else if (coord.y > (self.mapSize.height - 1)) {
         coord.y = self.mapSize.height - 1;
     }
-    return [layerInfo tileGidAtCoord:coord];
+    return (int)[layerInfo tileGidAtCoord:coord];
 }
 
 - (void)hideAllTiles

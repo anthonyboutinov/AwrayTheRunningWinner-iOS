@@ -200,7 +200,7 @@ class GameLevelScene: SKScene {
         player!.update(delta: delta)
         
         checkForAndResolveCollisions(forPlayer: player!, forLayer: walls!)
-        handleHazarCollisions(forPlayer: player!)
+        handleHazardsCollisions(forPlayer: player!)
         checkForWin()
         
         setViewPointCenter(player!.position)
@@ -351,7 +351,7 @@ class GameLevelScene: SKScene {
         player.position = player.desiredPosition
     }
     
-    private func handleHazarCollisions(forPlayer player: Player) {
+    private func handleHazardsCollisions(forPlayer player: Player) {
         if worldState!.gameOver {
             return
         }
