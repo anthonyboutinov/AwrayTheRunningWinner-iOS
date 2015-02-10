@@ -8,9 +8,9 @@
 
 import Foundation
 
-let minMovement = CGPointMake(0.0, -450)
-let maxMovement = CGPointMake(120.0, 250.0)
-let jumpForce = CGPointMake(0.0, 310.0)
+let minMovement = CGPointMake(-120.0, -450)
+let maxMovement = CGPointMake(120.0, 350.0)
+let jumpForce = CGPointMake(0.0, 360.0)
 let jumpCutoff = CGFloat(150.0)
 
 class Player {
@@ -75,7 +75,7 @@ class Player {
         self.gravity = gravity
         
         sprite = SKSpriteNode(texture: walkTextures[0])
-        sprite.zPosition = 15
+        sprite.zPosition = -21.0
         
 //        let animateWalkAction = SKAction.animateWithTextures(walkTextures, timePerFrame: 0.40);
         //        let moveAction = SKAction.moveBy(CGVector(view.bounds.width,0), duration: 1.4);
@@ -95,7 +95,6 @@ class Player {
         if backwardsMarch {
             forwardMove = CGPointMake(-800.0, 0.0)
         }
-
         let forwardMoveStep = CGPointMultiplyScalar(forwardMove, delta)
         
         let gravityStep = CGPointMultiplyScalar(gravity, delta)

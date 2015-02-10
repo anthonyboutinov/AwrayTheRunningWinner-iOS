@@ -73,7 +73,7 @@ class WorldStateWithUI: WorldState {
         }
     }
     
-    override init(numCoins: Int = 0, numLives: Int = 3, world: Int = 1, level: Int = 1) {
+    override init(numCoins: Int = 0, numLives: Int = defaultNumberOfLives, world: Int = 1, level: Int = 1) {
         
         super.init(numCoins: numCoins, numLives: numLives, world: world, level: level)
         

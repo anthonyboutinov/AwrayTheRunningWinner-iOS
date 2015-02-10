@@ -28,7 +28,7 @@ class GameLevelScene: SKScene {
     private var previousUpdateTime = NSTimeInterval()
     private var gravity = CGPointMake(0.0, -450.0)
     // TODO: For 60fps must be 0.02, current value is for LOW FPS
-    private let maxDelta = 0.08
+    private let maxDelta = 0.04
     
     // MARK: UI elements
     
@@ -52,6 +52,7 @@ class GameLevelScene: SKScene {
     private var map: JSTileMap?
     private var walls: TMXLayer?
     private var hazards: TMXLayer?
+    private var items: TMXLayer?
     
     private var winLine = CGFloat(0)
     
@@ -199,8 +200,26 @@ class GameLevelScene: SKScene {
         previousUpdateTime = currentTime
         player!.update(delta: delta)
         
+        // First, check for collisions with walls
+        player!.onGround = false
         checkForAndResolveCollisions(forPlayer: player!, forLayer: walls!)
+        if worldState!.gameOver {
+            return
+        }
+        
+        // Second, handle hazards
         handleHazardsCollisions(forPlayer: player!)
+        if worldState!.gameOver {
+            return
+        }
+        
+        // Third, handle items
+        handleItemsCollisions()
+        
+        // Then handle collisions with obstacles
+        checkForAndResolveCollisions(forPlayer: player!, forLayer: items!)
+        
+        // Check for win
         checkForWin()
         
         setViewPointCenter(player!.position)
@@ -253,6 +272,7 @@ class GameLevelScene: SKScene {
         // Store layers in local properties for faster access
         walls = map!.layerNamed("Walls")
         hazards = map!.layerNamed("Hazards")
+        items = map!.layerNamed("Items")
         
         // Set rightmost position in pixels after crossing which player is 
         // declared a winner.
@@ -272,8 +292,6 @@ class GameLevelScene: SKScene {
     private func tileRect(fromTileCoord tileCoord: CGPoint) -> CGRect {
         let levelHeightInPixels = map!.mapSize.height * map!.tileSize.height
         let origin = CGPointMake(tileCoord.x * map!.tileSize.width, levelHeightInPixels - ((tileCoord.y + 1) * map!.tileSize.height))
-//        let origin = CGPointMake(tileCoord.x * map!.tileSize.width,  (tileCoord.y * map!.tileSize.height))
-
         return CGRectMake(origin.x, origin.y, map!.tileSize.width, map!.tileSize.height)
     }
     
@@ -282,7 +300,7 @@ class GameLevelScene: SKScene {
     }
     
     private func checkForAndResolveCollisions(forPlayer player: Player, forLayer layer: TMXLayer) {
-        player.onGround = false
+
         for i in 0..<indices.count {
             let tileIndex = indices[i]
             
@@ -352,10 +370,6 @@ class GameLevelScene: SKScene {
     }
     
     private func handleHazardsCollisions(forPlayer player: Player) {
-        if worldState!.gameOver {
-            return
-        }
-        
         for i in 0..<indices.count {
             let tileIndex = indices[i];
             
@@ -372,6 +386,36 @@ class GameLevelScene: SKScene {
                 if CGRectIntersectsRect(playerRect, tileRect) {
                     gameOver(.playerHasLost)
                     return
+                }
+            }
+        }
+    }
+    
+    private func handleItemsCollisions() {
+        let player = self.player!
+        
+        let layer = items!
+        
+        for i in 0..<indices.count {
+            let tileIndex = indices[i];
+            
+            let playerRect = player.collisionBoundingBox
+            let playerCoord = layer.coordForPoint(player.desiredPosition)
+            
+            let tileColumn = tileIndex % 3;
+            let tileRow = tileIndex / 3;
+            let tileCoord = CGPointMake(playerCoord.x + CGFloat(tileColumn - 1), playerCoord.y + CGFloat(tileRow - 1))
+            
+            let gid = tileGID(atTileCoord: tileCoord, forLayer: layer)
+            if gid != 0 {
+                let tileRect = self.tileRect(fromTileCoord: tileCoord)
+                if CGRectIntersectsRect(playerRect, tileRect) {
+                    if (tileIndex == 1) {
+                        // Tile is directly above the player
+                        let tile = layer.tileAtCoord(tileCoord)
+                        println(tile)
+                        println(tile.userData)
+                    }
                 }
             }
         }
