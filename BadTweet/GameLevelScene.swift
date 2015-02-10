@@ -9,6 +9,7 @@
 import SpriteKit
 
 private var controlRectSizes = CGFloat(45.0)
+private let indices: [Int] = [7, 1, 3, 5, 0, 2, 6, 8]
 
 enum GameOverState {
     case playerHasLost, playerHasWon
@@ -21,9 +22,6 @@ class GameLevelScene: SKScene {
     // MARK: Level counters
     
     var worldState: WorldStateWithUI?
-    
-    private var gameOver = false
-    
     
     // MARK: Physics World
     
@@ -66,6 +64,7 @@ class GameLevelScene: SKScene {
         initMap()
         initPlayer()
         initUI()
+        worldState!.addChildrenToScene(self)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -181,7 +180,7 @@ class GameLevelScene: SKScene {
    
     override func update(currentTime: CFTimeInterval) {
         // Do not perform updates if game is over
-        if gameOver {
+        if worldState!.gameOver {
             return
         }
         
@@ -271,7 +270,6 @@ class GameLevelScene: SKScene {
     }
     
     private func checkForAndResolveCollisions(forPlayer player: Player, forLayer layer: TMXLayer) {
-        let indices: [Int] = [7, 1, 3, 5, 0, 2, 6, 8]
         player.onGround = false
         for i in 0..<indices.count {
             let tileIndex = indices[i]
@@ -345,10 +343,10 @@ class GameLevelScene: SKScene {
     }
     
     private func handleHazarCollisions(forPlayer player: Player) {
-        if gameOver {
+        if worldState!.gameOver {
             return
         }
-        let indices = [7, 1, 3, 5, 0, 2, 6, 8]
+        
         
         for i in 0..<indices.count {
             let tileIndex = indices[i];
@@ -376,7 +374,7 @@ class GameLevelScene: SKScene {
         var y = max(position.y, self.size.height / 2)
         x = min(x, (map!.mapSize.width * map!.tileSize.width) - self.size.width / 2)
         y = min(y, (map!.mapSize.height * map!.tileSize.height) - self.size.height / 2)
-        // FIXME: Do not devide x by 2 on the following line, this is just a LOW FPS fix
+        // FIXME: Try dividing by map scale
         let actualPosition = CGPointMake(x / 2, y)
         let centerOfView = CGPointMake(self.size.width / 2, self.size.height / 2)
         let viewPoint = CGPointSubtract(centerOfView, actualPosition)
@@ -387,7 +385,7 @@ class GameLevelScene: SKScene {
     
 
     private func gameOver(state: GameOverState) {
-        gameOver = true
+        worldState!.gameOver = true
         
         var gameOverText: String?
         var startReplayButtonText: String?
@@ -398,12 +396,23 @@ class GameLevelScene: SKScene {
             startReplayButtonText = "Continue"
             
             // Next level
-            worldState!.inc()
+            worldState!.nextLevel()
             
         case .playerHasLost:
             runAction(SKAction.playSoundFileNamed("hurt.wav", waitForCompletion: false))
-            gameOverText = "You died!"
-            startReplayButtonText = "Replay"
+            
+            let numLives = worldState!.numLives - 1
+            worldState!.removeChildrenFromScene(scene!)
+            worldState!.numLives = numLives
+            if numLives == 0 {
+                gameOverText = "GAME OVER"
+                startReplayButtonText = "Replay"
+            } else {
+                gameOverText = "You've lost a life"
+                startReplayButtonText = "Replay"
+            }
+            
+
         }
         println(gameOverText)
         

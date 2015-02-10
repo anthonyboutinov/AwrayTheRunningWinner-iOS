@@ -10,6 +10,7 @@ import Foundation
 
 // TODO: Make it 'class let'
 let defaultNumberOfLives = 3
+let coinsToLifeThreshold = 500
 
 class WorldState: Printable {
     
@@ -17,8 +18,23 @@ class WorldState: Printable {
         return "WorldState(\(worldLevel), \(numCoins) coins, \(numLives) lives)"
     }
     
-    var numCoins: Int
-    var numLives: Int
+    var numCoins: Int {
+        didSet {
+            if numCoins % coinsToLifeThreshold == 0 {
+                numLives++
+            }
+        }
+    }
+    var numLives: Int {
+        didSet {
+            // Reset game if no lives left
+            if numLives < 1 {
+                worldLevel.world = 1
+                worldLevel.level = 1
+                numLives = defaultNumberOfLives
+            }
+        }
+    }
     private var worldLevel: WorldLevel
     
     // delegating variables to private var worldLevel
@@ -41,8 +57,11 @@ class WorldState: Printable {
     var tmxFileName: String {
         return worldLevel.tmxFileName
     }
-    func inc() {
-        worldLevel.inc()
+    
+    var gameOver = false
+    
+    func nextLevel() {
+        worldLevel.level++
     }
     
     init(numCoins: Int = 0, numLives: Int = defaultNumberOfLives, world: Int = 1, level: Int = 1) {

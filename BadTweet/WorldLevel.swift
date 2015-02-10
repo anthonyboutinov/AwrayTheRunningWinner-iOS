@@ -12,18 +12,12 @@ let levelsPerWorld = 2
 
 class WorldLevel: Printable {
     var world: Int
-    var _level: Int
     var level: Int {
-        set {
-            if newValue > levelsPerWorld {
-                _level = 1
+        didSet {
+            if level > levelsPerWorld {
+                level = 1
                 world++
-            } else {
-                _level = newValue
             }
-        }
-        get {
-            return _level
         }
     }
     
@@ -37,10 +31,7 @@ class WorldLevel: Printable {
     
     init(_ world: Int, _ level: Int) {
         self.world = world
-        self._level = level
+        self.level = level
     }
     
-    func inc() {
-        level++
-    }
 }
