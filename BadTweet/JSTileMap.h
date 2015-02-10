@@ -188,6 +188,8 @@ typedef enum
 
 @property (assign, nonatomic) BOOL cullNodes;
 
+@property unsigned backgroundColor;
+
 + (JSTileMap*)mapNamed:(NSString*)mapName;
 + (JSTileMap*)mapNamed:(NSString*)mapName withBaseZPosition:(CGFloat)baseZPosition andZOrderModifier:(CGFloat)zOrderModifier;
 

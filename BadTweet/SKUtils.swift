@@ -56,7 +56,11 @@ extension UIColor {
         self.init(red:(hex >> 16) & 0xff, green:(hex >> 8) & 0xff, blue:hex & 0xff)
     }
     
-    convenience init(hex hexAsString: String) {
-        self.init(hex: hexAsString.toInt()!)
+    // UIColor convenience initializer that
+    // takes Objective-C's unsigned as given by the NSParser from NSString
+    convenience init(hex hexAsUnsigned:UInt32) {
+        let hex = Int(hexAsUnsigned)
+        self.init(red:(hex >> 16) & 0xff, green:(hex >> 8) & 0xff, blue:hex & 0xff)
     }
+    
 }

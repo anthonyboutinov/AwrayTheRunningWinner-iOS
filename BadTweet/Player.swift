@@ -91,7 +91,11 @@ class Player {
         // Make delta to be CGFloat
         let delta = CGFloat(deltaTimeInterval as Double)
         
-        let forwardMove = CGPointMake(800.0, 0.0)
+        var forwardMove = CGPointMake(800.0, 0.0)
+        if backwardsMarch {
+            forwardMove = CGPointMake(-800.0, 0.0)
+        }
+
         let forwardMoveStep = CGPointMultiplyScalar(forwardMove, delta)
         
         let gravityStep = CGPointMultiplyScalar(gravity, delta)
@@ -105,6 +109,10 @@ class Player {
             sprite.runAction(SKAction.playSoundFileNamed("jump.wav", waitForCompletion: false))
         } else if !mightAsWellJump && velocity.y > jumpCutoff {
             velocity = CGPointMake(velocity.x, jumpCutoff)
+        }
+        
+        if forwardMarch || backwardsMarch {
+            velocity = CGPointAdd(velocity, forwardMoveStep)
         }
 
         velocity = CGPointMake(Clamp(velocity.x, minMovement.x, maxMovement.x), Clamp(velocity.y, minMovement.y, maxMovement.y))

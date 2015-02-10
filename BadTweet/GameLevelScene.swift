@@ -246,16 +246,20 @@ class GameLevelScene: SKScene {
     }
     
     private func initMap() {
+        // Initialize map and add on screen
         map = JSTileMap(named: worldState!.tmxFileName)
-//        map!.setScale(0.5)
         addChild(map!)
         
+        // Store layers in local properties for faster access
         walls = map!.layerNamed("Walls")
         hazards = map!.layerNamed("Hazards")
         
+        // Set rightmost position in pixels after crossing which player is 
+        // declared a winner.
         winLine = (map!.mapSize.width - 5) * map!.tileSize.width
-//        let bgColor = map!.properties.valueForKey("backgroundcolor") as String
-//        self.backgroundColor = SKColor(hex: bgColor)
+        
+        // Set background color from map's property
+        self.backgroundColor = SKColor(hex: map!.backgroundColor)
     }
     
     private func initPlayer() {

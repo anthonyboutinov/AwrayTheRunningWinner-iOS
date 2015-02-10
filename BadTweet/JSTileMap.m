@@ -1050,6 +1050,14 @@
 		
 		self.mapSize = CGSizeMake([attributeDict[@"width"] intValue], [attributeDict[@"height"] intValue]);
 		self.tileSize = CGSizeMake([attributeDict[@"tilewidth"] intValue], [attributeDict[@"tileheight"] intValue]);
+        
+        // Background color
+        unsigned bgresult = 0;
+        NSScanner *scanner = [NSScanner scannerWithString:attributeDict[@"backgroundcolor"]];
+        [scanner setScanLocation:1]; // bypass '#' character
+        [scanner scanHexInt:&bgresult];
+        
+        self.backgroundColor = bgresult;
 		
 		// The parent element is now "map"
 		self.parentElement = TMXPropertyMap;
