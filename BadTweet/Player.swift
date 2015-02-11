@@ -8,9 +8,9 @@
 
 import Foundation
 
-let minMovement = CGPointMake(-120.0, -450)
-let maxMovement = CGPointMake(120.0, 350.0)
-let jumpForce = CGPointMake(0.0, 360.0)
+let minMovement = CGPoint(x: -120.0, y: -450)
+let maxMovement = CGPoint(x: 120.0, y: 350.0)
+let jumpForce = CGPoint(x: 0.0, y: 360.0)
 let jumpCutoff = CGFloat(150.0)
 
 class Player {
@@ -35,7 +35,7 @@ class Player {
     
     var collisionBoundingBox: CGRect {
         let boundingBox = CGRectInset(sprite.frame, 2, 0)
-        let diff = CGPointMake(desiredPosition.x - sprite.position.x, desiredPosition.y - sprite.position.y)
+        let diff = CGPoint(x: desiredPosition.x - sprite.position.x, y: desiredPosition.y - sprite.position.y)
         return CGRectOffset(boundingBox, diff.x, diff.y)
     }
     
@@ -91,30 +91,30 @@ class Player {
         // Make delta to be CGFloat
         let delta = CGFloat(deltaTimeInterval as Double)
         
-        var forwardMove = CGPointMake(800.0, 0.0)
+        var forwardMove = CGPoint(x: 800.0, y: 0.0)
         if backwardsMarch {
-            forwardMove = CGPointMake(-800.0, 0.0)
+            forwardMove = CGPoint(x: -800.0, y: 0.0)
         }
         let forwardMoveStep = CGPointMultiplyScalar(forwardMove, delta)
         
         let gravityStep = CGPointMultiplyScalar(gravity, delta)
         velocity = CGPointAdd(velocity, gravityStep)
         
-        velocity = CGPointMake(velocity.x * 0.9, velocity.y)
+        velocity = CGPoint(x: velocity.x * 0.9, y: velocity.y)
         
         // Jumping
         if mightAsWellJump && onGround {
             velocity = CGPointAdd(velocity, jumpForce)
             sprite.runAction(SKAction.playSoundFileNamed("jump.wav", waitForCompletion: false))
         } else if !mightAsWellJump && velocity.y > jumpCutoff {
-            velocity = CGPointMake(velocity.x, jumpCutoff)
+            velocity = CGPoint(x: velocity.x, y: jumpCutoff)
         }
         
         if forwardMarch || backwardsMarch {
             velocity = CGPointAdd(velocity, forwardMoveStep)
         }
 
-        velocity = CGPointMake(Clamp(velocity.x, minMovement.x, maxMovement.x), Clamp(velocity.y, minMovement.y, maxMovement.y))
+        velocity = CGPoint(x: Clamp(velocity.x, minMovement.x, maxMovement.x), y: Clamp(velocity.y, minMovement.y, maxMovement.y))
         
         let velocityStep = CGPointMultiplyScalar(velocity, delta)
         desiredPosition = CGPointAdd(desiredPosition, velocityStep)

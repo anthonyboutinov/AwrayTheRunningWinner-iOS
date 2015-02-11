@@ -19,13 +19,13 @@
   </tile>
   <tile id="96">
    <properties>
-    <property name="contains" value="coin"/>
+    <property name="contains" value="aCoin"/>
     <property name="durability" value="5"/>
    </properties>
   </tile>
   <tile id="120">
    <properties>
-    <property name="contains" value="coin"/>
+    <property name="contains" value="aCoin"/>
     <property name="durability" value="1"/>
    </properties>
   </tile>
@@ -52,7 +52,7 @@
  </layer>
  <layer name="Walls" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3UOwqAMBBF0SlSuQ6XpWCZBbgZd+sHUxiM+aHReA88tBgw5MmIAAAAAAAAAPUYl+j9fX12Bc/i05Q+QAWU9UxFF/mUHPtI7eSPXWj/yCb0Tu37N3vRJGQvNvL+LtqTDA99W0nYf341l7u3vuKuXux94+skZOZPdERi53OTes4vxGWKSOw8cad39DED2xPDtEAfAAA=
+   H4sIAAAAAAAAA+3USwqAIBSF4Ttw1DpaVkHNXECbabcV5CDRfNHL/g8OhQiJJ64IAAAAAAAAUI9pjd7ft2f34FlCmqcPUAFlPXPRRTklxz5yO/ljF9qxNjrWYu/Uvn8zF01i5mIj7++idWS46dtK4v7zs32lc+srrurFnjehTmL2/IlOSOr+0uSe8wvxmROSup/403v6WABp4JyfQB8AAA==
   </data>
  </layer>
  <layer name="Hazards" width="100" height="20">

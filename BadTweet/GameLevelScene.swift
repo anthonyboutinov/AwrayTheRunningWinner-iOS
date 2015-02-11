@@ -392,6 +392,7 @@ class GameLevelScene: SKScene {
     }
     
     private func handleItemsCollisions() {
+        
         let player = self.player!
         
         let layer = items!
@@ -413,27 +414,61 @@ class GameLevelScene: SKScene {
                     if (tileIndex == 1) {
                         // Tile is directly above the player
                         let tile = layer.tileAtCoord(tileCoord)
-                        println(tile)
+//                        println(tile)
                         
-                        if let properties: NSMutableDictionary = map!.tileProperties[NSInteger(gid)] as? NSMutableDictionary {
+                        if let properties = tile!.userData {
+                            // Optimized and personalized properties
+                            
+                            if var durability = properties["durability"] as? Int {
+                                durability--
+//                                let bounceUpFromHeadKnock = SKAction()
+//                                bounceUpFromHeadKnock.
+//                                tile!.runAction(bounceUpFromHeadKnock)
+                                if durability < 1 {
+                                    layer.removeTileAtCoord(tileCoord)
+                                    // Don't bother updating the value if it's going to be removed anyway
+                                } else {
+                                    // Here: update the value
+                                    properties["durability"] = durability
+                                }
+                            }
+                            if checkContainsPropertyOfATile(properties) {
+                                return
+                            }
+                            
+                        } else if let properties: NSMutableDictionary = map!.tileProperties[NSInteger(gid)] as? NSMutableDictionary {
+                            // Non optimized and not personalized properties
+                            
+                            // Save a copy to tile's userData and edit it
+                            tile!.userData = properties
+                            
                             if let durability = properties["durability"] as? String {
                                 
-                                
-                            }
-                            if let contains = properties["contains"] as? String {
-                                if contains == "coin" {
-                                    worldState!.numCoins++
+                                let value = durability.toInt()! - 1
+                                properties["durability"] = value
+                                tile!.zRotation += 0.2
+                                if value < 1 {
+                                    layer.removeTileAtCoord(tileCoord)
                                 }
-                                tile.removeFromParent()
+                            }
+                            if checkContainsPropertyOfATile(properties) {
                                 return
                             }
                         }
-                        
-                        
                     }
                 }
             }
         }
+    }
+    
+    private func checkContainsPropertyOfATile(properties: NSMutableDictionary) -> Bool {
+        if let contains = properties["contains"] as? String {
+            if contains == "aCoin" {
+                worldState!.numCoins++
+            }
+            return true
+        }
+        return false
     }
     
     private func setViewPointCenter(position: CGPoint) {

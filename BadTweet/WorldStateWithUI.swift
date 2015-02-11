@@ -80,7 +80,7 @@ class WorldStateWithUI: WorldState {
         for i in 0..<defaultNumberOfLives {
             let life = SKSpriteNode(texture: uiLifeImageTexture)
             life.zPosition = 1
-            life.anchorPoint = CGPointMake(0.0, 1.0)
+            life.anchorPoint = CGPoint(x: 0.0, y: 1.0)
             uiLivesImages.append(life)
         }
         
@@ -113,6 +113,7 @@ class WorldStateWithUI: WorldState {
     func removeChildrenFromOldScene() {
         let nodes = [uiCoinsText, uiCoinsImage, uiWorldLevelLabel]
         uiWorldLevelLabel.parent!.removeChildrenInArray(nodes)
+        // TODO: Maybe here I should set self.scene = nil ?
     }
     
     func addChildrenToScene() {
@@ -126,10 +127,7 @@ class WorldStateWithUI: WorldState {
         updateWorldLevelLabel()
         
         // Nodes are all the UI elements to be added to the scene
-        var nodes = [uiCoinsText, uiCoinsImage, uiWorldLevelLabel, uiLivesLabel]
-        for life in uiLivesImages as [SKNode] {
-            nodes.append(life)
-        }
+        let nodes = [uiCoinsText, uiCoinsImage, uiWorldLevelLabel, uiLivesLabel] + (uiLivesImages as [SKNode])
         
         // If nodes already have parent node,
         if let oldParent = uiLivesLabel.parent {
@@ -148,20 +146,20 @@ class WorldStateWithUI: WorldState {
             for _i in 0..<defaultNumberOfLives {
                 let i = CGFloat(_i)
                 let life = uiLivesImages[_i]
-                life.position = CGPointMake(margin + life.size.width * i + padding, CGRectGetMaxY(scene.frame) - margin)
+                life.position = CGPoint(x: margin + life.size.width * i + padding, y: CGRectGetMaxY(scene.frame) - margin)
             }
             
             // Position other nodes
-            uiWorldLevelLabel.position = CGPointMake(CGRectGetMidX(scene.frame), CGRectGetMaxY(scene.frame) - margin)
+            uiWorldLevelLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMaxY(scene.frame) - margin)
             uiWorldLevelLabel.position.y -= uiWorldLevelLabel.frame.height
-            uiCoinsImage.anchorPoint = CGPointMake(1.0, 1.0)
-            uiCoinsImage.position = CGPointMake(CGRectGetMaxX(scene.frame) - margin, CGRectGetMaxY(scene.frame) - margin)
+            uiCoinsImage.anchorPoint = CGPoint(x: 1.0, y: 1.0)
+            uiCoinsImage.position = CGPoint(x: CGRectGetMaxX(scene.frame) - margin, y: CGRectGetMaxY(scene.frame) - margin)
             // Next line: shift coin's position more to the left from the pause
             // button so they're not intersecting each other
             uiCoinsImage.position.x -= uiCoinsImage.size.width * 2 + margin
-            uiCoinsText.position = CGPointMake(uiCoinsImage.position.x - uiCoinsImage.size.width - padding, uiCoinsImage.position.y)
+            uiCoinsText.position = CGPoint(x: uiCoinsImage.position.x - uiCoinsImage.size.width - padding, y: uiCoinsImage.position.y)
             uiCoinsText.position.y -= uiCoinsText.frame.height
-            uiLivesLabel.position = CGPointMake(uiLivesImages[0].position.x + uiLivesImages[0].size.width, uiCoinsText.position.y)
+            uiLivesLabel.position = CGPoint(x: uiLivesImages[0].position.x + uiLivesImages[0].size.width, y: uiCoinsText.position.y)
         }
         
         // Add all nodes to the scene

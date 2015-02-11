@@ -9,7 +9,7 @@
 import Foundation
 
 func presentScene(scene: SKScene, view: SKView) {
-    scene.anchorPoint = CGPointMake(0.0, 0.0)
+    scene.anchorPoint = CGPoint(x: 0.0, y: 0.0)
     scene.scaleMode = .ResizeFill
     scene.size = view.bounds.size
     view.presentScene(scene)

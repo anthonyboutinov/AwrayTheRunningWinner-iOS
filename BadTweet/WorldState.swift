@@ -56,7 +56,7 @@ class WorldState: Printable {
     
     var numCoins: Int {
         didSet {
-            if numCoins % coinsToLifeThreshold == 0 {
+            if numCoins != 0 && numCoins % coinsToLifeThreshold == 0 {
                 numLives++
             }
         }
@@ -68,6 +68,7 @@ class WorldState: Printable {
                 worldLevel.world = 1
                 worldLevel.level = 1
                 numLives = defaultNumberOfLives
+                numCoins = 0
             }
         }
     }
