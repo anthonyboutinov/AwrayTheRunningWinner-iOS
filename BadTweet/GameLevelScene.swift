@@ -28,7 +28,7 @@ class GameLevelScene: SKScene {
     private var previousUpdateTime = NSTimeInterval()
     private var gravity = CGPointMake(0.0, -450.0)
     // TODO: For 60fps must be 0.02, current value is for LOW FPS
-    private let maxDelta = 0.04
+    private let maxDelta = 0.03
     
     // MARK: UI elements
     
@@ -194,7 +194,7 @@ class GameLevelScene: SKScene {
         }
         
         // FIXME: Delete this line when ready to test on real device (LOW FPS)
-//        delta *= 2.0
+        delta *= 2.0
         
         previousUpdateTime = currentTime
         player.update(delta: delta)
@@ -426,6 +426,9 @@ class GameLevelScene: SKScene {
         if let properties = tile!.userData {
             // Optimized and personalized properties
             
+            // WARNING: When editing this, remember to write an adoptation of it
+            // for non-optimized properties below
+            
             if var durability = properties["durability"] as? Int {
                 durability--
                 player.velocity.y = 0.0
@@ -449,6 +452,9 @@ class GameLevelScene: SKScene {
         } else if let properties: NSMutableDictionary = map.tileProperties[NSInteger(gid)] as? NSMutableDictionary {
             // Non optimized and not personalized properties
             
+            // WARNING: When editing this, remember to write an adoptation of it
+            // for optimized properties above
+            
             // Save a copy to tile's userData and edit it
             tile!.userData = properties
             
@@ -470,8 +476,13 @@ class GameLevelScene: SKScene {
     
     private func checkContainsPropertyOfATile(properties: NSMutableDictionary) -> Bool {
         if let contains = properties["contains"] as? String {
-            if contains == "aCoin" {
+            switch contains {
+            case "aCoin":
                 worldState!.numCoins++
+            case "powerUp":
+                player.applyPowerUp()
+            default:
+                break
             }
             return true
         }

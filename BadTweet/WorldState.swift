@@ -14,6 +14,7 @@ let coinsToLifeThreshold = 500
 // TODO: Make it 'class let' for WorldLevel
 let levelsPerWorld = 2
 
+
 class WorldState: Printable {
     
     // MARK: - Inner classes
@@ -97,7 +98,7 @@ class WorldState: Printable {
     }
     
     var gameOver = false
-    
+        
     // MARK: - Methods
     
     init(numCoins: Int = 0, numLives: Int = defaultNumberOfLives, world: Int = 1, level: Int = 1) {

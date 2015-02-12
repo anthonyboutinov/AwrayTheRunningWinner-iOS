@@ -5,11 +5,14 @@
   <tile id="0">
    <properties>
     <property name="durability" value="4"/>
+    <property name="isBouncy" value="1"/>
    </properties>
   </tile>
   <tile id="24">
    <properties>
+    <property name="contains" value="powerUp"/>
     <property name="durability" value="1"/>
+    <property name="isBouncy" value="1"/>
    </properties>
   </tile>
   <tile id="72">
@@ -69,7 +72,7 @@
  </layer>
  <layer name="Items" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3UsQ0AIAgEQNZzDMdwewfQ0BmIuSuf4r8iAgAAAP4yqwcALfgFQDcryW63F330MqoHAHDYXiAcDEAfAAA=
+   H4sIAAAAAAAAA+3Uqw0AIAxAQdZgJMZgDLYHDzjCL3dJVUWrXggAAADwl3z6AeAKO1sQ25SN94A3jTpRJrsVDdOl+6XTDwDQqeewt0VAHwAA
   </data>
  </layer>
  <layer name="Foreground" width="100" height="20">

@@ -14,6 +14,9 @@ let jumpForce = CGPoint(x: 0.0, y: 360.0)
 let jumpCutoff = CGFloat(150.0)
 let slipperyCoefficient = CGFloat(0.6)
 
+let powerUpTime: NSTimeInterval = 30.0
+
+
 class Player {
     
     // MARK: - Variables
@@ -68,6 +71,8 @@ class Player {
     var onGround = false
     
     var desiredPosition: CGPoint
+    
+    var powerUpTimeLeft: NSTimeInterval = 0.0
 
     // MARK: - Methods
     
@@ -92,9 +97,16 @@ class Player {
         // Make delta to be CGFloat
         let delta = CGFloat(deltaTimeInterval as Double)
         
+        if powerUpTimeLeft > 0.0 {
+            powerUpTimeLeft -= deltaTimeInterval
+        }
+        
         var forwardMove = CGPoint(x: 800.0, y: 0.0)
         if backwardsMarch {
             forwardMove = CGPoint(x: -800.0, y: 0.0)
+        }
+        if powerUpTimeLeft > 0.0 && forwardMarch {
+            forwardMove = CGPoint(x: 1000.0, y: 0.0)
         }
         let forwardMoveStep = CGPointMultiplyScalar(forwardMove, delta)
         
@@ -119,6 +131,10 @@ class Player {
         
         let velocityStep = CGPointMultiplyScalar(velocity, delta)
         desiredPosition = CGPointAdd(desiredPosition, velocityStep)
+    }
+    
+    func applyPowerUp() {
+        powerUpTimeLeft = powerUpTime
     }
     
 }
