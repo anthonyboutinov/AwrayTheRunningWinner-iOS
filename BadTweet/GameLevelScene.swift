@@ -65,9 +65,6 @@ class GameLevelScene: SKScene {
     // MARK: Overridden
     
     override func didMoveToView(view: SKView) {
-        
-//        self.backgroundColor = SKColor(red: 0.2, green: 0.4, blue: 0.8, alpha: 1.0)
-        
         initMap()
         initPlayer()
         initUI()
@@ -161,14 +158,14 @@ class GameLevelScene: SKScene {
             for node in self.nodesAtPoint(location) {
                 if let shape = node as? SKShapeNode {
                     switch shape {
-                    case uiUp!:
-                        nodesToRemoveFromSet.addObject(uiUp!)
+                    case uiUp:
+                        nodesToRemoveFromSet.addObject(uiUp)
                         player.mightAsWellJump = false
-                    case uiLeft!:
-                        nodesToRemoveFromSet.addObject(uiLeft!)
+                    case uiLeft:
+                        nodesToRemoveFromSet.addObject(uiLeft)
                         player.backwardsMarch = false
-                    case uiRight!:
-                        nodesToRemoveFromSet.addObject(uiRight!)
+                    case uiRight:
+                        nodesToRemoveFromSet.addObject(uiRight)
                         player.forwardMarch = false
                     default:
                         break
@@ -197,7 +194,7 @@ class GameLevelScene: SKScene {
         }
         
         // FIXME: Delete this line when ready to test on real device (LOW FPS)
-        delta *= 2.0
+//        delta *= 2.0
         
         previousUpdateTime = currentTime
         player.update(delta: delta)
@@ -215,10 +212,7 @@ class GameLevelScene: SKScene {
             return
         }
         
-        // Third, handle items
-//        handleItemsCollisions()
-        
-        // Then handle collisions with obstacles
+        // Then handle collisions with items
         checkForAndResolveCollisions(forPlayer: player, forLayer: items)
         
         // Check for win
@@ -303,7 +297,7 @@ class GameLevelScene: SKScene {
         
     }
     
-    // MARK: Physics World methods
+    // MARK: Working with map
     
     private func tileRect(fromTileCoord tileCoord: CGPoint) -> CGRect {
         let levelHeightInPixels = map.mapSize.height * map.tileSize.height
@@ -315,14 +309,12 @@ class GameLevelScene: SKScene {
         return layer.layerInfo.tileGidAtCoord(coord)
     }
     
+    // MARK: Collisions
+    
     private func checkForAndResolveCollisions(forPlayer player: Player, forLayer layer: TMXLayer) {
-
         for i in 0..<indices.count {
-            let tileIndex = indices[i]
             
-            let playerRect: CGRect = player.collisionBoundingBox
             let playerCoord: CGPoint = layer.coordForPoint(player.desiredPosition)
-            
             // If the player starts to fall through the bottom of the map
             // then it's game over
             if playerCoord.y >= map.mapSize.height - 1 {
@@ -330,6 +322,8 @@ class GameLevelScene: SKScene {
                 return
             }
             
+            let playerRect: CGRect = player.collisionBoundingBox
+            let tileIndex = indices[i]
             let tileColumn = tileIndex % 3
             let tileRow = tileIndex / 3
             let tileCoord = CGPointMake(playerCoord.x + CGFloat(tileColumn - 1), playerCoord.y + CGFloat(tileRow - 1))
@@ -343,11 +337,14 @@ class GameLevelScene: SKScene {
                 if CGRectIntersectsRect(playerRect, tileRect) {
                     let intersection = CGRectIntersection(playerRect, tileRect)
                     if (tileIndex == 7) {
+                        
                         // Tile is directly below the player
                         player.desiredPosition.y += intersection.size.height
                         player.velocity.y = 0.0
                         player.onGround = true
+                        
                     } else if (tileIndex == 1) {
+                        
                         // Tile is directly above the player
                         player.desiredPosition.y -= intersection.size.height
                         
@@ -357,17 +354,20 @@ class GameLevelScene: SKScene {
                             bounceTileIfItHasBouncingProperty(tile:layer.tileAtCoord(tileCoord), gid: gid)
                         }
                         
-                        
                     } else if (tileIndex == 3) {
+                        
                         // Tile is left of the player
                         player.desiredPosition.x += intersection.size.width
+                        
                     } else if (tileIndex == 5) {
+                        
                         // Tile is right of the player
                         player.desiredPosition.x -= intersection.size.width
+                        
                     } else if (intersection.size.width > intersection.size.height) {
                         
                         // Tile is diagonal, but resolving collision vertically
-                        player.velocity = CGPointMake(player.velocity.x, 0.0)
+                        player.velocity.y = 0.0
                         var intersectionHeight = CGFloat(0)
                         if (tileIndex > 4) {
                             intersectionHeight = intersection.size.height
@@ -428,7 +428,7 @@ class GameLevelScene: SKScene {
             
             if var durability = properties["durability"] as? Int {
                 durability--
-                player.velocity.y = -100.0
+                player.velocity.y = 0.0
                 if durability < 1 {
                     layer.removeTileAtCoord(tileCoord)
                     // Don't bother updating the value if it's going to be removed anyway
@@ -454,6 +454,7 @@ class GameLevelScene: SKScene {
             
             if let durability = properties["durability"] as? String {
                 
+                player.velocity.y = 0.0
                 let value = durability.toInt()! - 1
                 properties["durability"] = value
                 tile!.zRotation += 0.2

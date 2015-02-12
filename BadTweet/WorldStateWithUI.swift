@@ -16,7 +16,6 @@ class WorldStateWithUI: WorldState {
     let uiCoinsImage = SKSpriteNode(imageNamed: "hud_coins")
     let uiCoinsText = SKLabelNode()
     let uiLivesImages: [SKSpriteNode] = [SKSpriteNode]()
-    // for displaying more than defaultNumberOfLifes
     let uiLivesLabel = SKLabelNode()
     let uiWorldLevelLabel = SKLabelNode()
     
