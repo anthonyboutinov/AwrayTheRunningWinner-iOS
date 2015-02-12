@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A8AAB6E11A8CD59500397D88 /* coin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A8AAB6E01A8CD59500397D88 /* coin@2x.png */; };
+		A8AAB6E31A8CE9D000397D88 /* coin.png in Resources */ = {isa = PBXBuildFile; fileRef = A8AAB6E21A8CE9D000397D88 /* coin.png */; };
 		A8B00D671A87D5A3008ABABB /* jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = A8B00D651A87D5A3008ABABB /* jump.wav */; };
 		A8B00D681A87D5A3008ABABB /* hurt.wav in Resources */ = {isa = PBXBuildFile; fileRef = A8B00D661A87D5A3008ABABB /* hurt.wav */; };
 		A8B00D6A1A88006E008ABABB /* WorldState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B00D691A88006E008ABABB /* WorldState.swift */; };
@@ -41,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A8AAB6E01A8CD59500397D88 /* coin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coin@2x.png"; sourceTree = "<group>"; };
+		A8AAB6E21A8CE9D000397D88 /* coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin.png; sourceTree = "<group>"; };
 		A8B00D651A87D5A3008ABABB /* jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = jump.wav; sourceTree = "<group>"; };
 		A8B00D661A87D5A3008ABABB /* hurt.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hurt.wav; sourceTree = "<group>"; };
 		A8B00D691A88006E008ABABB /* WorldState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorldState.swift; sourceTree = "<group>"; };
@@ -122,6 +126,8 @@
 		A8BD6F081A86387B00E9FC95 /* Spritesheets */ = {
 			isa = PBXGroup;
 			children = (
+				A8AAB6E01A8CD59500397D88 /* coin@2x.png */,
+				A8AAB6E21A8CE9D000397D88 /* coin.png */,
 				A8BD6F0B1A86415E00E9FC95 /* bush.png */,
 				A8BD6F091A8638A300E9FC95 /* tiles_spritesheet@2x.png */,
 				A8EE9B7B1A8A7E2B00017656 /* tiles_spritesheet.png */,
@@ -285,10 +291,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A8F488A01A8541F700B76BEF /* LaunchScreen.xib in Resources */,
+				A8AAB6E11A8CD59500397D88 /* coin@2x.png in Resources */,
 				A8EE9B7E1A8A873A00017656 /* World1Level1.tmx in Resources */,
 				A8EE9B7A1A8A547400017656 /* 6dfcd1ecc4db.mp3 in Resources */,
 				A8F4889D1A8541F700B76BEF /* Images.xcassets in Resources */,
 				A8B00D671A87D5A3008ABABB /* jump.wav in Resources */,
+				A8AAB6E31A8CE9D000397D88 /* coin.png in Resources */,
 				A8BD6F0A1A8638A300E9FC95 /* tiles_spritesheet@2x.png in Resources */,
 				A8EE9B7C1A8A7E2B00017656 /* tiles_spritesheet.png in Resources */,
 				A8F4889B1A8541F700B76BEF /* Main.storyboard in Resources */,

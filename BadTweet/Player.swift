@@ -106,7 +106,7 @@ class Player {
             forwardMove = CGPoint(x: -800.0, y: 0.0)
         }
         if powerUpTimeLeft > 0.0 && forwardMarch {
-            forwardMove = CGPoint(x: 1000.0, y: 0.0)
+            forwardMove = CGPoint(x: 1200.0, y: 0.0)
         }
         let forwardMoveStep = CGPointMultiplyScalar(forwardMove, delta)
         

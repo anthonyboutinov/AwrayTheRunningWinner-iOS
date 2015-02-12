@@ -15,6 +15,16 @@
     <property name="isBouncy" value="1"/>
    </properties>
   </tile>
+  <tile id="25">
+   <properties>
+    <property name="kind" value="torch"/>
+   </properties>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="kind" value="torch"/>
+   </properties>
+  </tile>
   <tile id="72">
    <properties>
     <property name="durability" value="1"/>
@@ -22,14 +32,14 @@
   </tile>
   <tile id="96">
    <properties>
-    <property name="contains" value="aCoin"/>
+    <property name="contains" value="coin"/>
     <property name="durability" value="5"/>
     <property name="isBouncy" value="1"/>
    </properties>
   </tile>
   <tile id="120">
    <properties>
-    <property name="contains" value="aCoin"/>
+    <property name="contains" value="coin"/>
     <property name="durability" value="1"/>
     <property name="isBouncy" value="1"/>
    </properties>
@@ -50,19 +60,27 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="157" name="coin" tilewidth="35" tileheight="35">
+  <image source="coin.png" width="35" height="35"/>
+  <tile id="0">
+   <properties>
+    <property name="contains" value="coin"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer name="Background" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3RoQ0AIBAEQQqiADrC0L/GIkBAPkH8THL+ki0FAAAAAAAA3rXNxtdHue16rLvRY6+lFtGjRp9K7NRjAtKWboFAHwAA
+   H4sIAAAAAAAAA+3RMQ6AMAwDwDyoD+BHXfj/zMpQhiBLVOJOym7HVQAAAAAAAPDesbjz00T/ttrjfh0zG20Ls3q9Uj9I7DFCWXYyqtcr9YOnPS5HrLvhQB8AAA==
   </data>
  </layer>
  <layer name="BackgroundDecor" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3OIQ4AIAwDwL0Cgdz/H4nBogib4C6pbNoIAAAAAAAAeC93qrbGZb/yL3+Z3Qc4WuT4M91AHwAA
+   H4sIAAAAAAAAA+3OsQkAIAxFwUxhYZn9h7RxAFGSQu4gZfgvAgAAAAAAAOrlvq6t8fjf2Xsi465r1uTAlxZVYb/tQB8AAA==
   </data>
  </layer>
  <layer name="Walls" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3USwqAIBSF4Ttw1DpaVkHNXECbabcV5CDRfNHL/g8OhQiJJ64IAAAAAAAAUI9pjd7ft2f34FlCmqcPUAFlPXPRRTklxz5yO/ljF9qxNjrWYu/Uvn8zF01i5mIj7++idWS46dtK4v7zs32lc+srrurFnjehTmL2/IlOSOr+0uSe8wvxmROSup/403v6WABp4JyfQB8AAA==
+   H4sIAAAAAAAAA+3USw6AIAxF0Q4YuQ6XpYlDFuBm3K2fyECiQsG/9yQNDppA+kxFAAAAAAAAgO9oh7Lz93hWN74lpLj7AR9gvDMVWeQzsswjNZM/ZmHDLZPYmfrzd3vRVcxeLOT5WZQr1Vx0t5G4/3yvL3dvvcVZufj7JpRJTM+fWEVp+3Mr9Z0pd1w9gy2dorT9byjtHI6aQb2RRw94Sy3KQB8AAA==
   </data>
  </layer>
  <layer name="Hazards" width="100" height="20">
@@ -70,14 +88,19 @@
    H4sIAAAAAAAAA+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
   </data>
  </layer>
- <layer name="Items" width="100" height="20">
+ <layer name="CollidableItems" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3Uqw0AIAxAQdZgJMZgDLYHDzjCL3dJVUWrXggAAADwl3z6AeAKO1sQ25SN94A3jTpRJrsVDdOl+6XTDwDQqeewt0VAHwAA
+   H4sIAAAAAAAAA+3Uuw3AIAwFQNZgPMZgAAbIxtCTUEX8dCe5cvEsWXohAAAAAMB90sSs2CZPzIMTPasP2MBbT+SP3R8dNuol/9hDWX0AAJ0KDcetAEAfAAA=
+  </data>
+ </layer>
+ <layer name="NoncollidableItems" width="100" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3T0Q6AIAiFYd//HXjXrnWIMEdo/d/WqgskOKs1AAAAANBJ9QegQx5nIY+Y7H2Rh58M98wesMnkObPPV+3O+OaOyMOu02o95421q/fI2bermFGcl1aHmMj/8bc8rNki9Tt9tR1n5DGruz1DoMoDgxkZTUAfAAA=
   </data>
  </layer>
  <layer name="Foreground" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3DMQ0AAAgDsGnBv0ieWSDhaJMmAAAAAAAAcGca4LsFJTEwlkAfAAA=
+   H4sIAAAAAAAAA+3PMQ0AAAgEsdeCf5EsWGCBNjkBlwAAAAAAAMCemr6o/HuGKxpfGpzqQB8AAA==
   </data>
  </layer>
 </map>

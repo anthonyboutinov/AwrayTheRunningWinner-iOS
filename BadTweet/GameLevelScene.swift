@@ -11,6 +11,8 @@ import SpriteKit
 private var controlRectSizes = CGFloat(45.0)
 private let indices: [Int] = [7, 1, 3, 5, 0, 2, 6, 8]
 
+private let tileHasBeenRemovedFromTheView = 1
+
 enum GameOverState {
     case playerHasLost, playerHasWon
 }
@@ -52,7 +54,8 @@ class GameLevelScene: SKScene {
     private var map: JSTileMap!
     private var walls: TMXLayer!
     private var hazards: TMXLayer!
-    private var items: TMXLayer!
+    private var collidableItems: TMXLayer!
+    private var noncollidableItems: TMXLayer!
     
     private var winLine = CGFloat(0)
     
@@ -199,21 +202,24 @@ class GameLevelScene: SKScene {
         previousUpdateTime = currentTime
         player.update(delta: delta)
         
-        // First, check for collisions with walls
+        // Resolve collisions with walls
         player.onGround = false
         checkForAndResolveCollisions(forPlayer: player, forLayer: walls)
         if worldState.gameOver {
             return
         }
         
-        // Second, handle hazards
+        // Handle hazards
         handleHazardsCollisions(forPlayer: player)
         if worldState.gameOver {
             return
         }
         
-        // Then handle collisions with items
-        checkForAndResolveCollisions(forPlayer: player, forLayer: items)
+        //  Handle collidable items
+        checkForAndResolveCollisions(forPlayer: player, forLayer: collidableItems)
+        
+        // Handle noncollidable items
+        handleNoncollidableItems()
         
         // Check for win
         checkForWin()
@@ -268,11 +274,12 @@ class GameLevelScene: SKScene {
         // Store layers in local properties for faster access
         walls = map.layerNamed("Walls")
         hazards = map.layerNamed("Hazards")
-        items = map.layerNamed("Items")
+        collidableItems = map.layerNamed("CollidableItems")
+        noncollidableItems = map.layerNamed("NoncollidableItems")
         
         // Set rightmost position in pixels after crossing which player is 
         // declared a winner.
-        winLine = (map.mapSize.width - 5) * map.tileSize.width
+        winLine = (map.mapSize.width - 4) * map.tileSize.width
         
         // Set background color from map's property
         self.backgroundColor = SKColor(hex: map.backgroundColor)
@@ -348,7 +355,7 @@ class GameLevelScene: SKScene {
                         // Tile is directly above the player
                         player.desiredPosition.y -= intersection.size.height
                         
-                        if layer == items {
+                        if layer == collidableItems {
                             handleItemsCollisions(tileCoord, gid)
                         } else {
                             bounceTileIfItHasBouncingProperty(tile:layer.tileAtCoord(tileCoord), gid: gid)
@@ -396,17 +403,18 @@ class GameLevelScene: SKScene {
     }
     
     private func handleHazardsCollisions(forPlayer player: Player) {
+        let layer = hazards
         for i in 0..<indices.count {
             let tileIndex = indices[i];
             
             let playerRect = player.collisionBoundingBox
-            let playerCoord = hazards.coordForPoint(player.desiredPosition)
+            let playerCoord = layer.coordForPoint(player.desiredPosition)
             
             let tileColumn = tileIndex % 3;
             let tileRow = tileIndex / 3;
             let tileCoord = CGPointMake(playerCoord.x + CGFloat(tileColumn - 1), playerCoord.y + CGFloat(tileRow - 1))
             
-            let gid = tileGID(atTileCoord: tileCoord, forLayer: hazards!)
+            let gid = tileGID(atTileCoord: tileCoord, forLayer: layer)
             if gid != 0 {
                 let tileRect = self.tileRect(fromTileCoord: tileCoord)
                 if CGRectIntersectsRect(playerRect, tileRect) {
@@ -417,8 +425,48 @@ class GameLevelScene: SKScene {
         }
     }
     
+    private func handleNoncollidableItems() {
+        let layer = noncollidableItems
+        
+        for i in 0..<indices.count {
+            let tileIndex = indices[i];
+            
+            // TODO: Encapsulate it all into a method
+            // TODO: Move this two lets out of for-loop
+            let playerRect = player.collisionBoundingBox
+            let playerCoord = hazards.coordForPoint(player.desiredPosition)
+            
+            let tileColumn = tileIndex % 3;
+            let tileRow = tileIndex / 3;
+            let tileCoord = CGPointMake(playerCoord.x + CGFloat(tileColumn - 1), playerCoord.y + CGFloat(tileRow - 1))
+            
+            let gid = tileGID(atTileCoord: tileCoord, forLayer: layer)
+            if gid != 0 {
+                let tile = layer.tileAtCoord(tileCoord)
+                
+                // If tile has been removed from the view,
+                if let _ = tile.userData?[tileHasBeenRemovedFromTheView] {
+                    // Then skip it.
+                    break
+                }
+                
+                let tileRect = self.tileRect(fromTileCoord: tileCoord)
+                if CGRectIntersectsRect(playerRect, tileRect) {
+                    if let properties: NSMutableDictionary = map.tileProperties[NSInteger(gid)] as? NSMutableDictionary {
+                        checkContainsPropertyOfATile(properties)
+                    }
+                    
+                    // Add flag to the tile
+                    tile.userData = [tileHasBeenRemovedFromTheView:true]
+                    tile.removeFromParent()
+                    
+                }
+            }
+        }
+    }
+    
     private func handleItemsCollisions(tileCoord: CGPoint, _ gid: Int) {
-        let layer = items
+        let layer = collidableItems
         
         // Tile is directly above the player
         let tile = layer.tileAtCoord(tileCoord)
@@ -477,7 +525,7 @@ class GameLevelScene: SKScene {
     private func checkContainsPropertyOfATile(properties: NSMutableDictionary) -> Bool {
         if let contains = properties["contains"] as? String {
             switch contains {
-            case "aCoin":
+            case "coin":
                 worldState!.numCoins++
             case "powerUp":
                 player.applyPowerUp()
