@@ -1090,9 +1090,7 @@
 		if (!storingCharacters)
 		{
 			TMXTilesetInfo* info = [self.tilesets lastObject];
-            // TODO: Understand what's happening with this dict later
 			NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithCapacity:3];
-            // TODO: Understand what this calculation means
 			self.parentGID =  info.firstGid + [attributeDict[@"id"] intValue];
 			(self.tileProperties)[@(self.parentGID)] = dict;
 			

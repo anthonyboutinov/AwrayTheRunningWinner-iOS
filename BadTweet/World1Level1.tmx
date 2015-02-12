@@ -21,12 +21,19 @@
    <properties>
     <property name="contains" value="aCoin"/>
     <property name="durability" value="5"/>
+    <property name="isBouncy" value="1"/>
    </properties>
   </tile>
   <tile id="120">
    <properties>
     <property name="contains" value="aCoin"/>
     <property name="durability" value="1"/>
+    <property name="isBouncy" value="1"/>
+   </properties>
+  </tile>
+  <tile id="124">
+   <properties>
+    <property name="isBouncy" value="1"/>
    </properties>
   </tile>
   <tile id="132">

@@ -12,6 +12,7 @@ let minMovement = CGPoint(x: -120.0, y: -450)
 let maxMovement = CGPoint(x: 120.0, y: 350.0)
 let jumpForce = CGPoint(x: 0.0, y: 360.0)
 let jumpCutoff = CGFloat(150.0)
+let slipperyCoefficient = CGFloat(0.6)
 
 class Player {
     
@@ -100,7 +101,7 @@ class Player {
         let gravityStep = CGPointMultiplyScalar(gravity, delta)
         velocity = CGPointAdd(velocity, gravityStep)
         
-        velocity = CGPoint(x: velocity.x * 0.9, y: velocity.y)
+        velocity.x *= slipperyCoefficient
         
         // Jumping
         if mightAsWellJump && onGround {

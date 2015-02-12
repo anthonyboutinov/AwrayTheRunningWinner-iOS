@@ -21,7 +21,7 @@ class GameLevelScene: SKScene {
     
     // MARK: Level counters
     
-    var worldState: WorldStateWithUI?
+    var worldState: WorldStateWithUI!
     
     // MARK: Physics World
     
@@ -32,9 +32,9 @@ class GameLevelScene: SKScene {
     
     // MARK: UI elements
     
-    private var uiUp: SKShapeNode?
-    private var uiLeft: SKShapeNode?
-    private var uiRight: SKShapeNode?
+    private var uiUp: SKShapeNode!
+    private var uiLeft: SKShapeNode!
+    private var uiRight: SKShapeNode!
     
     private let uiPause = SKSpriteNode(imageNamed: "Pause")
     
@@ -45,16 +45,20 @@ class GameLevelScene: SKScene {
     
     
     // MARK: Game world entities
-    private var player: Player?
+    private var player: Player!
     
     // MARK: Map of the level
     
-    private var map: JSTileMap?
-    private var walls: TMXLayer?
-    private var hazards: TMXLayer?
-    private var items: TMXLayer?
+    private var map: JSTileMap!
+    private var walls: TMXLayer!
+    private var hazards: TMXLayer!
+    private var items: TMXLayer!
     
     private var winLine = CGFloat(0)
+    
+    // MARK: Actions (Animations)
+    
+    private var bounce: SKAction!
     
     // MARK: - Methods
     
@@ -67,8 +71,8 @@ class GameLevelScene: SKScene {
         initMap()
         initPlayer()
         initUI()
-        worldState!.parentScene = self
-        worldState!.addChildrenToScene()
+        worldState.parentScene = self
+        worldState.addChildrenToScene()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -77,15 +81,15 @@ class GameLevelScene: SKScene {
             for node in self.nodesAtPoint(location) {
                 if let shape = node as? SKShapeNode {
                     switch shape {
-                    case uiUp!:
-                        previouslyTouchedNodes.addObject(uiUp!)
-                        player!.mightAsWellJump = true
-                    case uiLeft!:
-                        previouslyTouchedNodes.addObject(uiLeft!)
-                        player!.backwardsMarch = true
-                    case uiRight!:
-                        previouslyTouchedNodes.addObject(uiRight!)
-                        player!.forwardMarch = true
+                    case uiUp:
+                        previouslyTouchedNodes.addObject(uiUp)
+                        player.mightAsWellJump = true
+                    case uiLeft:
+                        previouslyTouchedNodes.addObject(uiLeft)
+                        player.backwardsMarch = true
+                    case uiRight:
+                        previouslyTouchedNodes.addObject(uiRight)
+                        player.forwardMarch = true
                     default:
                         break
                     }
@@ -111,34 +115,32 @@ class GameLevelScene: SKScene {
             for node in self.nodesAtPoint(location) {
                 if let shape = node as? SKShapeNode {
                     switch shape {
-                    case uiUp!:
-                        currentlyTouchedNodes.addObject(uiUp!)
-                        player!.mightAsWellJump = true
-                    case uiLeft!:
-                        currentlyTouchedNodes.addObject(uiLeft!)
+                    case uiUp:
+                        currentlyTouchedNodes.addObject(uiUp)
+                        player.mightAsWellJump = true
+                    case uiLeft:
+                        currentlyTouchedNodes.addObject(uiLeft)
                         left = true
-                    case uiRight!:
-                        currentlyTouchedNodes.addObject(uiRight!)
+                    case uiRight:
+                        currentlyTouchedNodes.addObject(uiRight)
                         right = true
                     default:
-                        if previouslyTouchedNodes.containsObject(uiUp!) {
-                            player!.mightAsWellJump = false
+                        if previouslyTouchedNodes.containsObject(uiUp) {
+                            player.mightAsWellJump = false
                         }
-                        if previouslyTouchedNodes.containsObject(uiLeft!) {
-                            player!.backwardsMarch = false
+                        if previouslyTouchedNodes.containsObject(uiLeft) {
+                            player.backwardsMarch = false
                         }
-                        if previouslyTouchedNodes.containsObject(uiRight!) {
-                            player!.forwardMarch = false
+                        if previouslyTouchedNodes.containsObject(uiRight) {
+                            player.forwardMarch = false
                         }
                         break
                     }
                     if right {
-//                        player!.backwardsMarch = false
-                        player!.forwardMarch = true
+                        player.forwardMarch = true
                     }
                     if !right && left {
-                        player!.backwardsMarch = true
-//                        player!.forwardMarch = false
+                        player.backwardsMarch = true
                     }
                 } else if let sprite = node as? SKSpriteNode {
                     //...
@@ -161,13 +163,13 @@ class GameLevelScene: SKScene {
                     switch shape {
                     case uiUp!:
                         nodesToRemoveFromSet.addObject(uiUp!)
-                        player!.mightAsWellJump = false
+                        player.mightAsWellJump = false
                     case uiLeft!:
                         nodesToRemoveFromSet.addObject(uiLeft!)
-                        player!.backwardsMarch = false
+                        player.backwardsMarch = false
                     case uiRight!:
                         nodesToRemoveFromSet.addObject(uiRight!)
-                        player!.forwardMarch = false
+                        player.forwardMarch = false
                     default:
                         break
                     }
@@ -185,7 +187,7 @@ class GameLevelScene: SKScene {
    
     override func update(currentTime: CFTimeInterval) {
         // Do not perform updates if game is over
-        if worldState!.gameOver {
+        if worldState.gameOver {
             return
         }
         
@@ -198,31 +200,31 @@ class GameLevelScene: SKScene {
         delta *= 2.0
         
         previousUpdateTime = currentTime
-        player!.update(delta: delta)
+        player.update(delta: delta)
         
         // First, check for collisions with walls
-        player!.onGround = false
-        checkForAndResolveCollisions(forPlayer: player!, forLayer: walls!)
-        if worldState!.gameOver {
+        player.onGround = false
+        checkForAndResolveCollisions(forPlayer: player, forLayer: walls)
+        if worldState.gameOver {
             return
         }
         
         // Second, handle hazards
-        handleHazardsCollisions(forPlayer: player!)
-        if worldState!.gameOver {
+        handleHazardsCollisions(forPlayer: player)
+        if worldState.gameOver {
             return
         }
         
         // Third, handle items
-        handleItemsCollisions()
+//        handleItemsCollisions()
         
         // Then handle collisions with obstacles
-        checkForAndResolveCollisions(forPlayer: player!, forLayer: items!)
+        checkForAndResolveCollisions(forPlayer: player, forLayer: items)
         
         // Check for win
         checkForWin()
         
-        setViewPointCenter(player!.position)
+        setViewPointCenter(player.position)
         
     }
     
@@ -258,41 +260,55 @@ class GameLevelScene: SKScene {
         
         // Set some other properties and add them on screen
         for shapeNode in [uiUp, uiRight, uiLeft] {
-            shapeNode!.zPosition = uiZPosition
-            shapeNode!.alpha = 0.0
-            addChild(shapeNode!)
+            shapeNode.zPosition = uiZPosition
+            shapeNode.alpha = 0.0
+            addChild(shapeNode)
         }
     }
     
     private func initMap() {
         // Initialize map and add on screen
         map = JSTileMap(named: worldState!.tmxFileName)
-        addChild(map!)
+        addChild(map)
         
         // Store layers in local properties for faster access
-        walls = map!.layerNamed("Walls")
-        hazards = map!.layerNamed("Hazards")
-        items = map!.layerNamed("Items")
+        walls = map.layerNamed("Walls")
+        hazards = map.layerNamed("Hazards")
+        items = map.layerNamed("Items")
         
         // Set rightmost position in pixels after crossing which player is 
         // declared a winner.
-        winLine = (map!.mapSize.width - 5) * map!.tileSize.width
+        winLine = (map.mapSize.width - 5) * map.tileSize.width
         
         // Set background color from map's property
-        self.backgroundColor = SKColor(hex: map!.backgroundColor)
+        self.backgroundColor = SKColor(hex: map.backgroundColor)
     }
     
     private func initPlayer() {
-        player = Player(gravity: gravity, position: CGPointMake(map!.tileSize.width * 5, map!.tileSize.height * 4))
-        map!.addChild(player!.sprite)
+        player = Player(gravity: gravity, position: CGPointMake(map.tileSize.width * 5, map.tileSize.height * 4))
+        map.addChild(player.sprite)
+    }
+    
+    private func initAnimations() {
+        
+        // Bounce Action
+        let bounceFactor = CGFloat(0.2)
+        let dropHeight = CGFloat(10)
+        let nDropHeight = CGFloat(-10)
+        let dropActoin = SKAction.moveByX(0, y: nDropHeight, duration: 0.3)
+        bounce = SKAction.sequence([
+            SKAction.moveByX(0, y: dropHeight * bounceFactor, duration: 0.1),
+            SKAction.moveByX(0, y: nDropHeight * bounceFactor, duration: 0.1)
+            ])
+        
     }
     
     // MARK: Physics World methods
     
     private func tileRect(fromTileCoord tileCoord: CGPoint) -> CGRect {
-        let levelHeightInPixels = map!.mapSize.height * map!.tileSize.height
-        let origin = CGPointMake(tileCoord.x * map!.tileSize.width, levelHeightInPixels - ((tileCoord.y + 1) * map!.tileSize.height))
-        return CGRectMake(origin.x, origin.y, map!.tileSize.width, map!.tileSize.height)
+        let levelHeightInPixels = map.mapSize.height * map.tileSize.height
+        let origin = CGPointMake(tileCoord.x * map.tileSize.width, levelHeightInPixels - ((tileCoord.y + 1) * map.tileSize.height))
+        return CGRectMake(origin.x, origin.y, map.tileSize.width, map.tileSize.height)
     }
     
     private func tileGID(atTileCoord coord: CGPoint, forLayer layer: TMXLayer) -> Int {
@@ -307,7 +323,9 @@ class GameLevelScene: SKScene {
             let playerRect: CGRect = player.collisionBoundingBox
             let playerCoord: CGPoint = layer.coordForPoint(player.desiredPosition)
             
-            if playerCoord.y >= map!.mapSize.height - 1 {
+            // If the player starts to fall through the bottom of the map
+            // then it's game over
+            if playerCoord.y >= map.mapSize.height - 1 {
                 gameOver(.playerHasLost)
                 return
             }
@@ -316,7 +334,7 @@ class GameLevelScene: SKScene {
             let tileRow = tileIndex / 3
             let tileCoord = CGPointMake(playerCoord.x + CGFloat(tileColumn - 1), playerCoord.y + CGFloat(tileRow - 1))
             
-            let gid = tileGID(atTileCoord: tileCoord, forLayer: layer)
+            let gid: Int = tileGID(atTileCoord: tileCoord, forLayer: layer)
             // If gid is not black space
             if gid != 0 {
                 let tileRect = self.tileRect(fromTileCoord: tileCoord)
@@ -326,18 +344,26 @@ class GameLevelScene: SKScene {
                     let intersection = CGRectIntersection(playerRect, tileRect)
                     if (tileIndex == 7) {
                         // Tile is directly below the player
-                        player.desiredPosition = CGPointMake(player.desiredPosition.x, player.desiredPosition.y + intersection.size.height)
-                        player.velocity = CGPointMake(player.velocity.x, 0.0)
+                        player.desiredPosition.y += intersection.size.height
+                        player.velocity.y = 0.0
                         player.onGround = true
                     } else if (tileIndex == 1) {
                         // Tile is directly above the player
-                        player.desiredPosition = CGPointMake(player.desiredPosition.x, player.desiredPosition.y - intersection.size.height)
+                        player.desiredPosition.y -= intersection.size.height
+                        
+                        if layer == items {
+                            handleItemsCollisions(tileCoord, gid)
+                        } else {
+                            bounceTileIfItHasBouncingProperty(tile:layer.tileAtCoord(tileCoord), gid: gid)
+                        }
+                        
+                        
                     } else if (tileIndex == 3) {
                         // Tile is left of the player
-                        player.desiredPosition = CGPointMake(player.desiredPosition.x + intersection.size.width, player.desiredPosition.y)
+                        player.desiredPosition.x += intersection.size.width
                     } else if (tileIndex == 5) {
                         // Tile is right of the player
-                        player.desiredPosition = CGPointMake(player.desiredPosition.x - intersection.size.width, player.desiredPosition.y)
+                        player.desiredPosition.x -= intersection.size.width
                     } else if (intersection.size.width > intersection.size.height) {
                         
                         // Tile is diagonal, but resolving collision vertically
@@ -349,7 +375,7 @@ class GameLevelScene: SKScene {
                         } else {
                             intersectionHeight = -intersection.size.height
                         }
-                        player.desiredPosition = CGPointMake(player.desiredPosition.x, player.desiredPosition.y + intersection.size.height )
+                        player.desiredPosition.y += intersection.size.height
                         
                     } else {
                         
@@ -360,7 +386,7 @@ class GameLevelScene: SKScene {
                         } else {
                             intersectionWidth = -intersection.size.width
                         }
-                        player.desiredPosition = CGPointMake(player.desiredPosition.x  + intersectionWidth, player.desiredPosition.y)
+                        player.desiredPosition.x += intersectionWidth
                     }
                 }
             }
@@ -374,7 +400,7 @@ class GameLevelScene: SKScene {
             let tileIndex = indices[i];
             
             let playerRect = player.collisionBoundingBox
-            let playerCoord = hazards!.coordForPoint(player.desiredPosition)
+            let playerCoord = hazards.coordForPoint(player.desiredPosition)
             
             let tileColumn = tileIndex % 3;
             let tileRow = tileIndex / 3;
@@ -391,72 +417,52 @@ class GameLevelScene: SKScene {
         }
     }
     
-    private func handleItemsCollisions() {
+    private func handleItemsCollisions(tileCoord: CGPoint, _ gid: Int) {
+        let layer = items
         
-        let player = self.player!
+        // Tile is directly above the player
+        let tile = layer.tileAtCoord(tileCoord)
         
-        let layer = items!
-        
-        for i in 0..<indices.count {
-            let tileIndex = indices[i];
+        if let properties = tile!.userData {
+            // Optimized and personalized properties
             
-            let playerRect = player.collisionBoundingBox
-            let playerCoord = layer.coordForPoint(player.desiredPosition)
-            
-            let tileColumn = tileIndex % 3;
-            let tileRow = tileIndex / 3;
-            let tileCoord = CGPointMake(playerCoord.x + CGFloat(tileColumn - 1), playerCoord.y + CGFloat(tileRow - 1))
-            
-            let gid = tileGID(atTileCoord: tileCoord, forLayer: layer)
-            if gid != 0 {
-                let tileRect = self.tileRect(fromTileCoord: tileCoord)
-                if CGRectIntersectsRect(playerRect, tileRect) {
-                    if (tileIndex == 1) {
-                        // Tile is directly above the player
-                        let tile = layer.tileAtCoord(tileCoord)
-//                        println(tile)
-                        
-                        if let properties = tile!.userData {
-                            // Optimized and personalized properties
-                            
-                            if var durability = properties["durability"] as? Int {
-                                durability--
-//                                let bounceUpFromHeadKnock = SKAction()
-//                                bounceUpFromHeadKnock.
-//                                tile!.runAction(bounceUpFromHeadKnock)
-                                if durability < 1 {
-                                    layer.removeTileAtCoord(tileCoord)
-                                    // Don't bother updating the value if it's going to be removed anyway
-                                } else {
-                                    // Here: update the value
-                                    properties["durability"] = durability
-                                }
-                            }
-                            if checkContainsPropertyOfATile(properties) {
-                                return
-                            }
-                            
-                        } else if let properties: NSMutableDictionary = map!.tileProperties[NSInteger(gid)] as? NSMutableDictionary {
-                            // Non optimized and not personalized properties
-                            
-                            // Save a copy to tile's userData and edit it
-                            tile!.userData = properties
-                            
-                            if let durability = properties["durability"] as? String {
-                                
-                                let value = durability.toInt()! - 1
-                                properties["durability"] = value
-                                tile!.zRotation += 0.2
-                                if value < 1 {
-                                    layer.removeTileAtCoord(tileCoord)
-                                }
-                            }
-                            if checkContainsPropertyOfATile(properties) {
-                                return
-                            }
-                        }
+            if var durability = properties["durability"] as? Int {
+                durability--
+                player.velocity.y = -100.0
+                if durability < 1 {
+                    layer.removeTileAtCoord(tileCoord)
+                    // Don't bother updating the value if it's going to be removed anyway
+                } else {
+                    // Here: update the value
+                    properties["durability"] = durability
+                    
+                    // Bounce
+                    if let _ = properties["isBouncy"] {
+                        tile.runAction(bounce)
                     }
                 }
+            }
+            if checkContainsPropertyOfATile(properties) {
+                return
+            }
+            
+        } else if let properties: NSMutableDictionary = map.tileProperties[NSInteger(gid)] as? NSMutableDictionary {
+            // Non optimized and not personalized properties
+            
+            // Save a copy to tile's userData and edit it
+            tile!.userData = properties
+            
+            if let durability = properties["durability"] as? String {
+                
+                let value = durability.toInt()! - 1
+                properties["durability"] = value
+                tile!.zRotation += 0.2
+                if value < 1 {
+                    layer.removeTileAtCoord(tileCoord)
+                }
+            }
+            if checkContainsPropertyOfATile(properties) {
+                return
             }
         }
     }
@@ -474,22 +480,29 @@ class GameLevelScene: SKScene {
     private func setViewPointCenter(position: CGPoint) {
         var x = max(position.x, self.size.width / 2)
         var y = max(position.y, self.size.height / 2)
-        x = min(x, (map!.mapSize.width * map!.tileSize.width) - self.size.width / 2)
-        y = min(y, (map!.mapSize.height * map!.tileSize.height) - self.size.height / 2)
+        x = min(x, (map.mapSize.width * map.tileSize.width) - self.size.width / 2)
+        y = min(y, (map.mapSize.height * map.tileSize.height) - self.size.height / 2)
         let actualPosition = CGPointMake(x, y)
         let centerOfView = CGPointMake(self.size.width / 2, self.size.height / 2)
         let viewPoint = CGPointSubtract(centerOfView, actualPosition)
-        map!.position = viewPoint
+        map.position = viewPoint
+    }
+    
+    private func bounceTileIfItHasBouncingProperty(#tile: SKSpriteNode, gid: Int) {
+        if let properties: NSMutableDictionary = map.tileProperties[NSInteger(gid)] as? NSMutableDictionary {
+            if let _ = properties["isBouncy"] {
+                tile.runAction(bounce)
+            }
+        }
     }
     
     // MARK: Game over
     
-
     private func gameOver(state: GameOverState) {
-        worldState!.gameOver = true
+        worldState.gameOver = true
         
-        var gameOverText: String?
-        var startReplayButtonText: String?
+        var gameOverText: String!
+        var startReplayButtonText: String!
         
         switch state {
         case .playerHasWon:
@@ -502,7 +515,7 @@ class GameLevelScene: SKScene {
         case .playerHasLost:
             runAction(SKAction.playSoundFileNamed("hurt.wav", waitForCompletion: false))
             
-            let numLives = worldState!.numLives - 1
+            let numLives = worldState.numLives - 1
             if numLives == 0 {
                 gameOverText = "GAME OVER"
                 startReplayButtonText = "Replay"
@@ -512,7 +525,7 @@ class GameLevelScene: SKScene {
             }
             
             
-            worldState!.numLives = numLives
+            worldState.numLives = numLives
             
 
         }
@@ -521,22 +534,22 @@ class GameLevelScene: SKScene {
         // FIXME: The following code is very slow
         
         let gameOverLabel = SKLabelNode(fontNamed: "Helvetica-Nueue-Thin")
-        gameOverLabel.text = gameOverText!
+        gameOverLabel.text = gameOverText
         gameOverLabel.fontSize = 40
         gameOverLabel.position = CGPointMake(self.size.width / 2.0, self.size.height / 1.7)
         addChild(gameOverLabel)
         
         let replay = UIButton()
-        replay.tag = replayTag;
+        replay.tag = replayTag
         replay.setTitle(startReplayButtonText, forState: UIControlState.allZeros)
         replay.addTarget(self, action: Selector("replay"), forControlEvents: UIControlEvents.TouchUpInside)
-        replay.frame = CGRectMake(CGRectGetMidX(frame) - 100, CGRectGetMidY(frame) - 24, 200, 48)
+        replay.frame = CGRect(x: CGRectGetMidX(frame) - 100, y: CGRectGetMidY(frame) - 24, width: 200, height: 48)
         replay.backgroundColor = SKColor(white: 0.4, alpha: 0.6)
         view!.addSubview(replay)
     }
     
     private func checkForWin() {
-        if player!.position.x > winLine {
+        if player.position.x > winLine {
             gameOver(.playerHasWon)
         }
     }
@@ -548,7 +561,7 @@ class GameLevelScene: SKScene {
         // Configure scene
         let scene = GameLevelScene()
         scene.worldState = worldState
-        scene.worldState!.parentScene = scene
+        scene.worldState.parentScene = scene
         
         presentScene(scene, view!)
         
