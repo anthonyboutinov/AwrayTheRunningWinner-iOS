@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A8AAB6E11A8CD59500397D88 /* coin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A8AAB6E01A8CD59500397D88 /* coin@2x.png */; };
 		A8AAB6E31A8CE9D000397D88 /* coin.png in Resources */ = {isa = PBXBuildFile; fileRef = A8AAB6E21A8CE9D000397D88 /* coin.png */; };
+		A8AAB6E51A8D4B7A00397D88 /* JSTileMapExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AAB6E41A8D4B7A00397D88 /* JSTileMapExtension.swift */; };
 		A8B00D671A87D5A3008ABABB /* jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = A8B00D651A87D5A3008ABABB /* jump.wav */; };
 		A8B00D681A87D5A3008ABABB /* hurt.wav in Resources */ = {isa = PBXBuildFile; fileRef = A8B00D661A87D5A3008ABABB /* hurt.wav */; };
 		A8B00D6A1A88006E008ABABB /* WorldState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B00D691A88006E008ABABB /* WorldState.swift */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		A8AAB6E01A8CD59500397D88 /* coin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coin@2x.png"; sourceTree = "<group>"; };
 		A8AAB6E21A8CE9D000397D88 /* coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin.png; sourceTree = "<group>"; };
+		A8AAB6E41A8D4B7A00397D88 /* JSTileMapExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSTileMapExtension.swift; sourceTree = "<group>"; };
 		A8B00D651A87D5A3008ABABB /* jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = jump.wav; sourceTree = "<group>"; };
 		A8B00D661A87D5A3008ABABB /* hurt.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hurt.wav; sourceTree = "<group>"; };
 		A8B00D691A88006E008ABABB /* WorldState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorldState.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 		A8BD6F001A86263200E9FC95 /* JSTileMap */ = {
 			isa = PBXGroup;
 			children = (
+				A8AAB6E41A8D4B7A00397D88 /* JSTileMapExtension.swift */,
 				A8BD6EFA1A86262A00E9FC95 /* JSTileMap.h */,
 				A8BD6EFB1A86262A00E9FC95 /* JSTileMap.m */,
 				A8BD6EFC1A86262A00E9FC95 /* LFCGzipUtility.h */,
@@ -319,6 +322,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A8AAB6E51A8D4B7A00397D88 /* JSTileMapExtension.swift in Sources */,
 				A8B00D6A1A88006E008ABABB /* WorldState.swift in Sources */,
 				A8B00D6C1A8805DF008ABABB /* WorldStateWithUI.swift in Sources */,
 				A8BD6F101A86C36200E9FC95 /* SKUtils.swift in Sources */,

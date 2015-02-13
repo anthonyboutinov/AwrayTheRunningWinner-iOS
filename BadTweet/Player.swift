@@ -8,13 +8,17 @@
 
 import Foundation
 
-let minMovement = CGPoint(x: -120.0, y: -450)
-let maxMovement = CGPoint(x: 120.0, y: 350.0)
-let jumpForce = CGPoint(x: 0.0, y: 360.0)
-let jumpCutoff = CGFloat(150.0)
-let slipperyCoefficient = CGFloat(0.6)
+// MARK: Physical properties and constraints
+private let minMovement = CGPoint(x: -120.0, y: -450)
+private let maxMovement = CGPoint(x: 120.0, y: 350.0)
+private let jumpForce = CGPoint(x: 0.0, y: 360.0)
+private let jumpCutoff = CGFloat(150.0)
+private let slipperyCoefficient = CGFloat(0.6)
 
-let powerUpTime: NSTimeInterval = 30.0
+private let powerUpTime: NSTimeInterval = 30.0
+
+// MARK: SKActions
+private let jumpSound = SKAction.playSoundFileNamed("jump.wav", waitForCompletion: false)
 
 
 class Player {
@@ -118,7 +122,7 @@ class Player {
         // Jumping
         if mightAsWellJump && onGround {
             velocity = CGPointAdd(velocity, jumpForce)
-            sprite.runAction(SKAction.playSoundFileNamed("jump.wav", waitForCompletion: false))
+            sprite.runAction(jumpSound)
         } else if !mightAsWellJump && velocity.y > jumpCutoff {
             velocity = CGPoint(x: velocity.x, y: jumpCutoff)
         }
