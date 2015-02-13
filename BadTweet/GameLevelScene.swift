@@ -11,17 +11,26 @@ import SpriteKit
 private var controlRectSizes = CGFloat(45.0)
 private let indices: [Int] = [7, 1, 3, 5, 0, 2, 6, 8]
 
-private let tileHasBeenRemovedFromTheView = 1
-
 private let hurtSound = SKAction.playSoundFileNamed("hurt.wav", waitForCompletion: false)
-
-enum GameOverState {
-    case playerHasLost, playerHasWon
-}
 
 class GameLevelScene: SKScene {
     
-    // MARK: - Variables
+    // MARK: Enums
+    
+    // Tile Properties: preset and created during the game
+    enum Properties: String {
+        case isBouncy = "isBouncy" // The tile bounces when it's hit by the player's head
+        case durability = "durability" // How many times the player has to hit this tile with his head in order for it to destroy. Each time tile's ducatility is decreased, it emits something (if it contains anything)
+        case contains = "contains" // What the tile contains
+        case hasBeenRemovedFromTheView = "r" // Marks that the tile has been removed from the view
+        case willAutoRelease = "d" // Marks that the tile will be automatically removed when it finishes doing an action or an animation
+    }
+    
+    enum GameOverState {
+        case playerHasLost, playerHasWon
+    }
+    
+    // MARK: Variables
     
     // MARK: Level counters
     
@@ -254,7 +263,7 @@ class GameLevelScene: SKScene {
     private func initAnimations() {
         
         // Bounce Action
-        let bounceFactor = CGFloat(0.2)
+        let bounceFactor = CGFloat(0.4)
         let dropHeight = CGFloat(10)
         let nDropHeight = CGFloat(-10)
         let dropActoin = SKAction.moveByX(0, y: nDropHeight, duration: 0.3)
@@ -367,7 +376,7 @@ class GameLevelScene: SKScene {
                     if layer == collidableItems {
                         handleItemsCollisions(tileCoord, gid)
                     } else {
-                        // bounceTileIfItHasBouncingProperty(tile:layer.tileAtCoord(tileCoord), gid: gid)
+                         bounceTileIfItHasBouncingProperty(layer.tileAtCoord(tileCoord), gid)
                     }
                     
                 } else if (tileIndex == 3) {
@@ -427,7 +436,7 @@ class GameLevelScene: SKScene {
             let tile = noncollidableItems.tileAtCoord(tileCoord)
             
             // If tile has been removed from the view,
-            if let _ = tile.userData?[tileHasBeenRemovedFromTheView] {
+            if let _ = tile.userData?[Properties.hasBeenRemovedFromTheView.rawValue] {
                 // Then skip it.
                 return
             }
@@ -439,7 +448,7 @@ class GameLevelScene: SKScene {
                 }
                 
                 // Add flag to the tile
-                tile.userData = [tileHasBeenRemovedFromTheView:true]
+                tile.userData = [Properties.hasBeenRemovedFromTheView.rawValue:true]
                 tile.removeFromParent()
                 
             }
@@ -458,18 +467,22 @@ class GameLevelScene: SKScene {
             // WARNING: When editing this, remember to write an adoptation of it
             // for non-optimized properties below
             
-            if var durability = properties["durability"] as? Int {
+            if let _ = properties[Properties.willAutoRelease.rawValue] {
+                return
+            }
+            
+            if var durability = properties[Properties.durability.rawValue] as? Int {
                 durability--
                 player.velocity.y = 0.0
                 if durability < 1 {
-                    layer.removeTileAtCoord(tileCoord)
-                    // Don't bother updating the value if it's going to be removed anyway
+                    removeTileAfterOptionalBounceAnimation(properties, layer, tileCoord, tile)
+                    // Don't bother updating durability value if it's going to be removed anyway
                 } else {
                     // Here: update the value
-                    properties["durability"] = durability
+                    properties[durability] = durability
                     
                     // Bounce
-                    if let _ = properties["isBouncy"] {
+                    if let _ = properties[Properties.isBouncy.rawValue] {
                         tile.runAction(bounce)
                     }
                 }
@@ -487,19 +500,28 @@ class GameLevelScene: SKScene {
             // Save a copy to tile's userData and edit it
             tile!.userData = properties
             
-            if let durability = properties["durability"] as? String {
+            if let durability = properties[Properties.durability.rawValue] as? String {
                 
                 player.velocity.y = 0.0
                 let value = durability.toInt()! - 1
-                properties["durability"] = value
+                properties[Properties.durability.rawValue] = value
                 tile!.zRotation += 0.2
                 if value < 1 {
-                    layer.removeTileAtCoord(tileCoord)
+                    removeTileAfterOptionalBounceAnimation(properties, layer, tileCoord, tile)
                 }
             }
             if checkContainsPropertyOfATile(properties) {
                 return
             }
+        }
+    }
+    
+    private func removeTileAfterOptionalBounceAnimation(properties: NSMutableDictionary, _ layer: TMXLayer, _ tileCoord: CGPoint, _ tile: SKSpriteNode) {
+        if let _ = properties[Properties.isBouncy.rawValue] {
+            tile.runAction(bounce, completion: {layer.removeTileAtCoord(tileCoord)})
+            properties[Properties.willAutoRelease.rawValue] = true
+        } else {
+            layer.removeTileAtCoord(tileCoord)
         }
     }
     
@@ -530,10 +552,8 @@ class GameLevelScene: SKScene {
     }
     
     private func bounceTileIfItHasBouncingProperty(tile: SKSpriteNode, _ gid: Int) {
-        if let properties = map.properties(forGID: gid) {
-            if let _ = properties["isBouncy"] {
-                tile.runAction(bounce)
-            }
+        if let _ = map.properties(forGID: gid)?[Properties.isBouncy.rawValue] {
+            tile.runAction(bounce)
         }
     }
     

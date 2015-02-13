@@ -9,9 +9,9 @@
 import Foundation
 
 // MARK: Physical properties and constraints
-private let minMovement = CGPoint(x: -120.0, y: -450)
+private let minMovement = CGPoint(x: -120.0, y: -350.0)
 private let maxMovement = CGPoint(x: 120.0, y: 350.0)
-private let jumpForce = CGPoint(x: 0.0, y: 360.0)
+private let jumpForce = CGPoint(x: 0.0, y: 350.0)
 private let jumpCutoff = CGFloat(150.0)
 private let slipperyCoefficient = CGFloat(0.6)
 
