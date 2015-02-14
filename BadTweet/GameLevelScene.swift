@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-var gravity = CGPointMake(0.0, -450.0)
+let gravity = CGPoint(x: 0.0, y: -450.0)
 
 private var controlRectSizes = CGFloat(45.0)
 private let indices: [Int] = [7, 1, 3, 5, 0, 2, 6, 8]
@@ -472,50 +472,31 @@ class GameLevelScene: SKScene {
             // Optimized and personalized properties
             
             // WARNING: When editing this, remember to write an adoptation of it
-            // for non-optimized properties below
+            // for the non-optimized properties below
             
+            // Return if the tile has 'willAutoRelease' property
             if let _ = properties[Properties.willAutoRelease.rawValue] {
                 return
             }
             
             if var durability = properties[Properties.durability.rawValue] as? Int {
-                durability--
-                player.velocity.y = 0.0
-                if durability < 1 {
-                    removeTileAfterOptionalBounceAnimation(properties, layer, tileCoord, tile)
-                    // Don't bother updating durability value if it's going to be removed anyway
-                } else {
-                    // Here: update the value
-                    properties[durability] = durability
-                    
-                    // Bounce
-                    if let _ = properties[Properties.isBouncy.rawValue] {
-                        tile.runAction(bounce)
-                    }
-                }
+                handleDurability(durability, properties, layer, tileCoord, tile)
             }
             if checkContainsPropertyOfATile(properties) {
                 return
             }
             
         } else if let properties: NSMutableDictionary = map.tileProperties[NSInteger(gid)] as? NSMutableDictionary {
-            // Non optimized and not personalized properties
+            // Non-optimized and non-personalized properties
             
             // WARNING: When editing this, remember to write an adoptation of it
-            // for optimized properties above
+            // for the optimized properties above
             
             // Save a copy to tile's userData and edit it
             tile!.userData = properties
             
-            if let durability = properties[Properties.durability.rawValue] as? String {
-                
-                player.velocity.y = 0.0
-                let value = durability.toInt()! - 1
-                properties[Properties.durability.rawValue] = value
-                tile!.zRotation += 0.2
-                if value < 1 {
-                    removeTileAfterOptionalBounceAnimation(properties, layer, tileCoord, tile)
-                }
+            if var durability = (properties[Properties.durability.rawValue] as? String)?.toInt()? {
+                handleDurability(durability, properties, layer, tileCoord, tile)
             }
             if checkContainsPropertyOfATile(properties) {
                 return
@@ -523,12 +504,25 @@ class GameLevelScene: SKScene {
         }
     }
     
-    private func removeTileAfterOptionalBounceAnimation(properties: NSMutableDictionary, _ layer: TMXLayer, _ tileCoord: CGPoint, _ tile: SKSpriteNode) {
-        if let _ = properties[Properties.isBouncy.rawValue] {
-            tile.runAction(bounce, completion: {layer.removeTileAtCoord(tileCoord)})
-            properties[Properties.willAutoRelease.rawValue] = true
+    private func handleDurability(var durability: Int, _ properties: NSMutableDictionary, _ layer: TMXLayer, _ tileCoord: CGPoint, _ tile: SKSpriteNode) {
+        durability--
+        player.velocity.y = 0.0
+        if durability < 1 {
+            // Remove tile after optional bounce animation
+            if let _ = properties[Properties.isBouncy.rawValue] {
+                tile.runAction(bounce, completion: {layer.removeTileAtCoord(tileCoord)})
+                properties[Properties.willAutoRelease.rawValue] = true
+            } else {
+                layer.removeTileAtCoord(tileCoord)
+            }
+            // Don't bother updating durability value if it's going to be removed anyway
         } else {
-            layer.removeTileAtCoord(tileCoord)
+            // Here: update the value
+            properties[Properties.durability.rawValue] = durability
+            // Bounce
+            if let _ = properties[Properties.isBouncy.rawValue] {
+                tile.runAction(bounce)
+            }
         }
     }
     
