@@ -10,6 +10,12 @@
 		A8AAB6E11A8CD59500397D88 /* coin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A8AAB6E01A8CD59500397D88 /* coin@2x.png */; };
 		A8AAB6E31A8CE9D000397D88 /* coin.png in Resources */ = {isa = PBXBuildFile; fileRef = A8AAB6E21A8CE9D000397D88 /* coin.png */; };
 		A8AAB6E51A8D4B7A00397D88 /* JSTileMapExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AAB6E41A8D4B7A00397D88 /* JSTileMapExtension.swift */; };
+		A8AAB6E81A8EAF1600397D88 /* pokerMad.png in Resources */ = {isa = PBXBuildFile; fileRef = A8AAB6E61A8EAF1600397D88 /* pokerMad.png */; };
+		A8AAB6E91A8EAF1600397D88 /* pokerMad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A8AAB6E71A8EAF1600397D88 /* pokerMad@2x.png */; };
+		A8AAB6EC1A8EB08400397D88 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AAB6EB1A8EB08400397D88 /* Enemy.swift */; };
+		A8AAB6EE1A8EB0F000397D88 /* PokerMad.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AAB6ED1A8EB0F000397D88 /* PokerMad.swift */; };
+		A8AAB6F01A8EB13100397D88 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AAB6EF1A8EB13100397D88 /* Updatable.swift */; };
+		A8AAB6F21A8EB1E100397D88 /* HoldsItsSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AAB6F11A8EB1E100397D88 /* HoldsItsSprite.swift */; };
 		A8B00D671A87D5A3008ABABB /* jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = A8B00D651A87D5A3008ABABB /* jump.wav */; };
 		A8B00D681A87D5A3008ABABB /* hurt.wav in Resources */ = {isa = PBXBuildFile; fileRef = A8B00D661A87D5A3008ABABB /* hurt.wav */; };
 		A8B00D6A1A88006E008ABABB /* WorldState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B00D691A88006E008ABABB /* WorldState.swift */; };
@@ -47,6 +53,12 @@
 		A8AAB6E01A8CD59500397D88 /* coin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coin@2x.png"; sourceTree = "<group>"; };
 		A8AAB6E21A8CE9D000397D88 /* coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin.png; sourceTree = "<group>"; };
 		A8AAB6E41A8D4B7A00397D88 /* JSTileMapExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSTileMapExtension.swift; sourceTree = "<group>"; };
+		A8AAB6E61A8EAF1600397D88 /* pokerMad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pokerMad.png; sourceTree = "<group>"; };
+		A8AAB6E71A8EAF1600397D88 /* pokerMad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pokerMad@2x.png"; sourceTree = "<group>"; };
+		A8AAB6EB1A8EB08400397D88 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
+		A8AAB6ED1A8EB0F000397D88 /* PokerMad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokerMad.swift; sourceTree = "<group>"; };
+		A8AAB6EF1A8EB13100397D88 /* Updatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Updatable.swift; sourceTree = "<group>"; };
+		A8AAB6F11A8EB1E100397D88 /* HoldsItsSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoldsItsSprite.swift; sourceTree = "<group>"; };
 		A8B00D651A87D5A3008ABABB /* jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = jump.wav; sourceTree = "<group>"; };
 		A8B00D661A87D5A3008ABABB /* hurt.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hurt.wav; sourceTree = "<group>"; };
 		A8B00D691A88006E008ABABB /* WorldState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorldState.swift; sourceTree = "<group>"; };
@@ -96,6 +108,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A8AAB6EA1A8EB05400397D88 /* Interactive Elements */ = {
+			isa = PBXGroup;
+			children = (
+				A8AAB6EF1A8EB13100397D88 /* Updatable.swift */,
+				A8AAB6F11A8EB1E100397D88 /* HoldsItsSprite.swift */,
+				A8AAB6EB1A8EB08400397D88 /* Enemy.swift */,
+				A8BD6F041A86330800E9FC95 /* Player.swift */,
+				A8AAB6ED1A8EB0F000397D88 /* PokerMad.swift */,
+			);
+			name = "Interactive Elements";
+			sourceTree = "<group>";
+		};
 		A8B00D641A87D533008ABABB /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +153,8 @@
 		A8BD6F081A86387B00E9FC95 /* Spritesheets */ = {
 			isa = PBXGroup;
 			children = (
+				A8AAB6E61A8EAF1600397D88 /* pokerMad.png */,
+				A8AAB6E71A8EAF1600397D88 /* pokerMad@2x.png */,
 				A8AAB6E01A8CD59500397D88 /* coin@2x.png */,
 				A8AAB6E21A8CE9D000397D88 /* coin.png */,
 				A8BD6F0B1A86415E00E9FC95 /* bush.png */,
@@ -170,7 +196,7 @@
 				A8EE9B761A8806FF00017656 /* Scenes */,
 				A8B00D6B1A8805DF008ABABB /* WorldStateWithUI.swift */,
 				A8B00D691A88006E008ABABB /* WorldState.swift */,
-				A8BD6F041A86330800E9FC95 /* Player.swift */,
+				A8AAB6EA1A8EB05400397D88 /* Interactive Elements */,
 				A8F488971A8541F700B76BEF /* GameViewController.swift */,
 				A8BD6F0F1A86C36200E9FC95 /* SKUtils.swift */,
 				A8F488991A8541F700B76BEF /* Main.storyboard */,
@@ -293,10 +319,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A8AAB6E81A8EAF1600397D88 /* pokerMad.png in Resources */,
 				A8F488A01A8541F700B76BEF /* LaunchScreen.xib in Resources */,
 				A8AAB6E11A8CD59500397D88 /* coin@2x.png in Resources */,
 				A8EE9B7E1A8A873A00017656 /* World1Level1.tmx in Resources */,
 				A8EE9B7A1A8A547400017656 /* 6dfcd1ecc4db.mp3 in Resources */,
+				A8AAB6E91A8EAF1600397D88 /* pokerMad@2x.png in Resources */,
 				A8F4889D1A8541F700B76BEF /* Images.xcassets in Resources */,
 				A8B00D671A87D5A3008ABABB /* jump.wav in Resources */,
 				A8AAB6E31A8CE9D000397D88 /* coin.png in Resources */,
@@ -325,12 +353,16 @@
 				A8AAB6E51A8D4B7A00397D88 /* JSTileMapExtension.swift in Sources */,
 				A8B00D6A1A88006E008ABABB /* WorldState.swift in Sources */,
 				A8B00D6C1A8805DF008ABABB /* WorldStateWithUI.swift in Sources */,
+				A8AAB6EC1A8EB08400397D88 /* Enemy.swift in Sources */,
+				A8AAB6EE1A8EB0F000397D88 /* PokerMad.swift in Sources */,
 				A8BD6F101A86C36200E9FC95 /* SKUtils.swift in Sources */,
 				A8F488961A8541F700B76BEF /* GameLevelScene.swift in Sources */,
 				A8BD6EFF1A86262A00E9FC95 /* LFCGzipUtility.m in Sources */,
+				A8AAB6F01A8EB13100397D88 /* Updatable.swift in Sources */,
 				A8F488981A8541F700B76BEF /* GameViewController.swift in Sources */,
 				A8F488921A8541F700B76BEF /* AppDelegate.swift in Sources */,
 				A8BD6F051A86330800E9FC95 /* Player.swift in Sources */,
+				A8AAB6F21A8EB1E100397D88 /* HoldsItsSprite.swift in Sources */,
 				A8BD6EFE1A86262A00E9FC95 /* JSTileMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

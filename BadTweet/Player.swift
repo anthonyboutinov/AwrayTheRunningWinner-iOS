@@ -21,7 +21,7 @@ private let powerUpTime: NSTimeInterval = 30.0
 private let jumpSound = SKAction.playSoundFileNamed("jump.wav", waitForCompletion: false)
 
 
-class Player {
+class Player: Updatable, HoldsItsSprite {
     
     // MARK: - Variables
     // MARK: Sprite
@@ -38,8 +38,6 @@ class Player {
     // MARK: Physical properties
     
     var velocity = CGPoint(x: 0.0, y: 0.0)
-    
-    let gravity: CGPoint
     
     var collisionBoundingBox: CGRect {
         let boundingBox = CGRectInset(sprite.frame, 2, 0)
@@ -80,9 +78,7 @@ class Player {
 
     // MARK: - Methods
     
-    init(gravity: CGPoint, position: CGPoint) {
-        
-        self.gravity = gravity
+    required init(position: CGPoint) {
         
         sprite = SKSpriteNode(texture: walkTextures[0])
         sprite.zPosition = -21.0
@@ -93,7 +89,7 @@ class Player {
 //        spriteWalkAnimationAction = SKAction.repeatActionForever(animateWalkAction);
 //        sprite.runAction(spriteWalkAnimationAction)
         
-        self.desiredPosition = position
+        desiredPosition = position
         sprite.position = position
     }
     

@@ -8,6 +8,8 @@
 
 import SpriteKit
 
+var gravity = CGPointMake(0.0, -450.0)
+
 private var controlRectSizes = CGFloat(45.0)
 private let indices: [Int] = [7, 1, 3, 5, 0, 2, 6, 8]
 
@@ -39,7 +41,6 @@ class GameLevelScene: SKScene {
     // MARK: Physics World
     
     private var previousUpdateTime = NSTimeInterval()
-    private var gravity = CGPointMake(0.0, -450.0)
     // TODO: For 60fps must be 0.02, current value is for LOW FPS
     private let maxDelta = 0.03
     
@@ -59,6 +60,7 @@ class GameLevelScene: SKScene {
     
     // MARK: Game world entities
     private var player: Player!
+    private var updatables: [Updatable] = [Updatable]()
     
     // MARK: Map of the level
     
@@ -256,8 +258,9 @@ class GameLevelScene: SKScene {
     }
     
     private func initPlayer() {
-        player = Player(gravity: gravity, position: CGPointMake(map.tileSize.width * 5, map.tileSize.height * 4))
+        player = Player(position: CGPoint(x: map.tileSize.width * 5, y: map.tileSize.height * 4))
         map.addChild(player.sprite)
+        updatables.append(player)
     }
     
     private func initAnimations() {
@@ -276,7 +279,7 @@ class GameLevelScene: SKScene {
     
     private func initGameOverStuff() {
         gameOverLabel.fontSize = 40
-        gameOverLabel.position = CGPointMake(self.size.width / 2.0, self.size.height / 1.7)
+        gameOverLabel.position = CGPoint(x: self.size.width / 2.0, y: self.size.height / 1.7)
         
         replayButton.tag = replayTag
         replayButton.addTarget(self, action: Selector("replay"), forControlEvents: UIControlEvents.TouchUpInside)
@@ -301,7 +304,11 @@ class GameLevelScene: SKScene {
         delta *= 2.0
         
         previousUpdateTime = currentTime
-        player.update(delta: delta)
+        
+        // Update player and present enemies
+        for updatable in updatables {
+            updatable.update(delta: delta)
+        }
         
         interactWithTheWorld()
         checkForWin()
