@@ -76,6 +76,22 @@ class GameLevelScene: SKScene {
     
     private var bounce: SKAction!
     
+    // MARK: Pause Scene
+    
+    private var dimmer: SKShapeNode!
+    
+    private var gameIsPaused: Bool = false {
+        didSet {
+            if self.gameIsPaused {
+                dimmer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+                dimmer.fillColor = SKColor(white: 0.1, alpha: 0.7)
+                addChild(dimmer)
+            } else {
+                dimmer.hidden = true
+            }
+        }
+    }
+    
     // MARK: - Methods
     
     // MARK: Overridden
@@ -93,23 +109,32 @@ class GameLevelScene: SKScene {
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            for node in self.nodesAtPoint(location) {
-                if let shape = node as? SKShapeNode {
-                    switch shape {
-                    case upButton:
-                        previouslyTouchedNodes.addObject(upButton)
-                        player.mightAsWellJump = true
-                    case leftButton:
-                        previouslyTouchedNodes.addObject(leftButton)
-                        player.backwardsMarch = true
-                    case rightButton:
-                        previouslyTouchedNodes.addObject(rightButton)
-                        player.forwardMarch = true
-                    default:
-                        break
+            for node in self.nodesAtPoint(location) as [SKNode] {
+                if gameIsPaused {
+                    
+                } else {
+                    if node is SKShapeNode {
+                        switch node {
+                        case upButton:
+                            previouslyTouchedNodes.addObject(upButton)
+                            player.mightAsWellJump = true
+                        case leftButton:
+                            previouslyTouchedNodes.addObject(leftButton)
+                            player.backwardsMarch = true
+                        case rightButton:
+                            previouslyTouchedNodes.addObject(rightButton)
+                            player.forwardMarch = true
+                        default:
+                            break
+                        }
+                    } else if node is SKSpriteNode {
+                        switch node {
+                        case pauseButton:
+                            gameIsPaused = true
+                        default:
+                            break
+                        }
                     }
-                } else if let sprite = node as? SKSpriteNode {
-                    //...
                 }
             }
         }
@@ -127,42 +152,45 @@ class GameLevelScene: SKScene {
             var right = false
             var left = false
             
-            for node in self.nodesAtPoint(location) {
-                if let shape = node as? SKShapeNode {
-                    switch shape {
-                    case upButton:
-                        currentlyTouchedNodes.addObject(upButton)
-                        player.mightAsWellJump = true
-                    case leftButton:
-                        currentlyTouchedNodes.addObject(leftButton)
-                        left = true
-                    case rightButton:
-                        currentlyTouchedNodes.addObject(rightButton)
-                        right = true
-                    default:
-                        if previouslyTouchedNodes.containsObject(upButton) {
-                            player.mightAsWellJump = false
+            for node in self.nodesAtPoint(location) as [SKNode] {
+                if gameIsPaused {
+                
+                } else {
+                    if node is SKShapeNode {
+                        switch node {
+                        case upButton:
+                            currentlyTouchedNodes.addObject(upButton)
+                            player.mightAsWellJump = true
+                        case leftButton:
+                            currentlyTouchedNodes.addObject(leftButton)
+                            left = true
+                        case rightButton:
+                            currentlyTouchedNodes.addObject(rightButton)
+                            right = true
+                        default:
+                            if previouslyTouchedNodes.containsObject(upButton) {
+                                player.mightAsWellJump = false
+                            }
+                            if previouslyTouchedNodes.containsObject(leftButton) {
+                                player.backwardsMarch = false
+                            }
+                            if previouslyTouchedNodes.containsObject(rightButton) {
+                                player.forwardMarch = false
+                            }
+                            break
                         }
-                        if previouslyTouchedNodes.containsObject(leftButton) {
-                            player.backwardsMarch = false
+                        if right {
+                            player.forwardMarch = true
                         }
-                        if previouslyTouchedNodes.containsObject(rightButton) {
-                            player.forwardMarch = false
+                        if !right && left {
+                            player.backwardsMarch = true
                         }
-                        break
+                    } else if node is SKSpriteNode {
+                        //...
                     }
-                    if right {
-                        player.forwardMarch = true
-                    }
-                    if !right && left {
-                        player.backwardsMarch = true
-                    }
-                } else if let sprite = node as? SKSpriteNode {
-                    //...
                 }
             }
         }
-        
         previouslyTouchedNodes = currentlyTouchedNodes
     }
     
@@ -173,9 +201,9 @@ class GameLevelScene: SKScene {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             
-            for node in self.nodesAtPoint(location) {
-                if let shape = node as? SKShapeNode {
-                    switch shape {
+            for node in self.nodesAtPoint(location) as [SKNode] {
+                if node is SKShapeNode {
+                    switch node {
                     case upButton:
                         nodesToRemoveFromSet.addObject(upButton)
                         player.mightAsWellJump = false
@@ -188,7 +216,7 @@ class GameLevelScene: SKScene {
                     default:
                         break
                     }
-                } else if let sprite = node as? SKSpriteNode {
+                } else if node is SKSpriteNode {
                     //...
                 }
             }
@@ -305,7 +333,7 @@ class GameLevelScene: SKScene {
         
         previousUpdateTime = currentTime
         
-        // Update player and present enemies
+        // Update player and présent enemies
         for updatable in updatables {
             updatable.update(delta: delta)
         }
@@ -546,8 +574,8 @@ class GameLevelScene: SKScene {
         var y = max(position.y, self.size.height / 2)
         x = min(x, (map.mapSize.width * map.tileSize.width) - self.size.width / 2)
         y = min(y, (map.mapSize.height * map.tileSize.height) - self.size.height / 2)
-        let actualPosition = CGPointMake(x, y)
-        let centerOfView = CGPointMake(self.size.width / 2, self.size.height / 2)
+        let actualPosition = CGPoint(x: x, y: y)
+        let centerOfView = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
         let viewPoint = CGPointSubtract(centerOfView, actualPosition)
         map.position = viewPoint
     }
@@ -591,9 +619,7 @@ class GameLevelScene: SKScene {
         }
         println(gameOverText)
         
-        // FIXME: The following code is very slow
-        
-        
+        // FIXME: Code execution is slow
         gameOverLabel.text = gameOverText
         addChild(gameOverLabel)
         
@@ -607,6 +633,7 @@ class GameLevelScene: SKScene {
         }
     }
     
+    // Not private!
     func replay() {
         view!.viewWithTag(replayTag)!.removeFromSuperview()
         worldState!.gameOver = false
@@ -617,8 +644,6 @@ class GameLevelScene: SKScene {
         scene.worldState.parentScene = scene
         
         presentScene(scene, view!)
-        
     }
-    
     
 }

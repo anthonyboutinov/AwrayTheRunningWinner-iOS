@@ -83,11 +83,9 @@ class Player: Updatable, HoldsItsSprite {
         sprite = SKSpriteNode(texture: walkTextures[0])
         sprite.zPosition = -21.0
         
-//        let animateWalkAction = SKAction.animateWithTextures(walkTextures, timePerFrame: 0.40);
-        //        let moveAction = SKAction.moveBy(CGVector(view.bounds.width,0), duration: 1.4);
-        //        let group = SKAction.group([ animateAction,moveAction]);
-//        spriteWalkAnimationAction = SKAction.repeatActionForever(animateWalkAction);
-//        sprite.runAction(spriteWalkAnimationAction)
+        let animateWalkAction = SKAction.animateWithTextures(walkTextures, timePerFrame: 0.40);
+        let spriteWalkAnimationAction = SKAction.repeatActionForever(animateWalkAction);
+        sprite.runAction(spriteWalkAnimationAction)
         
         desiredPosition = position
         sprite.position = position

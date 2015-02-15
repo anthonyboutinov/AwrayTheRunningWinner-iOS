@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="100" height="20" tilewidth="35" tileheight="35" backgroundcolor="#7fb2cb">
+<map version="1.0" orientation="orthogonal" width="100" height="20" tilewidth="35" tileheight="35" backgroundcolor="#83cacb">
  <tileset firstgid="1" name="tiles_spritesheet" tilewidth="35" tileheight="35" spacing="1">
   <image source="tiles_spritesheet.png" width="457" height="468"/>
   <tile id="0">
@@ -88,7 +88,7 @@
  </layer>
  <layer name="Walls" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3USw6AIAxF0Q4YuQ6XpYlDFuBm3K2fyECiQsG/9yQNDppA+kxFAAAAAAAAgO9oh7Lz93hWN74lpLj7AR9gvDMVWeQzsswjNZM/ZmHDLZPYmfrzd3vRVcxeLOT5WZQr1Vx0t5G4/3yvL3dvvcVZufj7JpRJTM+fWEVp+3Mr9Z0pd1w9gy2dorT9byjtHI6aQb2RRw94Sy3KQB8AAA==
+   H4sIAAAAAAAAA+3UPQ6AIAyG4Q5MnsNjaeLoAbyMt3XRQeJPCwoi75M0Lo0l/QgiAAAAAAAAAHJoch/gB5z3DUUW8Zzs8wjNpMYsRmWfdqf+/qd1xlad4h+NfD+L9qCGRLOd6O75VV/su1WKt3Lx35u7TDQ9NRkNZe2PrdBzhsxIvYMzs6Gs/SWUdQ9P7aA/yWMBYTmo2UAfAAA=
   </data>
  </layer>
  <layer name="Hazards" width="100" height="20">
@@ -98,12 +98,12 @@
  </layer>
  <layer name="CollidableItems" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3Uuw3AIAwFQNZgPMZgAAbIxtCTUEX8dCe5cvEsWXohAAAAAMB90sSs2CZPzIMTPasP2MBbT+SP3R8dNuol/9hDWX0AAJ0KDcetAEAfAAA=
+   H4sIAAAAAAAAA+3UsQnAMAwEQK2R8TyGBsgA2dhpUtmpQpCKO1Cl4h8EigAAAAAAvjjuyeoS0NxVXaCB3Z/Il934Ke/hHj2c1QUAWEzdicijQB8AAA==
   </data>
  </layer>
  <layer name="NoncollidableItems" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3T0Q6AIAiFYd//HXjXrnWIMEdo/d/WqgskOKs1AAAAANBJ9QegQx5nIY+Y7H2Rh58M98wesMnkObPPV+3O+OaOyMOu02o95421q/fI2bermFGcl1aHmMj/8bc8rNki9Tt9tR1n5DGruz1DoMoDgxkZTUAfAAA=
+   H4sIAAAAAAAAA+3U0Q6AIAiFYd//HXjXbsthgg7R+r/NVRdgclalAAAAAIBOsl8AD+SxF/LwiZ4XedhJdY3cA++kcR+5z1fNnnHljHbIQ24rqv9onVZr6VfX9p49vU+XcUYxLq0OPp7v4295zP7rRmt7M47Io1V3eoZAlguVU+zUQB8AAA==
   </data>
  </layer>
  <layer name="Foreground" width="100" height="20">
