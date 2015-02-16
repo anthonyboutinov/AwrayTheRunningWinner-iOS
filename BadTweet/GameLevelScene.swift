@@ -54,7 +54,7 @@ class GameLevelScene: SKScene {
     private var rightButton: SKShapeNode!
     
     
-    private let pauseButton = SKSpriteNode(imageNamed: "Pause")
+    private let pauseButton = SKSpriteNode(imageNamed: "pause")
     private let unpauseButton = SKSpriteNode(texture: blueButtonTexture)
     private let mainMenuButton = SKSpriteNode(texture: blueButtonTexture)
     
@@ -89,11 +89,11 @@ class GameLevelScene: SKScene {
     private var gameIsPaused: Bool = false {
         didSet {
             if self.gameIsPaused {
-                dimmer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
-                dimmer.fillColor = SKColor(white: 0.1, alpha: 0.7)
-                addChild(dimmer)
+//                dimmer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+//                dimmer.fillColor = SKColor(white: 0.1, alpha: 0.7)
+//                addChild(dimmer)
             } else {
-                dimmer.hidden = true
+//                dimmer.hidden = true
             }
         }
     }
