@@ -15,6 +15,9 @@ private let indices: [Int] = [7, 1, 3, 5, 0, 2, 6, 8]
 
 private let hurtSound = SKAction.playSoundFileNamed("hurt.wav", waitForCompletion: false)
 
+private let blueButtonTexture = SKTexture(imageNamed: "blue_button")
+
+
 class GameLevelScene: SKScene {
     
     // MARK: Enums
@@ -50,7 +53,10 @@ class GameLevelScene: SKScene {
     private var leftButton: SKShapeNode!
     private var rightButton: SKShapeNode!
     
+    
     private let pauseButton = SKSpriteNode(imageNamed: "Pause")
+    private let unpauseButton = SKSpriteNode(texture: blueButtonTexture)
+    private let mainMenuButton = SKSpriteNode(texture: blueButtonTexture)
     
     private var previouslyTouchedNodes = NSMutableSet()
     
@@ -101,6 +107,7 @@ class GameLevelScene: SKScene {
         initAnimations()
         initPlayer()
         initUI()
+//        initPauseMenu()
         initGameOverStuff()
         worldState.parentScene = self
         worldState.addChildrenToScene()
@@ -142,6 +149,10 @@ class GameLevelScene: SKScene {
     
     // FIXME: When moving out from uiUp, mightAsWellJump stays true
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+        
+        if gameIsPaused {
+            return
+        }
         
         // FIXME: Swift 1.2 will have simply Set instead of NSMutableSet
         let currentlyTouchedNodes = NSMutableSet()
@@ -195,6 +206,10 @@ class GameLevelScene: SKScene {
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        
+        if gameIsPaused {
+            return
+        }
         
         let nodesToRemoveFromSet = NSMutableSet()
         
@@ -303,6 +318,25 @@ class GameLevelScene: SKScene {
             SKAction.moveByX(0, y: nDropHeight * bounceFactor, duration: 0.1)
             ])
         
+    }
+    
+    private func initPauseMenu() {
+        let continueLabel = SKLabelNode(text: "Continue")
+        unpauseButton.addChild(continueLabel)
+        unpauseButton.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) - 9 + unpauseButton.size.height / 2)
+        
+        let mainMenuLabel = SKLabelNode(text: "Main Menu")
+        mainMenuButton.addChild(mainMenuLabel)
+        mainMenuButton.position = CGPoint(x: unpauseButton.position.x, y: CGRectGetMidY(self.frame) + 9 - mainMenuButton.size.height / 2)
+        
+        for label in [continueLabel, mainMenuLabel] {
+            label.position.y -= label.frame.height / 2 - 3
+        }
+        
+        for button in [unpauseButton, mainMenuButton] {
+            button.zPosition = 102
+            addChild(button)
+        }
     }
     
     private func initGameOverStuff() {
