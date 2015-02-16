@@ -137,10 +137,6 @@ class WorldStateWithUI: WorldState {
             // and have their properties set, so 'else' closure shouldn't be
             // executed.
         } else {
-            // Set margin and padding
-            let margin = CGFloat(18.0)
-            let padding = margin / 3
-            
             // Position life image nodes
             for _i in 0..<defaultNumberOfLives {
                 let i = CGFloat(_i)

@@ -24,13 +24,12 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         
         // Add background music
-//        backgroundMusic = self.setupAudioPlayer(file: "6dfcd1ecc4db", ofType:"mp3")
-//        backgroundMusic.volume = 0.3
-//        backgroundMusic.play()
+        backgroundMusic = self.setupAudioPlayer(file: "6dfcd1ecc4db", ofType:"mp3")
+        backgroundMusic.volume = 0.3
+        backgroundMusic.play()
         
         // Init scene and world state
-        let scene = GameLevelScene()
-        scene.worldState = WorldStateWithUI()
+        let scene = MainMenuScene()
         
         // Configure the view
         let skView = self.view as SKView

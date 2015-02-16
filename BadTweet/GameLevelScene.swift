@@ -15,9 +15,6 @@ private let indices: [Int] = [7, 1, 3, 5, 0, 2, 6, 8]
 
 private let hurtSound = SKAction.playSoundFileNamed("hurt.wav", waitForCompletion: false)
 
-private let blueButtonTexture = SKTexture(imageNamed: "blue_button")
-
-
 class GameLevelScene: SKScene {
     
     // MARK: Enums
@@ -58,7 +55,7 @@ class GameLevelScene: SKScene {
     
     private var previouslyTouchedNodes = NSMutableSet()
     
-    private let gameOverLabel = SKLabelNode(fontNamed: "Helvetica-Nueue-Thin")
+    private let gameOverLabel = SKLabelNode(fontNamed: gameFont)
     private let replayButton = UIButton()
     private let replayTag = 321
     
@@ -85,6 +82,7 @@ class GameLevelScene: SKScene {
     private var dimmer: SKShapeNode!
     private let unpauseButton = SKSpriteNode(texture: blueButtonTexture)
     private let mainMenuButton = SKSpriteNode(texture: blueButtonTexture)
+    private let settingsButton = SKSpriteNode(texture: blueButtonTexture)
     private var pauseMenuElements: [SKNode] = [SKNode]()
     
     private var gameIsPaused: Bool = false {
@@ -120,6 +118,8 @@ class GameLevelScene: SKScene {
                         gameIsPaused = false
                     case mainMenuButton:
                         goToTheMainMenuScene()
+                    case settingsButton:
+                        break
                     default:
                         break
                     }
@@ -325,33 +325,17 @@ class GameLevelScene: SKScene {
     }
     
     private func initPauseMenu() {
-        
         dimmer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
         dimmer.fillColor = SKColor(white: 0.1, alpha: 0.7)
         dimmer.zPosition = 50.0
+        dimmer.hidden = true
+        addChild(dimmer)
         
-        let continueLabel = SKLabelNode(text: "Continue")
-        unpauseButton.addChild(continueLabel)
-        unpauseButton.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) - 9 + unpauseButton.size.height)
-        
-        let mainMenuLabel = SKLabelNode(text: "Main Menu")
-        mainMenuButton.addChild(mainMenuLabel)
-        mainMenuButton.position = CGPoint(x: unpauseButton.position.x, y: CGRectGetMidY(self.frame) + 9 - mainMenuButton.size.height)
-        
-        for label in [continueLabel, mainMenuLabel] {
-            label.position.y -= label.frame.height / 2 - 3
-        }
-        
-        for button in [unpauseButton, mainMenuButton] {
-            button.zPosition = 60.0
-        }
+        let buttons = [unpauseButton, mainMenuButton, settingsButton]
+        let texts = ["Continue", "Main Menu", "Settings"]
+        UIDesigner.layoutButtonsWithText(scene: self, buttons: buttons, texts: texts, zPosition: 60.0, hidden: true)
         
         pauseMenuElements = [dimmer, unpauseButton, mainMenuButton]
-        
-        for element in pauseMenuElements {
-            element.hidden = true
-            addChild(element)
-        }
     }
     
     private func initGameOverStuff() {
@@ -700,14 +684,13 @@ class GameLevelScene: SKScene {
     private func hidePauseMenu(hidden: Bool) {
         paused = !hidden
         for element in pauseMenuElements {
-        element.hidden = hidden
+            element.hidden = hidden
         }
         pauseButton.hidden = !hidden
     }
     
     private func goToTheMainMenuScene() {
-        let scene = MainMenu()
-        presentScene(scene, view!)
+        presentScene(MainMenuScene(), view!)
     }
     
 }
