@@ -55,8 +55,6 @@ class GameLevelScene: SKScene {
     
     
     private let pauseButton = SKSpriteNode(imageNamed: "pause")
-    private let unpauseButton = SKSpriteNode(texture: blueButtonTexture)
-    private let mainMenuButton = SKSpriteNode(texture: blueButtonTexture)
     
     private var previouslyTouchedNodes = NSMutableSet()
     
@@ -85,40 +83,46 @@ class GameLevelScene: SKScene {
     // MARK: Pause Scene
     
     private var dimmer: SKShapeNode!
+    private let unpauseButton = SKSpriteNode(texture: blueButtonTexture)
+    private let mainMenuButton = SKSpriteNode(texture: blueButtonTexture)
+    private var pauseMenuElements: [SKNode] = [SKNode]()
     
     private var gameIsPaused: Bool = false {
         didSet {
-            if self.gameIsPaused {
-//                dimmer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
-//                dimmer.fillColor = SKColor(white: 0.1, alpha: 0.7)
-//                addChild(dimmer)
-            } else {
-//                dimmer.hidden = true
-            }
+            hidePauseMenu(!self.gameIsPaused)
         }
     }
     
     // MARK: - Methods
     
-    // MARK: Overridden
+    // MARK: didMoveToView
     
     override func didMoveToView(view: SKView) {
         initMap()
         initAnimations()
         initPlayer()
         initUI()
-//        initPauseMenu()
+        initPauseMenu()
         initGameOverStuff()
         worldState.parentScene = self
         worldState.addChildrenToScene()
     }
+    
+    // MARK: Touches
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             for node in self.nodesAtPoint(location) as [SKNode] {
                 if gameIsPaused {
-                    
+                    switch node {
+                    case unpauseButton:
+                        gameIsPaused = false
+                    case mainMenuButton:
+                        goToTheMainMenuScene()
+                    default:
+                        break
+                    }
                 } else {
                     if node is SKShapeNode {
                         switch node {
@@ -321,21 +325,32 @@ class GameLevelScene: SKScene {
     }
     
     private func initPauseMenu() {
+        
+        dimmer = SKShapeNode(rect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+        dimmer.fillColor = SKColor(white: 0.1, alpha: 0.7)
+        dimmer.zPosition = 50.0
+        
         let continueLabel = SKLabelNode(text: "Continue")
         unpauseButton.addChild(continueLabel)
-        unpauseButton.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) - 9 + unpauseButton.size.height / 2)
+        unpauseButton.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) - 9 + unpauseButton.size.height)
         
         let mainMenuLabel = SKLabelNode(text: "Main Menu")
         mainMenuButton.addChild(mainMenuLabel)
-        mainMenuButton.position = CGPoint(x: unpauseButton.position.x, y: CGRectGetMidY(self.frame) + 9 - mainMenuButton.size.height / 2)
+        mainMenuButton.position = CGPoint(x: unpauseButton.position.x, y: CGRectGetMidY(self.frame) + 9 - mainMenuButton.size.height)
         
         for label in [continueLabel, mainMenuLabel] {
             label.position.y -= label.frame.height / 2 - 3
         }
         
         for button in [unpauseButton, mainMenuButton] {
-            button.zPosition = 102
-            addChild(button)
+            button.zPosition = 60.0
+        }
+        
+        pauseMenuElements = [dimmer, unpauseButton, mainMenuButton]
+        
+        for element in pauseMenuElements {
+            element.hidden = true
+            addChild(element)
         }
     }
     
@@ -677,6 +692,21 @@ class GameLevelScene: SKScene {
         scene.worldState = worldState
         scene.worldState.parentScene = scene
         
+        presentScene(scene, view!)
+    }
+    
+    // MARK: - Pause Menu
+    
+    private func hidePauseMenu(hidden: Bool) {
+        paused = !hidden
+        for element in pauseMenuElements {
+        element.hidden = hidden
+        }
+        pauseButton.hidden = !hidden
+    }
+    
+    private func goToTheMainMenuScene() {
+        let scene = MainMenu()
         presentScene(scene, view!)
     }
     
