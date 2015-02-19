@@ -59,14 +59,23 @@ class UIDesigner {
         scene.addChild(button)
     }
     
-    class func layoutTextTable(texts: [String], _ scene: SKScene, positionOffsetY: CGFloat, customMargin: CGFloat = margin) {
+    class func layoutTextTable(texts: [String], _ scene: SKScene, positionOffsetY: CGFloat, margin customMargin: CGFloat = margin, var fontSize: CGFloat? = nil) {
         let minX = CGRectGetMinX(scene.frame) + customMargin
-        let maxX = CGRectGetMaxX(scene.frame) + customMargin
         let midX = CGRectGetMidX(scene.frame)
         let midY = CGRectGetMidY(scene.frame)
         
+        // Next line: Relative spacing between lines
+        let paddingInPercent = CGFloat(0.05)
+        let lowerCoeff = 1 - paddingInPercent
+        let upperCoeff = 1 + paddingInPercent
+        
+        let fitIntoRectOfSize = CGSize(width: minX - CGRectGetMaxX(scene.frame) - customMargin, height: CGRectGetMaxY(scene.frame) - positionOffsetY - customMargin * 2)
+        if fontSize == nil {
+            fontSize = fitIntoRectOfSize.height / CGFloat(texts.count) * lowerCoeff
+        }
+        
         let sampleLabel = SKLabelNode(fontNamed: gameFont)
-        sampleLabel.fontSize = 18
+        sampleLabel.fontSize = fontSize!
         sampleLabel.text = "QW,$|`qpd"
         let elementHeight = sampleLabel.frame.height
         
@@ -85,7 +94,7 @@ class UIDesigner {
             }
             
             let label = SKLabelNode(fontNamed: gameFont)
-            label.fontSize = 18
+            label.fontSize = fontSize!
             label.text = text
             
             if titleColumn {
@@ -94,7 +103,7 @@ class UIDesigner {
                 label.position.x = midX + customMargin / 2 + label.frame.width / 2
             }
             
-            label.position.y = midY + (coeff - column) * elementHeight * 1.08 + positionOffsetY
+            label.position.y = midY + (coeff - column) * elementHeight * upperCoeff + positionOffsetY
             
             scene.addChild(label)
             

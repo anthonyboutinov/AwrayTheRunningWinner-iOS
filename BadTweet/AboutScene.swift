@@ -15,20 +15,24 @@ class AboutScene: SKScene {
     // MARK: UI Elements
     
     private let backButton = SKSpriteNode(texture: backButtonTexture)
+    private let website = SKLabelNode(fontNamed: gameFont)
     
     // MARK: SKScene override methods
     
     override func didMoveToView(view: SKView) {
         UIDesigner.layoutBackButton(backButton, self)
         
+        // Title
         let title = SKLabelNode(fontNamed: gameFont)
-        title.fontSize = 50
+        title.fontSize = 42
         title.text = "About"
         title.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMaxY(frame) - margin - title.frame.height)
         addChild(title)
 
+        let fontSize = CGFloat(15) // iPhone 4s, 5, 5s
         
-        let lines: [SKLabelNode] = [SKLabelNode](count: 2 * 10, repeatedValue: SKLabelNode(fontNamed: gameFont))
+        // Credits
+        let lines: [SKLabelNode] = [SKLabelNode](count: 2 * 11, repeatedValue: SKLabelNode(fontNamed: gameFont))
         let texts: [String] = [
             "iOS & OS X Development", "Anthony Boutinov",
             "Android Development", "Mikhail Polyubay",
@@ -39,9 +43,17 @@ class AboutScene: SKScene {
             "", "& Vladimir Burdin",
             "Website", "Alyona Moiseeva",
             "Special thanks to", "Kamil Khadiev",
-            "", "Kenney"
+            "", "Kenney",
+            "", "Jake Gundersen"
         ]
-        UIDesigner.layoutTextTable(texts, self, positionOffsetY: -title.frame.height, customMargin: margin * 2.5)
+        UIDesigner.layoutTextTable(texts, self, positionOffsetY: -title.frame.height / 2, margin: margin * 2.5)
+        
+        // Website
+        website.text = "badtweet.com"
+        website.fontSize = fontSize
+        website.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMinY(frame) + margin + website.frame.height / 2)
+        addChild(website)
+        
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -50,6 +62,8 @@ class AboutScene: SKScene {
             for node in self.nodesAtPoint(location) as [SKNode] {
                 if node == backButton {
                     presentScene(MainMenuScene(), view!)
+                } else if node == website {
+                    //...
                 }
             }
         }

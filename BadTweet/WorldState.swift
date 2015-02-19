@@ -84,6 +84,7 @@ class WorldState: Printable {
             worldLevel.world = newValue
         }
     }
+    
     var level: Int {
         get {
             return worldLevel.level
