@@ -37,11 +37,11 @@ class AboutScene: SKScene {
             "iOS & OS X Development", "Anthony Boutinov",
             "Android Development", "Mikhail Polyubay",
             "Game & Level Design", "Alevtina Petrova",
-            "Visual Design", "...",
             "Twitter-component", "Alexandra Kuzmina",
             "Tests", "Alina Ganieva",
             "", "& Vladimir Burdin",
             "Website", "Alyona Moiseeva",
+            "Visual Design", "Regina Kamaleeva",
             "Special thanks to", "Kamil Khadiev",
             "", "Kenney",
             "", "Jake Gundersen"

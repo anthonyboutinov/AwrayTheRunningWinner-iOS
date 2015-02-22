@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A8260FDE1A92A66C000DEF68 /* PlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8260FDD1A92A66C000DEF68 /* PlayScene.swift */; };
+		A865DFE51A99DB3800FEFD03 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A865DFE41A99DB3800FEFD03 /* UserDefaults.swift */; };
 		A8AAB6E11A8CD59500397D88 /* coin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A8AAB6E01A8CD59500397D88 /* coin@2x.png */; };
 		A8AAB6E31A8CE9D000397D88 /* coin.png in Resources */ = {isa = PBXBuildFile; fileRef = A8AAB6E21A8CE9D000397D88 /* coin.png */; };
 		A8AAB6E51A8D4B7A00397D88 /* JSTileMapExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8AAB6E41A8D4B7A00397D88 /* JSTileMapExtension.swift */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		A8260FDD1A92A66C000DEF68 /* PlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayScene.swift; sourceTree = "<group>"; };
+		A865DFE41A99DB3800FEFD03 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		A8AAB6E01A8CD59500397D88 /* coin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coin@2x.png"; sourceTree = "<group>"; };
 		A8AAB6E21A8CE9D000397D88 /* coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin.png; sourceTree = "<group>"; };
 		A8AAB6E41A8D4B7A00397D88 /* JSTileMapExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSTileMapExtension.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 				A8260FDD1A92A66C000DEF68 /* PlayScene.swift */,
 				A8AAB6F71A928F0300397D88 /* AboutScene.swift */,
 				A8AAB6F91A928F0B00397D88 /* SettingsScene.swift */,
+				A865DFE41A99DB3800FEFD03 /* UserDefaults.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				A8F488921A8541F700B76BEF /* AppDelegate.swift in Sources */,
 				A8BD6F051A86330800E9FC95 /* Player.swift in Sources */,
 				A8AAB6FA1A928F0B00397D88 /* SettingsScene.swift in Sources */,
+				A865DFE51A99DB3800FEFD03 /* UserDefaults.swift in Sources */,
 				A8AAB6F21A8EB1E100397D88 /* HoldsItsSprite.swift in Sources */,
 				A8BD6EFE1A86262A00E9FC95 /* JSTileMap.m in Sources */,
 				A8260FDE1A92A66C000DEF68 /* PlayScene.swift in Sources */,
