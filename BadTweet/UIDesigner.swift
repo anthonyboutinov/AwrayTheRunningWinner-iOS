@@ -53,10 +53,12 @@ class UIDesigner {
         }
     }
     
-    class func layoutBackButton(button: SKSpriteNode, _ scene: SKScene) {
+    class func addBackButton(scene: SKScene) -> SKSpriteNode {
+        let button = SKSpriteNode(texture: backButtonTexture)
         button.position = CGPoint(x: CGRectGetMinX(scene.frame) + margin + button.size.width / 2, y: CGRectGetMaxY(scene.frame) - margin - button.size.height / 2)
         
         scene.addChild(button)
+        return button
     }
     
     class func layoutTextTable(texts: [String], _ scene: SKScene, positionOffsetY: CGFloat, margin customMargin: CGFloat = margin, var fontSize: CGFloat? = nil) {
@@ -112,6 +114,15 @@ class UIDesigner {
                 column++
             }
         }
+    }
+    
+    class func addTitle(text: String, _ scene: SKScene) -> SKLabelNode {
+        let title = SKLabelNode(fontNamed: gameFont)
+        title.fontSize = 42
+        title.text = text
+        title.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMaxY(scene.frame) - margin - title.frame.height)
+        scene.addChild(title)
+        return title
     }
     
 }

@@ -8,29 +8,20 @@
 
 import UIKit
 import SpriteKit
-import AVFoundation
 
-var backgroundMusic = AVAudioPlayer()
+
 
 class GameViewController: UIViewController {
     
-    func setupAudioPlayer(#file:NSString, ofType type:NSString) -> AVAudioPlayer  {
-        let path = NSBundle.mainBundle().pathForResource(file, ofType:type)
-        let audioPlayer:AVAudioPlayer? = AVAudioPlayer(contentsOfURL: NSURL.fileURLWithPath(path!), error: nil)
-        return audioPlayer!
-    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Add background music
-        backgroundMusic = self.setupAudioPlayer(file: "6dfcd1ecc4db", ofType:"mp3")
-        backgroundMusic.volume = 0.3
-        if UserDefaults.music() {
-            backgroundMusic.play()
-        }
+        // Init Sound
+        Sound.initSharedInstance()
         
-        // Init scene and world state
+        // Init Main Menu Scene
         let scene = MainMenuScene()
         
         // Configure the view
@@ -64,4 +55,5 @@ class GameViewController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+    
 }

@@ -12,7 +12,7 @@ class SettingsScene: SKScene {
     
     // MARK: UI Elements
     
-    private let backButton = SKSpriteNode(texture: backButtonTexture)
+    private var backButton: SKSpriteNode!
     
     private let switchOn = SKTexture(imageNamed: "switch_on")
     private let switchOff = SKTexture(imageNamed: "switch_off")
@@ -23,33 +23,30 @@ class SettingsScene: SKScene {
     private let soundEffectsLabel = SKLabelNode(fontNamed: gameFont)
     private let musicLabel = SKLabelNode(fontNamed: gameFont)
     
-    private var soundEffects: Bool = false
-    private var music: Bool = false
-    
     // MARK: SKScene override methods
     
     override func didMoveToView(view: SKView) {
-        UIDesigner.layoutBackButton(backButton, self)
+        backButton = UIDesigner.addBackButton(self)
+        let title = UIDesigner.addTitle("Settings", self)
         
         soundEffectsLabel.text = "Sound Effects"
         musicLabel.text = "Music"
         
 //        let maxLabelLength = max(soundEffectsLabel.frame.width, musicLabel.frame.width)
         
-        (self.soundEffects, self.music) = UserDefaults.SFXAndMusic()
+        soundEffectsSwitch = Sound_soundEffects ? SKSpriteNode(texture: switchOn) : SKSpriteNode(texture: switchOff)
+        musicSwitch = Sound_music ? SKSpriteNode(texture: switchOn) : SKSpriteNode(texture: switchOff)
         
-        soundEffectsSwitch = soundEffects ? SKSpriteNode(texture: switchOn) : SKSpriteNode(texture: switchOff)
-        musicSwitch = music ? SKSpriteNode(texture: switchOn) : SKSpriteNode(texture: switchOff)
-        
+        let yOffset =  -title.frame.height / 2
         var i = false
         for (label, switchSprite) in [(soundEffectsLabel, soundEffectsSwitch), (musicLabel, musicSwitch)] {
             
-            var centerPoint = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+            var centerPoint = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) + yOffset)
             label.position = CGPoint(x: margin * 3 + label.frame.width / 2, y: centerPoint.y)
-            label.position.y += i ? -label.frame.height / 2 : +label.frame.height / 2
+            label.position.y += i ? -label.frame.height / 2 : label.frame.height / 2
             
             switchSprite.position = CGPoint(x: CGRectGetMaxY(self.frame), y: centerPoint.y)
-            switchSprite.position.y += i ? -switchSprite.size.height / 2 : +switchSprite.size.height / 2
+            switchSprite.position.y += i ? -switchSprite.size.height / 2 : switchSprite.size.height / 2
             
             addChild(label)
             addChild(switchSprite)
@@ -69,21 +66,14 @@ class SettingsScene: SKScene {
                 case soundEffectsSwitch:
                     fallthrough
                 case soundEffectsLabel:
-                    UserDefaults.toggleSFX()
-                    soundEffects = !soundEffects
-                    soundEffectsSwitch.texture = soundEffects ? switchOn : switchOff
+                    Sound.toggleSoundEffects()
+                    soundEffectsSwitch.texture = Sound_soundEffects ? switchOn : switchOff
                     
                 case musicSwitch:
                     fallthrough
-                case musicLabel:
-                    UserDefaults.toggleMusic()
-                    if music {
-                        backgroundMusic.pause()
-                    } else {
-                        backgroundMusic.play()
-                    }
-                    music = !music
-                    musicSwitch.texture = music ? switchOn : switchOff
+                case musicLabel:                    
+                    Sound.toggleMusic()
+                    musicSwitch.texture = Sound_music ? switchOn : switchOff
                     
                 default:
                     break

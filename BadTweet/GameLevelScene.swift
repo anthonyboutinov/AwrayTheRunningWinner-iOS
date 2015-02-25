@@ -331,11 +331,11 @@ class GameLevelScene: SKScene {
         dimmer.hidden = true
         addChild(dimmer)
         
-        let buttons = [unpauseButton, mainMenuButton, settingsButton]
-        let texts = ["Continue", "Main Menu", "Settings"]
+        let buttons = [unpauseButton, settingsButton, mainMenuButton]
+        let texts = ["Continue", "Settings", "Main Menu"]
         UIDesigner.layoutButtonsWithText(scene: self, buttons: buttons, texts: texts, zPosition: 60.0, hidden: true)
         
-        pauseMenuElements = [dimmer, unpauseButton, mainMenuButton]
+        pauseMenuElements = [dimmer, unpauseButton, mainMenuButton, settingsButton]
     }
     
     private func initGameOverStuff() {
@@ -636,7 +636,9 @@ class GameLevelScene: SKScene {
             worldState!.advanceToTheNextLevel()
             
         case .playerHasLost:
-            runAction(hurtSound)
+            if Sound_soundEffects {
+                runAction(hurtSound)
+            }
             
             // Next line: this means "if numLives == 1 before subtracting one."
             // This construction is required because numLives never reaches 0.

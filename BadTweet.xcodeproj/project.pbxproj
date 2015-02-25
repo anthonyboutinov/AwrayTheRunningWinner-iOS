@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A8260FDE1A92A66C000DEF68 /* PlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8260FDD1A92A66C000DEF68 /* PlayScene.swift */; };
+		A8598DEE1A9DD925003DDF79 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8598DED1A9DD925003DDF79 /* Sound.swift */; };
 		A865DFE51A99DB3800FEFD03 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A865DFE41A99DB3800FEFD03 /* UserDefaults.swift */; };
 		A8AAB6E11A8CD59500397D88 /* coin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A8AAB6E01A8CD59500397D88 /* coin@2x.png */; };
 		A8AAB6E31A8CE9D000397D88 /* coin.png in Resources */ = {isa = PBXBuildFile; fileRef = A8AAB6E21A8CE9D000397D88 /* coin.png */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		A8260FDD1A92A66C000DEF68 /* PlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayScene.swift; sourceTree = "<group>"; };
+		A8598DED1A9DD925003DDF79 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		A865DFE41A99DB3800FEFD03 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		A8AAB6E01A8CD59500397D88 /* coin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coin@2x.png"; sourceTree = "<group>"; };
 		A8AAB6E21A8CE9D000397D88 /* coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin.png; sourceTree = "<group>"; };
@@ -184,7 +186,6 @@
 				A8260FDD1A92A66C000DEF68 /* PlayScene.swift */,
 				A8AAB6F71A928F0300397D88 /* AboutScene.swift */,
 				A8AAB6F91A928F0B00397D88 /* SettingsScene.swift */,
-				A865DFE41A99DB3800FEFD03 /* UserDefaults.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -216,6 +217,8 @@
 				A8AAB6F51A92767A00397D88 /* UIDesigner.swift */,
 				A8AAB6EA1A8EB05400397D88 /* Interactive Elements */,
 				A8F488971A8541F700B76BEF /* GameViewController.swift */,
+				A8598DED1A9DD925003DDF79 /* Sound.swift */,
+				A865DFE41A99DB3800FEFD03 /* UserDefaults.swift */,
 				A8BD6F0F1A86C36200E9FC95 /* SKUtils.swift */,
 				A8F488991A8541F700B76BEF /* Main.storyboard */,
 				A8B00D641A87D533008ABABB /* Sounds */,
@@ -375,6 +378,7 @@
 				A8AAB6EE1A8EB0F000397D88 /* PokerMad.swift in Sources */,
 				A8BD6F101A86C36200E9FC95 /* SKUtils.swift in Sources */,
 				A8AAB6F61A92767A00397D88 /* UIDesigner.swift in Sources */,
+				A8598DEE1A9DD925003DDF79 /* Sound.swift in Sources */,
 				A8F488961A8541F700B76BEF /* GameLevelScene.swift in Sources */,
 				A8BD6EFF1A86262A00E9FC95 /* LFCGzipUtility.m in Sources */,
 				A8AAB6F01A8EB13100397D88 /* Updatable.swift in Sources */,

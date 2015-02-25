@@ -116,7 +116,9 @@ class Player: Updatable, HoldsItsSprite {
         // Jumping
         if mightAsWellJump && onGround {
             velocity = CGPointAdd(velocity, jumpForce)
-            sprite.runAction(jumpSound)
+            if Sound_soundEffects {
+                sprite.runAction(jumpSound)
+            }
         } else if !mightAsWellJump && velocity.y > jumpCutoff {
             velocity = CGPoint(x: velocity.x, y: jumpCutoff)
         }

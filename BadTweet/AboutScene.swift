@@ -14,20 +14,14 @@ class AboutScene: SKScene {
     
     // MARK: UI Elements
     
-    private let backButton = SKSpriteNode(texture: backButtonTexture)
+    private var backButton: SKSpriteNode!
     private let website = SKLabelNode(fontNamed: gameFont)
     
     // MARK: SKScene override methods
     
     override func didMoveToView(view: SKView) {
-        UIDesigner.layoutBackButton(backButton, self)
-        
-        // Title
-        let title = SKLabelNode(fontNamed: gameFont)
-        title.fontSize = 42
-        title.text = "About"
-        title.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMaxY(frame) - margin - title.frame.height)
-        addChild(title)
+        backButton = UIDesigner.addBackButton(self)
+        let title = UIDesigner.addTitle("About", self)
 
         let fontSize = CGFloat(15) // iPhone 4s, 5, 5s
         
@@ -36,20 +30,20 @@ class AboutScene: SKScene {
         let texts: [String] = [
             "iOS & OS X Development", "Anthony Boutinov",
             "Android Development", "Mikhail Polyubay",
-            "Game & Level Design", "Alevtina Petrova",
+            "Design", "Alevtina Petrova",
             "Twitter-component", "Alexandra Kuzmina",
-            "Tests", "Alina Ganieva",
-            "", "& Vladimir Burdin",
+            "Level Design", "Alina Ganieva",
+            "Tests", "Vladimir Burdin",
             "Website", "Alyona Moiseeva",
-            "Visual Design", "Regina Kamaleeva",
             "Special thanks to", "Kamil Khadiev",
+            "", "Regina Kamaleeva",
             "", "Kenney",
             "", "Jake Gundersen"
         ]
         UIDesigner.layoutTextTable(texts, self, positionOffsetY: -title.frame.height / 2, margin: margin * 2.5)
         
         // Website
-        website.text = "badtweet.com"
+        website.text = "arwaytherunningwinner.com"
         website.fontSize = fontSize
         website.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMinY(frame) + margin + website.frame.height / 2)
         addChild(website)
@@ -63,26 +57,10 @@ class AboutScene: SKScene {
                 if node == backButton {
                     presentScene(MainMenuScene(), view!)
                 } else if node == website {
-                    //...
+                    UIApplication.sharedApplication().openURL(NSURL(string: "http://arwaytherunningwinner.com")!)
                 }
             }
         }
     }
-    
-//    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-//        
-//    }
-//    
-//    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-//        
-//    }
-//    
-//    override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
-//        
-//    }
-//    
-//    override func update(currentTime: NSTimeInterval) {
-//        
-//    }
     
 }
