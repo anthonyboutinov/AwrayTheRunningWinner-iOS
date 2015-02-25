@@ -23,6 +23,9 @@ class SettingsScene: SKScene {
     private let soundEffectsLabel = SKLabelNode(fontNamed: gameFont)
     private let musicLabel = SKLabelNode(fontNamed: gameFont)
     
+    private var soundEffects: Bool = false
+    private var music: Bool = false
+    
     // MARK: SKScene override methods
     
     override func didMoveToView(view: SKView) {
@@ -33,7 +36,7 @@ class SettingsScene: SKScene {
         
 //        let maxLabelLength = max(soundEffectsLabel.frame.width, musicLabel.frame.width)
         
-        let (soundEffects, music) = UserDefaults.SFXAndMusic()
+        (self.soundEffects, self.music) = UserDefaults.SFXAndMusic()
         
         soundEffectsSwitch = soundEffects ? SKSpriteNode(texture: switchOn) : SKSpriteNode(texture: switchOff)
         musicSwitch = music ? SKSpriteNode(texture: switchOn) : SKSpriteNode(texture: switchOff)
@@ -59,8 +62,31 @@ class SettingsScene: SKScene {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             for node in self.nodesAtPoint(location) as [SKNode] {
-                if node == backButton {
+                switch node {
+                case backButton:
                     presentScene(MainMenuScene(), view!)
+                    
+                case soundEffectsSwitch:
+                    fallthrough
+                case soundEffectsLabel:
+                    UserDefaults.toggleSFX()
+                    soundEffects = !soundEffects
+                    soundEffectsSwitch.texture = soundEffects ? switchOn : switchOff
+                    
+                case musicSwitch:
+                    fallthrough
+                case musicLabel:
+                    UserDefaults.toggleMusic()
+                    if music {
+                        backgroundMusic.pause()
+                    } else {
+                        backgroundMusic.play()
+                    }
+                    music = !music
+                    musicSwitch.texture = music ? switchOn : switchOff
+                    
+                default:
+                    break
                 }
             }
         }

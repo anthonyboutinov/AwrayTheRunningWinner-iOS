@@ -10,9 +10,9 @@ import UIKit
 import SpriteKit
 import AVFoundation
 
+var backgroundMusic = AVAudioPlayer()
+
 class GameViewController: UIViewController {
-    
-    var backgroundMusic = AVAudioPlayer()
     
     func setupAudioPlayer(#file:NSString, ofType type:NSString) -> AVAudioPlayer  {
         let path = NSBundle.mainBundle().pathForResource(file, ofType:type)
@@ -26,7 +26,9 @@ class GameViewController: UIViewController {
         // Add background music
         backgroundMusic = self.setupAudioPlayer(file: "6dfcd1ecc4db", ofType:"mp3")
         backgroundMusic.volume = 0.3
-        backgroundMusic.play()
+        if UserDefaults.music() {
+            backgroundMusic.play()
+        }
         
         // Init scene and world state
         let scene = MainMenuScene()
