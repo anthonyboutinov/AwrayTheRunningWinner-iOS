@@ -28,8 +28,8 @@ class Player: Updatable, HoldsItsSprite {
     
     let sprite: SKSpriteNode
     private let walkTextures: [SKTexture] = [
-        SKTexture(imageNamed: "alienGreen_walk1"),
-        SKTexture(imageNamed: "alienGreen_walk2")
+        SKTexture(imageNamed: "HeroRa1"),
+        SKTexture(imageNamed: "HeroRa2")
     ]
     private let jumpTexture = SKTexture(imageNamed: "alienGreen_jump")
     private let hurtTexture = SKTexture(imageNamed: "alienGreen_hurt")
