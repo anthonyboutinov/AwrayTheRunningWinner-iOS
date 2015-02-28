@@ -20,14 +20,18 @@ let padding = margin / 3
 
 class UIDesigner {
     
-    class func insertTextIntoButton(button: SKSpriteNode, _ text: String) {
+    class func insertTextIntoButton(button: SKSpriteNode, _ text: String) -> SKLabelNode {
         let label = SKLabelNode(fontNamed: gameFont)
         label.text = text
         label.position.y -= label.frame.height / 2 - buttonBottomMargin
         button.addChild(label)
+        return label
     }
     
-    class func layoutButtonsWithText(#scene: SKScene, buttons: [SKSpriteNode], texts: [String], zPosition: CGFloat? = nil, hidden: Bool? = nil) {
+    class func layoutButtonsWithText(#scene: SKScene, buttons: [SKSpriteNode], texts: [String], zPosition: CGFloat? = nil, hidden: Bool? = nil) -> [SKLabelNode] {
+        assert(buttons.count == texts.count, "Number of buttons is not equal to number of texts")
+        
+        var labels: [SKLabelNode] = [SKLabelNode]()
         
         let midX = CGRectGetMidX(scene.frame)
         let midY = CGRectGetMidY(scene.frame)
@@ -39,7 +43,7 @@ class UIDesigner {
             
             button.position = CGPoint(x: midX, y: midY + (CGFloat(Int(buttons.count / 2)) - i) * elementHeight * 1.2)
             
-            UIDesigner.insertTextIntoButton(button, texts[_i])
+            labels.append(UIDesigner.insertTextIntoButton(button, texts[_i]))
             
             if let zPosition = zPosition {
                 button.zPosition = zPosition
@@ -51,6 +55,7 @@ class UIDesigner {
             
             scene.addChild(button)
         }
+        return labels
     }
     
     class func addBackButton(scene: SKScene) -> SKSpriteNode {

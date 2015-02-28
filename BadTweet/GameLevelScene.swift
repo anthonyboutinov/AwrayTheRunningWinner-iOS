@@ -57,6 +57,7 @@ class GameLevelScene: SKScene {
     private let gameOverLabel = SKLabelNode(fontNamed: gameFont)
     private let replayButton = SKSpriteNode(texture: blueButtonTexture)
     private let mainMenuButtonNextToReplayButton = SKSpriteNode(texture: blueButtonTexture)
+    private var replayButtonLabel: SKLabelNode!
     
     // MARK: Game world entities
     private var player: Player!
@@ -359,14 +360,17 @@ class GameLevelScene: SKScene {
     private func initGameOverStuff() {
         gameOverLabel.fontSize = 40
         gameOverLabel.position = CGPoint(x: self.size.width / 2.0, y: self.size.height / 1.7)
+        gameOverLabel.hidden = true
+        addChild(gameOverLabel)
         
-        UIDesigner.layoutButtonsWithText(
+        let labels = UIDesigner.layoutButtonsWithText(
             scene: self,
             buttons: [replayButton, mainMenuButtonNextToReplayButton],
             texts: ["Replay", "Main Menu"],
             zPosition: 60.0,
             hidden: true
         )
+        replayButtonLabel = labels[0]
     }
     
     // MARK: Update
@@ -647,16 +651,11 @@ class GameLevelScene: SKScene {
     // MARK: Game over
     
     private func showGameOverMenu() {
-        
-        // FIXME: gameOverLabel does not show up
-        for node in [gameOverLabel, replayButton, mainMenuButtonNextToReplayButton] {
-            node.hidden = false
-        }
-        
         switch gameOverState {
             
         case .playerHasWon:
-            gameOverLabel.text = "You Won!"
+            gameOverLabel.text = "You Win!"
+            replayButtonLabel.text = "Continue"
             
         case .playerHasLost:
             if Sound_soundEffects {
@@ -666,11 +665,16 @@ class GameLevelScene: SKScene {
             // This construction is required because numLives never reaches 0.
             // Instead, worldState is reset at that point.
             if worldState.numLives-- == 1 {
-                gameOverLabel.text = "GAME OVER"
+                gameOverLabel.text = "Game Over"
             } else {
                 gameOverLabel.text = "You've lost a life"
             }
-            
+            replayButtonLabel.text = "Replay"
+        }
+        
+        // FIXME: gameOverLabel does not show up
+        for node in [gameOverLabel, replayButton, mainMenuButtonNextToReplayButton] {
+            node.hidden = false
         }
     }
     
