@@ -9,6 +9,9 @@
 import Foundation
 
 class UserDefaults {
+    
+    // MARK: - Music & Sound Effects
+    
     class func SFXAndMusic() -> (Bool, Bool) {
         let defaults = NSUserDefaults.standardUserDefaults()
         return (!defaults.boolForKey("soundEffectsAreOff"), !defaults.boolForKey("musicIsOff"))
@@ -36,4 +39,29 @@ class UserDefaults {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setBool(!defaults.boolForKey("musicIsOff"), forKey: "musicIsOff")
     }
+    
+    // MARK: - World State
+    
+    class func save(worldState state: WorldState) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setInteger(state.world, forKey: "world")
+        defaults.setInteger(state.level, forKey: "level")
+        defaults.setInteger(state.numCoins, forKey: "numCoins")
+        defaults.setInteger(state.numLives, forKey: "numLives")
+    }
+    
+    class func loadWorldState() -> WorldStateWithUI? {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let numLives = defaults.integerForKey("numLives")
+        if numLives == 0 {
+            return nil
+        } else {
+            let world = defaults.integerForKey("world")
+            let level = defaults.integerForKey("level")
+            let numCoins = defaults.integerForKey("numCoins")
+            return WorldStateWithUI(numCoins: numCoins, numLives: numLives, world: world, level: level)
+        }
+        
+    }
+    
 }

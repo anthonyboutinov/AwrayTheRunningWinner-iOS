@@ -45,18 +45,6 @@ class MainMenuScene: SKScene {
 
     }
     
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-        
-    }
-    
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        
-    }
-    
-    override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
-        
-    }
-    
     override func update(currentTime: NSTimeInterval) {
         
     }

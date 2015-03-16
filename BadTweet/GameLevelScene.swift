@@ -50,14 +50,14 @@ class GameLevelScene: SKScene {
     private var leftButton: SKShapeNode!
     private var rightButton: SKShapeNode!
     
-    
     private let pauseButton = SKSpriteNode(imageNamed: "pause")
     
     private var previouslyTouchedNodes = NSMutableSet()
     
     private let gameOverLabel = SKLabelNode(fontNamed: gameFont)
-    private let replayButton = UIButton()
-    private let replayTag = 321
+    private let replayButton = SKSpriteNode(texture: blueButtonTexture)
+    private let mainMenuButtonNextToReplayButton = SKSpriteNode(texture: blueButtonTexture)
+    private var replayButtonLabel: SKLabelNode!
     
     // MARK: Game world entities
     private var player: Player!
@@ -91,6 +91,21 @@ class GameLevelScene: SKScene {
         }
     }
     
+    private var gameOverState: GameOverState = .playerHasWon
+    private var gameIsOver: Bool {
+        set {
+            worldState.gameOver = newValue
+            if gameIsOver {
+                showGameOverMenu()
+            } else {
+                hideGameOverMenu()
+            }
+        }
+        get {
+            return worldState.gameOver
+        }
+    }
+    
     // MARK: - Methods
     
     // MARK: didMoveToView
@@ -119,32 +134,32 @@ class GameLevelScene: SKScene {
                     case mainMenuButton:
                         goToTheMainMenuScene()
                     case settingsButton:
+                        // TODO: Setting button action
                         break
-                    default:
-                        break
+                    default: break
+                    }
+                } else if gameIsOver {
+                    switch node {
+                    case replayButton:
+                        replay()
+                    case mainMenuButtonNextToReplayButton:
+                        goToTheMainMenuScene()
+                    default: break
                     }
                 } else {
-                    if node is SKShapeNode {
-                        switch node {
-                        case upButton:
-                            previouslyTouchedNodes.addObject(upButton)
-                            player.mightAsWellJump = true
-                        case leftButton:
-                            previouslyTouchedNodes.addObject(leftButton)
-                            player.backwardsMarch = true
-                        case rightButton:
-                            previouslyTouchedNodes.addObject(rightButton)
-                            player.forwardMarch = true
-                        default:
-                            break
-                        }
-                    } else if node is SKSpriteNode {
-                        switch node {
-                        case pauseButton:
-                            gameIsPaused = true
-                        default:
-                            break
-                        }
+                    switch node {
+                    case upButton:
+                        previouslyTouchedNodes.addObject(upButton)
+                        player.mightAsWellJump = true
+                    case leftButton:
+                        previouslyTouchedNodes.addObject(leftButton)
+                        player.backwardsMarch = true
+                    case rightButton:
+                        previouslyTouchedNodes.addObject(rightButton)
+                        player.forwardMarch = true
+                    case pauseButton:
+                        gameIsPaused = true
+                    default: break
                     }
                 }
             }
@@ -154,7 +169,7 @@ class GameLevelScene: SKScene {
     // FIXME: When moving out from uiUp, mightAsWellJump stays true
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         
-        if gameIsPaused {
+        if gameIsPaused || gameIsOver {
             return
         }
         
@@ -211,7 +226,7 @@ class GameLevelScene: SKScene {
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
         
-        if gameIsPaused {
+        if gameIsPaused || gameIsOver {
             return
         }
         
@@ -331,9 +346,13 @@ class GameLevelScene: SKScene {
         dimmer.hidden = true
         addChild(dimmer)
         
-        let buttons = [unpauseButton, settingsButton, mainMenuButton]
-        let texts = ["Continue", "Settings", "Main Menu"]
-        UIDesigner.layoutButtonsWithText(scene: self, buttons: buttons, texts: texts, zPosition: 60.0, hidden: true)
+        UIDesigner.layoutButtonsWithText(
+            scene: self,
+            buttons: [unpauseButton, settingsButton, mainMenuButton],
+            texts: ["Continue", "Settings", "Main Menu"],
+            zPosition: 60.0,
+            hidden: true
+        )
         
         pauseMenuElements = [dimmer, unpauseButton, mainMenuButton, settingsButton]
     }
@@ -341,11 +360,17 @@ class GameLevelScene: SKScene {
     private func initGameOverStuff() {
         gameOverLabel.fontSize = 40
         gameOverLabel.position = CGPoint(x: self.size.width / 2.0, y: self.size.height / 1.7)
+        gameOverLabel.hidden = true
+        addChild(gameOverLabel)
         
-        replayButton.tag = replayTag
-        replayButton.addTarget(self, action: Selector("replay"), forControlEvents: UIControlEvents.TouchUpInside)
-        replayButton.frame = CGRect(x: CGRectGetMidX(frame) - 100, y: CGRectGetMidY(frame) - 24, width: 200, height: 48)
-        replayButton.backgroundColor = SKColor(white: 0.4, alpha: 0.6)
+        let labels = UIDesigner.layoutButtonsWithText(
+            scene: self,
+            buttons: [replayButton, mainMenuButtonNextToReplayButton],
+            texts: ["Replay", "Main Menu"],
+            zPosition: 60.0,
+            hidden: true
+        )
+        replayButtonLabel = labels[0]
     }
     
     // MARK: Update
@@ -391,7 +416,9 @@ class GameLevelScene: SKScene {
             // If the player starts to fall through the bottom of the map
             // then it's game over.
             if playerCoord.y >= map.mapSize.height - 1 {
-                gameOver(.playerHasLost)
+//                gameOver(.playerHasLost)
+                gameOverState = .playerHasLost
+                gameIsOver = true
                 return
             }
             let playerRect: CGRect = player.collisionBoundingBox
@@ -491,7 +518,9 @@ class GameLevelScene: SKScene {
         if gid != 0 {
             let tileRect = map.tileRect(fromTileCoord: tileCoord)
             if CGRectIntersectsRect(playerRect, tileRect) {
-                gameOver(.playerHasLost)
+//                gameOver(.playerHasLost)
+                gameOverState = .playerHasLost
+                gameIsOver = true
                 return true
             }
         }
@@ -621,56 +650,86 @@ class GameLevelScene: SKScene {
     
     // MARK: Game over
     
-    private func gameOver(state: GameOverState) {
-        worldState.gameOver = true
-        
-        var gameOverText: String!
-        var startReplayButtonText: String!
-        
-        switch state {
-        case .playerHasWon:
-            gameOverText = "WIN!"
-            startReplayButtonText = "Continue"
+    private func showGameOverMenu() {
+        switch gameOverState {
             
-            // Advance to the next level
-            worldState!.advanceToTheNextLevel()
+        case .playerHasWon:
+            gameOverLabel.text = "You Win!"
+            replayButtonLabel.text = "Continue"
             
         case .playerHasLost:
             if Sound_soundEffects {
                 runAction(hurtSound)
             }
-            
             // Next line: this means "if numLives == 1 before subtracting one."
             // This construction is required because numLives never reaches 0.
             // Instead, worldState is reset at that point.
             if worldState.numLives-- == 1 {
-                gameOverText = "GAME OVER"
-                startReplayButtonText = "Replay"
+                gameOverLabel.text = "Game Over"
             } else {
-                gameOverText = "You've lost a life"
-                startReplayButtonText = "Replay"
+                gameOverLabel.text = "You've lost a life"
             }
-
+            replayButtonLabel.text = "Replay"
         }
-        println(gameOverText)
         
-        // FIXME: Code execution is slow
-        gameOverLabel.text = gameOverText
-        addChild(gameOverLabel)
-        
-        replayButton.setTitle(startReplayButtonText, forState: UIControlState.allZeros)
-        view!.addSubview(replayButton)
+        // FIXME: gameOverLabel does not show up
+        for node in [gameOverLabel, replayButton, mainMenuButtonNextToReplayButton] {
+            node.hidden = false
+        }
     }
+    
+    private func hideGameOverMenu() {
+        
+        for node in [gameOverLabel, replayButton, mainMenuButtonNextToReplayButton] {
+            node.hidden = true
+        }
+    }
+    
+//    private func gameOver(state: GameOverState) {
+//        worldState.gameOver = true
+//        
+//        var gameOverText: String!
+//        var startReplayButtonText: String!
+//        
+//        switch state {
+//        case .playerHasWon:
+//            gameOverText = "WIN!"
+//            startReplayButtonText = "Continue"
+//            
+//            // Advance to the next level
+//            worldState.advanceToTheNextLevel()
+//            
+//        case .playerHasLost:
+//            if Sound_soundEffects {
+//                runAction(hurtSound)
+//            }
+//            
+//            // Next line: this means "if numLives == 1 before subtracting one."
+//            // This construction is required because numLives never reaches 0.
+//            // Instead, worldState is reset at that point.
+//            if worldState.numLives-- == 1 {
+//                gameOverText = "GAME OVER"
+//            } else {
+//                gameOverText = "You've lost a life"
+//            }
+//            startReplayButtonText = "Replay"
+//
+//        }
+//        println(gameOverText)
+//        
+//        gameOverLabel.text = gameOverText
+//        addChild(gameOverLabel)
+//    }
     
     private func checkForWin() {
         if player.position.x > winLine {
-            gameOver(.playerHasWon)
+//            gameOver(.playerHasWon)
+            gameOverState = .playerHasWon
+            gameIsOver = true
         }
     }
     
-    // Not private!
-    func replay() {
-        view!.viewWithTag(replayTag)!.removeFromSuperview()
+    private func replay() {
         worldState!.gameOver = false
         
         // Configure scene
