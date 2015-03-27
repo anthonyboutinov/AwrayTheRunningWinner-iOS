@@ -16,6 +16,11 @@ var Sound_soundEffects = false
 
 var backgroundMusic = AVAudioPlayer()
 
+let coinSound = SKAction.playSoundFileNamed("coin.wav", waitForCompletion: false)
+let jumpSound = SKAction.playSoundFileNamed("jump.wav", waitForCompletion: false)
+let hurtSound = SKAction.playSoundFileNamed("hurt.wav", waitForCompletion: false)
+//let menuSound = SKAction.playSoundFileNamed("menu.wav", waitForCompletion: false)
+
 class Sound {
     
     class func initSharedInstance() {
@@ -26,7 +31,6 @@ class Sound {
         if Sound_music {
             backgroundMusic.play()
         }
-
     }
     
     class func setupAudioPlayer(#file:NSString, ofType type:NSString) -> AVAudioPlayer  {
@@ -47,6 +51,12 @@ class Sound {
             backgroundMusic.play()
         } else {
             backgroundMusic.pause()
+        }
+    }
+    
+    class func playMenuSound() {
+        if Sound_soundEffects {
+            
         }
     }
     

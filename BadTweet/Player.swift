@@ -17,10 +17,6 @@ private let slipperyCoefficient = CGFloat(0.6)
 
 private let powerUpTime: NSTimeInterval = 30.0
 
-// MARK: SKActions
-private let jumpSound = SKAction.playSoundFileNamed("jump.wav", waitForCompletion: false)
-
-
 class Player: Updatable, HoldsItsSprite {
     
     // MARK: - Variables

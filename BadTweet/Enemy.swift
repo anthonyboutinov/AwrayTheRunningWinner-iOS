@@ -9,7 +9,5 @@
 import Foundation
 
 protocol Enemy: Updatable, HoldsItsSprite {
-    
     func fire()
-    
 }
