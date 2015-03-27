@@ -35,10 +35,16 @@ class Player: Updatable, HoldsItsSprite {
     
     var velocity = CGPoint(x: 0.0, y: 0.0)
     
+    private var collisionBoundingBoxChanged = true
+    private var _collisionBoundingBox: CGRect!
     var collisionBoundingBox: CGRect {
-        let boundingBox = CGRectInset(sprite.frame, 2, 0)
-        let diff = CGPoint(x: desiredPosition.x - sprite.position.x, y: desiredPosition.y - sprite.position.y)
-        return CGRectOffset(boundingBox, diff.x, diff.y)
+        if collisionBoundingBoxChanged {
+            let boundingBox = CGRectInset(sprite.frame, 2, 0)
+            let diff = CGPoint(x: desiredPosition.x - sprite.position.x, y: desiredPosition.y - sprite.position.y)
+            _collisionBoundingBox = CGRectOffset(boundingBox, diff.x, diff.y)
+            collisionBoundingBoxChanged = false
+        }
+        return _collisionBoundingBox
     }
     
     var position: CGPoint {
@@ -47,6 +53,7 @@ class Player: Updatable, HoldsItsSprite {
         }
         set {
             sprite.position = newValue
+            collisionBoundingBoxChanged = true
         }
     }
     
@@ -68,7 +75,11 @@ class Player: Updatable, HoldsItsSprite {
     var mightAsWellJump = false
     var onGround = false
     
-    var desiredPosition: CGPoint
+    var desiredPosition: CGPoint {
+        didSet {
+            collisionBoundingBoxChanged = true
+        }
+    }
     
     var powerUpTimeLeft: NSTimeInterval = 0.0
 
@@ -130,6 +141,7 @@ class Player: Updatable, HoldsItsSprite {
     }
     
     func applyPowerUp() {
+        sprite.runAction(powerupSound)
         powerUpTimeLeft = powerUpTime
     }
     

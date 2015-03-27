@@ -42,6 +42,9 @@ class GameLevelScene: SKScene {
     // TODO: For 60fps must be 0.02, current value is for LOW FPS
     private let maxDelta = 0.03
     
+    private var lastTweetTime = NSTimeInterval()
+    private var tweetOccurancePeriod = NSTimeInterval(15)
+    
     // MARK: UI elements
     
     private var upButton: SKShapeNode!
@@ -60,6 +63,8 @@ class GameLevelScene: SKScene {
     // MARK: Game world entities
     private var player: Player!
     private var updatables: [Updatable] = [Updatable]()
+    private var enemies: [Enemy] = [Enemy]()
+    private var tweetsOnScreen: [Tweet] = [Tweet]()
     
     // MARK: Map of the level
     
@@ -377,13 +382,21 @@ class GameLevelScene: SKScene {
     
     override func update(currentTime: CFTimeInterval) {
         // Do not perform updates if game is over
-        if worldState.gameOver {
+        if gameIsOver || gameIsPaused {
             return
         }
         
         var delta = currentTime - previousUpdateTime
         if delta > maxDelta {
             delta = maxDelta
+        }
+        let tweetDelta = currentTime - lastTweetTime
+        if tweetDelta > tweetOccurancePeriod {
+            lastTweetTime = currentTime
+            let tweet = Tweet(position: CGPoint(x: self.frame.width, y: self.frame.height * 0.5))
+            map.addChild(tweet.sprite)
+            updatables.append(tweet)
+            tweetsOnScreen.append(tweet)
         }
         
         // FIXME: Delete this line when ready to test on real device (LOW FPS)
@@ -416,7 +429,6 @@ class GameLevelScene: SKScene {
             // If the player starts to fall through the bottom of the map
             // then it's game over.
             if playerCoord.y >= map.mapSize.height - 1 {
-//                gameOver(.playerHasLost)
                 gameOverState = .playerHasLost
                 gameIsOver = true
                 return
@@ -438,8 +450,13 @@ class GameLevelScene: SKScene {
             
             checkAndResolveCollisions(layer: collidableItems, tileIndex, tileCoord, playerRect)
             
+            // TODO: Здесь можно везде упростить, убрав playerRect, так как теперь он не вычисляется каждый раз при обращении, а временно хранит вычисленное значение между изменениями
             handleNonCollidableItems(tileCoord, playerRect)
         
+        }
+        
+        if checkForCollisionsWithEnemies() {
+            return
         }
         
         // Apply resolved position to the player's sprite
@@ -523,6 +540,29 @@ class GameLevelScene: SKScene {
                 gameIsOver = true
                 return true
             }
+        }
+        return false
+    }
+    
+    private func checkForCollisionsWithEnemies() -> Bool {
+        for enemy in enemies {
+            if checkForCollisionsWithEnemy(enemy) {
+                return true
+            }
+        }
+        for tweet in tweetsOnScreen {
+            if checkForCollisionsWithEnemy(tweet) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    private func checkForCollisionsWithEnemy(spriteHolder: HoldsItsSprite) -> Bool {
+        let rect = spriteHolder.sprite.frame
+        let playerRect = player.collisionBoundingBox
+        if CGRectIntersectsRect(playerRect, rect) {
+            return true
         }
         return false
     }

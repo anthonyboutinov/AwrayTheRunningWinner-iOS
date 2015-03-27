@@ -19,6 +19,7 @@ var backgroundMusic = AVAudioPlayer()
 let coinSound = SKAction.playSoundFileNamed("coin.wav", waitForCompletion: false)
 let jumpSound = SKAction.playSoundFileNamed("jump.wav", waitForCompletion: false)
 let hurtSound = SKAction.playSoundFileNamed("hurt.wav", waitForCompletion: false)
+let powerupSound = SKAction.playSoundFileNamed("powerup.wav", waitForCompletion: false)
 //let menuSound = SKAction.playSoundFileNamed("menu.wav", waitForCompletion: false)
 
 class Sound {
