@@ -13,8 +13,6 @@ let gravity = CGPoint(x: 0.0, y: -450.0)
 private var controlRectSizes = CGFloat(45.0)
 private let indices: [Int] = [7, 1, 3, 5, 0, 2, 6, 8]
 
-private let hurtSound = SKAction.playSoundFileNamed("hurt.wav", waitForCompletion: false)
-
 class GameLevelScene: SKScene {
     
     // MARK: Enums
@@ -90,6 +88,8 @@ class GameLevelScene: SKScene {
             hidePauseMenu(!self.gameIsPaused)
         }
     }
+    
+    // Mark: Game Over Properties
     
     private var gameOverState: GameOverState = .playerHasWon
     private var gameIsOver: Bool {
@@ -621,6 +621,9 @@ class GameLevelScene: SKScene {
             switch contains {
             case "coin":
                 worldState!.numCoins++
+                if Sound_soundEffects {
+                    self.runAction(coinSound)
+                }
             case "powerUp":
                 player.applyPowerUp()
             default:
@@ -679,7 +682,6 @@ class GameLevelScene: SKScene {
     }
     
     private func hideGameOverMenu() {
-        
         for node in [gameOverLabel, replayButton, mainMenuButtonNextToReplayButton] {
             node.hidden = true
         }

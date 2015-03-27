@@ -45,19 +45,24 @@ class MainMenuScene: SKScene {
 
     }
     
-    override func update(currentTime: NSTimeInterval) {
-        
-    }
-    
     private func goToPlayScreen() {
+//        if Sound_soundEffects {
+//            self.runAction(menuSound)
+//        }
         presentScene(PlayScene(), view!)
     }
     
     private func goToSettings() {
+//        if Sound_soundEffects {
+//            self.runAction(menuSound)
+//        }
         presentScene(SettingsScene(), view!)
     }
     
     private func goToAbout() {
+//        if Sound_soundEffects {
+//            self.runAction(menuSound)
+//        }
         presentScene(AboutScene(), view!)
     }
 }
