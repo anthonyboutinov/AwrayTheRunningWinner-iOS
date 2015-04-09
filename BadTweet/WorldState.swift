@@ -8,14 +8,11 @@
 
 import Foundation
 
-// TODO: Make it 'class let'
-let defaultNumberOfLives = 3
-let coinsToLifeThreshold = 500
-// TODO: Make it 'class let'
-let levelsPerWorld = 2
-
-
 class WorldState: Printable {
+    
+    static let defaultNumberOfLives = 3
+    static let coinsToLifeThreshold = 500
+    static let levelsPerWorld = 2
     
     // MARK: - Variables
     
@@ -25,7 +22,7 @@ class WorldState: Printable {
     
     var numCoins: Int {
         didSet {
-            if numCoins != 0 && numCoins % coinsToLifeThreshold == 0 {
+            if numCoins != 0 && numCoins % WorldState.coinsToLifeThreshold == 0 {
                 numLives++
             }
         }
@@ -36,7 +33,7 @@ class WorldState: Printable {
             if numLives < 1 {
                 world = 1
                 level = 1
-                numLives = defaultNumberOfLives
+                numLives = WorldState.defaultNumberOfLives
                 numCoins = 0
             }
         }
@@ -48,7 +45,7 @@ class WorldState: Printable {
     // to the next world and level numeration starts over.
     var level: Int {
         didSet {
-            if level > levelsPerWorld {
+            if level > WorldState.levelsPerWorld {
                 level = 1
                 world++
             }

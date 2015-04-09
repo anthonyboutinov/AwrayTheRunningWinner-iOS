@@ -20,8 +20,8 @@ class SettingsScene: SKScene {
     private var soundEffectsSwitch: SKSpriteNode!
     private var musicSwitch: SKSpriteNode!
     
-    private let soundEffectsLabel = SKLabelNode(fontNamed: gameFont)
-    private let musicLabel = SKLabelNode(fontNamed: gameFont)
+    private let soundEffectsLabel = UIDesigner.label()
+    private let musicLabel = UIDesigner.label()
     
     // MARK: SKScene override methods
     
@@ -34,15 +34,15 @@ class SettingsScene: SKScene {
         
 //        let maxLabelLength = max(soundEffectsLabel.frame.width, musicLabel.frame.width)
         
-        soundEffectsSwitch = Sound_soundEffects ? SKSpriteNode(texture: switchOn) : SKSpriteNode(texture: switchOff)
-        musicSwitch = Sound_music ? SKSpriteNode(texture: switchOn) : SKSpriteNode(texture: switchOff)
+        soundEffectsSwitch = Sound.soundEffects ? SKSpriteNode(texture: switchOn) : SKSpriteNode(texture: switchOff)
+        musicSwitch = Sound.music ? SKSpriteNode(texture: switchOn) : SKSpriteNode(texture: switchOff)
         
         let yOffset =  -title.frame.height / 2
         var i = false
         for (label, switchSprite) in [(soundEffectsLabel, soundEffectsSwitch), (musicLabel, musicSwitch)] {
             
             var centerPoint = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) + yOffset)
-            label.position = CGPoint(x: margin * 3 + label.frame.width / 2, y: centerPoint.y)
+            label.position = CGPoint(x: UIDesigner.margin * 3 + label.frame.width / 2, y: centerPoint.y)
             label.position.y += i ? -label.frame.height / 2 : label.frame.height / 2
             
             switchSprite.position = CGPoint(x: CGRectGetMaxY(self.frame), y: centerPoint.y)
@@ -55,10 +55,10 @@ class SettingsScene: SKScene {
         
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            for node in self.nodesAtPoint(location) as [SKNode] {
+            for node in self.nodesAtPoint(location) as! [SKNode] {
                 switch node {
                 case backButton:
                     presentScene(MainMenuScene(), view!)
@@ -67,13 +67,13 @@ class SettingsScene: SKScene {
                     fallthrough
                 case soundEffectsLabel:
                     Sound.toggleSoundEffects()
-                    soundEffectsSwitch.texture = Sound_soundEffects ? switchOn : switchOff
+                    soundEffectsSwitch.texture = Sound.soundEffects ? switchOn : switchOff
                     
                 case musicSwitch:
                     fallthrough
                 case musicLabel:                    
                     Sound.toggleMusic()
-                    musicSwitch.texture = Sound_music ? switchOn : switchOff
+                    musicSwitch.texture = Sound.music ? switchOn : switchOff
                     
                 default:
                     break

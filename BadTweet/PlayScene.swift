@@ -12,8 +12,8 @@ class PlayScene: SKScene {
     
     private var backButton: SKSpriteNode!
     
-    private var newGameButton = SKSpriteNode(texture: blueButtonTexture)
-    private var continueGameButton = SKSpriteNode(texture: blueButtonTexture)
+    private var newGameButton = UIDesigner.button()
+    private var continueGameButton = UIDesigner.button()
     
     private var worldState: WorldStateWithUI?
     
@@ -35,10 +35,10 @@ class PlayScene: SKScene {
         }
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            for node in self.nodesAtPoint(location) as [SKNode] {
+            for node in self.nodesAtPoint(location) as! [SKNode] {
                 if node == backButton {
                     presentScene(MainMenuScene(), view!)
                 } else if node == newGameButton {

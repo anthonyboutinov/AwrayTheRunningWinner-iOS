@@ -8,12 +8,12 @@
 
 import SpriteKit
 
-let gravity = CGPoint(x: 0.0, y: -450.0)
-
-private var controlRectSizes = CGFloat(45.0)
-private let indices: [Int] = [7, 1, 3, 5, 0, 2, 6, 8]
-
 class GameLevelScene: SKScene {
+    
+    static let gravity = CGPoint(x: 0.0, y: -450.0)
+    
+    static private var controlRectSizes = CGFloat(45.0)
+    static private let indices: [Int] = [7, 1, 3, 5, 0, 2, 6, 8]
     
     // MARK: Enums
     
@@ -53,11 +53,11 @@ class GameLevelScene: SKScene {
     
     private let pauseButton = SKSpriteNode(imageNamed: "pause")
     
-    private var previouslyTouchedNodes = NSMutableSet()
+    private var previouslyTouchedNodes = Set<SKShapeNode>()
     
-    private let gameOverLabel = SKLabelNode(fontNamed: gameFont)
-    private let replayButton = SKSpriteNode(texture: blueButtonTexture)
-    private let mainMenuButtonNextToReplayButton = SKSpriteNode(texture: blueButtonTexture)
+    private let gameOverLabel = SKLabelNode(fontNamed: UIDesigner.gameFont)
+    private let replayButton = UIDesigner.button()
+    private let mainMenuButtonNextToReplayButton = UIDesigner.button()
     private var replayButtonLabel: SKLabelNode!
     
     // MARK: Game world entities
@@ -83,9 +83,9 @@ class GameLevelScene: SKScene {
     // MARK: Pause Scene
     
     private var dimmer: SKShapeNode!
-    private let unpauseButton = SKSpriteNode(texture: blueButtonTexture)
-    private let mainMenuButton = SKSpriteNode(texture: blueButtonTexture)
-    private let settingsButton = SKSpriteNode(texture: blueButtonTexture)
+    private let unpauseButton = UIDesigner.button()
+    private let mainMenuButton = UIDesigner.button()
+    private let settingsButton = UIDesigner.button()
     private var pauseMenuElements: [SKNode] = [SKNode]()
     
     private var gameIsPaused: Bool = false {
@@ -128,10 +128,10 @@ class GameLevelScene: SKScene {
     
     // MARK: Touches
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            for node in self.nodesAtPoint(location) as [SKNode] {
+            for node in self.nodesAtPoint(location) as! [SKNode] {
                 if gameIsPaused {
                     switch node {
                     case unpauseButton:
@@ -154,13 +154,13 @@ class GameLevelScene: SKScene {
                 } else {
                     switch node {
                     case upButton:
-                        previouslyTouchedNodes.addObject(upButton)
+                        previouslyTouchedNodes.insert(upButton)
                         player.mightAsWellJump = true
                     case leftButton:
-                        previouslyTouchedNodes.addObject(leftButton)
+                        previouslyTouchedNodes.insert(leftButton)
                         player.backwardsMarch = true
                     case rightButton:
-                        previouslyTouchedNodes.addObject(rightButton)
+                        previouslyTouchedNodes.insert(rightButton)
                         player.forwardMarch = true
                     case pauseButton:
                         gameIsPaused = true
@@ -172,14 +172,14 @@ class GameLevelScene: SKScene {
     }
     
     // FIXME: When moving out from uiUp, mightAsWellJump stays true
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
         
         if gameIsPaused || gameIsOver {
             return
         }
         
         // FIXME: Swift 1.2 will have simply Set instead of NSMutableSet
-        let currentlyTouchedNodes = NSMutableSet()
+        var currentlyTouchedNodes = Set<SKShapeNode>()
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
@@ -187,29 +187,29 @@ class GameLevelScene: SKScene {
             var right = false
             var left = false
             
-            for node in self.nodesAtPoint(location) as [SKNode] {
+            for node in self.nodesAtPoint(location) as! [SKNode] {
                 if gameIsPaused {
-                
+                    
                 } else {
                     if node is SKShapeNode {
                         switch node {
                         case upButton:
-                            currentlyTouchedNodes.addObject(upButton)
+                            currentlyTouchedNodes.insert(upButton)
                             player.mightAsWellJump = true
                         case leftButton:
-                            currentlyTouchedNodes.addObject(leftButton)
+                            currentlyTouchedNodes.insert(leftButton)
                             left = true
                         case rightButton:
-                            currentlyTouchedNodes.addObject(rightButton)
+                            currentlyTouchedNodes.insert(rightButton)
                             right = true
                         default:
-                            if previouslyTouchedNodes.containsObject(upButton) {
+                            if previouslyTouchedNodes.contains(upButton) {
                                 player.mightAsWellJump = false
                             }
-                            if previouslyTouchedNodes.containsObject(leftButton) {
+                            if previouslyTouchedNodes.contains(leftButton) {
                                 player.backwardsMarch = false
                             }
-                            if previouslyTouchedNodes.containsObject(rightButton) {
+                            if previouslyTouchedNodes.contains(rightButton) {
                                 player.forwardMarch = false
                             }
                             break
@@ -229,28 +229,28 @@ class GameLevelScene: SKScene {
         previouslyTouchedNodes = currentlyTouchedNodes
     }
     
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         
         if gameIsPaused || gameIsOver {
             return
         }
         
-        let nodesToRemoveFromSet = NSMutableSet()
+        var nodesToRemoveFromSet = Set<SKShapeNode>()
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             
-            for node in self.nodesAtPoint(location) as [SKNode] {
+            for node in self.nodesAtPoint(location) as! [SKNode] {
                 if node is SKShapeNode {
                     switch node {
                     case upButton:
-                        nodesToRemoveFromSet.addObject(upButton)
+                        nodesToRemoveFromSet.insert(upButton)
                         player.mightAsWellJump = false
                     case leftButton:
-                        nodesToRemoveFromSet.addObject(leftButton)
+                        nodesToRemoveFromSet.insert(leftButton)
                         player.backwardsMarch = false
                     case rightButton:
-                        nodesToRemoveFromSet.addObject(rightButton)
+                        nodesToRemoveFromSet.insert(rightButton)
                         player.forwardMarch = false
                     default:
                         break
@@ -263,7 +263,7 @@ class GameLevelScene: SKScene {
         }
         
         for object in nodesToRemoveFromSet {
-            previouslyTouchedNodes.removeObject(object)
+            previouslyTouchedNodes.remove(object)
         }
     }
     
@@ -316,7 +316,7 @@ class GameLevelScene: SKScene {
         collidableItems = map.layerNamed("CollidableItems")
         noncollidableItems = map.layerNamed("NoncollidableItems")
         
-        // Set rightmost position in pixels after crossing which player is 
+        // Set rightmost position in pixels after crossing which player is
         // declared a winner.
         winLine = (map.mapSize.width - 5) * map.tileSize.width
         
@@ -420,7 +420,7 @@ class GameLevelScene: SKScene {
         
         player.onGround = false
         
-        for i in 0..<indices.count {
+        for i in 0..<GameLevelScene.indices.count {
             
             // It is assumed that all layers have the same offset and size properties.
             // So here 'Walls' layer is used, since player's position is the same
@@ -435,7 +435,7 @@ class GameLevelScene: SKScene {
             }
             let playerRect: CGRect = player.collisionBoundingBox
             
-            let tileIndex = indices[i]
+            let tileIndex = GameLevelScene.indices[i]
             let tileColumn = tileIndex % 3
             let tileRow = tileIndex / 3
             let tileCoord = CGPoint(
@@ -452,7 +452,7 @@ class GameLevelScene: SKScene {
             
             // TODO: Здесь можно везде упростить, убрав playerRect, так как теперь он не вычисляется каждый раз при обращении, а временно хранит вычисленное значение между изменениями
             handleNonCollidableItems(tileCoord, playerRect)
-        
+            
         }
         
         if checkForCollisionsWithEnemies() {
@@ -488,7 +488,7 @@ class GameLevelScene: SKScene {
                     if layer == collidableItems {
                         handleItemsCollisions(tileCoord, gid)
                     } else {
-                         bounceTileIfItHasBouncingProperty(layer.tileAtCoord(tileCoord), gid)
+                        bounceTileIfItHasBouncingProperty(layer.tileAtCoord(tileCoord), gid)
                     }
                     
                 } else if (tileIndex == 3) {
@@ -527,15 +527,15 @@ class GameLevelScene: SKScene {
                 }
             }
         }
-    
+        
     }
-
+    
     private func checkIfCollidedWithAHazard(tileCoord: CGPoint, _ playerRect: CGRect) -> Bool {
         let gid = map.tileGID(atTileCoord: tileCoord, forLayer: hazards)
         if gid != 0 {
             let tileRect = map.tileRect(fromTileCoord: tileCoord)
             if CGRectIntersectsRect(playerRect, tileRect) {
-//                gameOver(.playerHasLost)
+                //                gameOver(.playerHasLost)
                 gameOverState = .playerHasLost
                 gameIsOver = true
                 return true
@@ -625,7 +625,7 @@ class GameLevelScene: SKScene {
             // Save a copy to tile's userData and edit it
             tile!.userData = properties
             
-            if var durability = (properties[Properties.durability.rawValue] as? String)?.toInt()? {
+            if var durability = (properties[Properties.durability.rawValue] as? String)?.toInt() {
                 handleDurability(durability, properties, layer, tileCoord, tile)
             }
             if checkContainsPropertyOfATile(properties) {
@@ -661,8 +661,8 @@ class GameLevelScene: SKScene {
             switch contains {
             case "coin":
                 worldState!.numCoins++
-                if Sound_soundEffects {
-                    self.runAction(coinSound)
+                if Sound.soundEffects {
+                    self.runAction(Sound.coinSound)
                 }
             case "powerUp":
                 player.applyPowerUp()
@@ -701,8 +701,8 @@ class GameLevelScene: SKScene {
             replayButtonLabel.text = "Continue"
             
         case .playerHasLost:
-            if Sound_soundEffects {
-                runAction(hurtSound)
+            if Sound.soundEffects {
+                runAction(Sound.hurtSound)
             }
             // Next line: this means "if numLives == 1 before subtracting one."
             // This construction is required because numLives never reaches 0.
@@ -727,45 +727,8 @@ class GameLevelScene: SKScene {
         }
     }
     
-//    private func gameOver(state: GameOverState) {
-//        worldState.gameOver = true
-//        
-//        var gameOverText: String!
-//        var startReplayButtonText: String!
-//        
-//        switch state {
-//        case .playerHasWon:
-//            gameOverText = "WIN!"
-//            startReplayButtonText = "Continue"
-//            
-//            // Advance to the next level
-//            worldState.advanceToTheNextLevel()
-//            
-//        case .playerHasLost:
-//            if Sound_soundEffects {
-//                runAction(hurtSound)
-//            }
-//            
-//            // Next line: this means "if numLives == 1 before subtracting one."
-//            // This construction is required because numLives never reaches 0.
-//            // Instead, worldState is reset at that point.
-//            if worldState.numLives-- == 1 {
-//                gameOverText = "GAME OVER"
-//            } else {
-//                gameOverText = "You've lost a life"
-//            }
-//            startReplayButtonText = "Replay"
-//
-//        }
-//        println(gameOverText)
-//        
-//        gameOverLabel.text = gameOverText
-//        addChild(gameOverLabel)
-//    }
-    
     private func checkForWin() {
         if player.position.x > winLine {
-//            gameOver(.playerHasWon)
             gameOverState = .playerHasWon
             gameIsOver = true
         }

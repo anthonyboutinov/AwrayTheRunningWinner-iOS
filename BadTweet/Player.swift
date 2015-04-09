@@ -8,16 +8,16 @@
 
 import Foundation
 
-// MARK: Physical properties and constraints
-private let minMovement = CGPoint(x: -120.0, y: -350.0)
-private let maxMovement = CGPoint(x: 120.0, y: 350.0)
-private let jumpForce = CGPoint(x: 0.0, y: 350.0)
-private let jumpCutoff = CGFloat(150.0)
-private let slipperyCoefficient = CGFloat(0.6)
-
-private let powerUpTime: NSTimeInterval = 30.0
-
 class Player: Updatable, HoldsItsSprite {
+    
+    // MARK: Physical properties and constraints
+    static private let minMovement = CGPoint(x: -120.0, y: -350.0)
+    static private let maxMovement = CGPoint(x: 120.0, y: 350.0)
+    static private let jumpForce = CGPoint(x: 0.0, y: 350.0)
+    static private let jumpCutoff = CGFloat(150.0)
+    static private let slipperyCoefficient = CGFloat(0.6)
+    
+    private let powerUpTime: NSTimeInterval = 30.0
     
     // MARK: - Variables
     // MARK: Sprite
@@ -115,33 +115,33 @@ class Player: Updatable, HoldsItsSprite {
         }
         let forwardMoveStep = CGPointMultiplyScalar(forwardMove, delta)
         
-        let gravityStep = CGPointMultiplyScalar(gravity, delta)
+        let gravityStep = CGPointMultiplyScalar(GameLevelScene.gravity, delta)
         velocity = CGPointAdd(velocity, gravityStep)
         
-        velocity.x *= slipperyCoefficient
+        velocity.x *= Player.slipperyCoefficient
         
         // Jumping
         if mightAsWellJump && onGround {
-            velocity = CGPointAdd(velocity, jumpForce)
-            if Sound_soundEffects {
-                sprite.runAction(jumpSound)
+            velocity = CGPointAdd(velocity, Player.jumpForce)
+            if Sound.soundEffects {
+                sprite.runAction(Sound.jumpSound)
             }
-        } else if !mightAsWellJump && velocity.y > jumpCutoff {
-            velocity = CGPoint(x: velocity.x, y: jumpCutoff)
+        } else if !mightAsWellJump && velocity.y > Player.jumpCutoff {
+            velocity = CGPoint(x: velocity.x, y: Player.jumpCutoff)
         }
         
         if forwardMarch || backwardsMarch {
             velocity = CGPointAdd(velocity, forwardMoveStep)
         }
 
-        velocity = CGPoint(x: Clamp(velocity.x, minMovement.x, maxMovement.x), y: Clamp(velocity.y, minMovement.y, maxMovement.y))
+        velocity = CGPoint(x: Clamp(velocity.x, Player.minMovement.x, Player.maxMovement.x), y: Clamp(velocity.y, Player.minMovement.y, Player.maxMovement.y))
         
         let velocityStep = CGPointMultiplyScalar(velocity, delta)
         desiredPosition = CGPointAdd(desiredPosition, velocityStep)
     }
     
     func applyPowerUp() {
-        sprite.runAction(powerupSound)
+        sprite.runAction(Sound.powerupSound)
         powerUpTimeLeft = powerUpTime
     }
     

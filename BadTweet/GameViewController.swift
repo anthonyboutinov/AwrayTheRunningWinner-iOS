@@ -21,7 +21,7 @@ class GameViewController: UIViewController {
         let scene = MainMenuScene()
         
         // Configure the view
-        let skView = self.view as SKView
+        let skView = self.view as! SKView
         /* Sprite Kit applies additional optimizations to improve rendering performance */
         skView.ignoresSiblingOrder = true
         

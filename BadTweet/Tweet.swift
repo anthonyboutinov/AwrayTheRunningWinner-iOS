@@ -45,12 +45,12 @@ class Tweet: Updatable, HoldsItsSprite {
     
     class func spriteForTweetContent(tweet: TweetStruct) -> SKSpriteNode {
         
-        let authorLabel = SKLabelNode(fontNamed: gameFont)
+        let authorLabel = SKLabelNode(fontNamed: UIDesigner.gameFont)
         authorLabel.fontSize = 13.0
         authorLabel.fontColor = UIColor.grayColor()
         authorLabel.text = tweet.author
         
-        let textLabel = SKLabelNode(fontNamed: gameFont)
+        let textLabel = SKLabelNode(fontNamed: UIDesigner.gameFont)
         textLabel.fontSize = 15.0
         textLabel.fontColor = UIColor.blackColor()
         textLabel.text = tweet.text

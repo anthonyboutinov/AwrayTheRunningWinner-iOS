@@ -14,9 +14,9 @@ class MainMenuScene: SKScene {
     
     // MARK: UI Elements
     
-    private let playButton = SKSpriteNode(texture: blueButtonTexture)
-    private let settingsButton = SKSpriteNode(texture: blueButtonTexture)
-    private let aboutButton = SKSpriteNode(texture: blueButtonTexture)
+    private let playButton = UIDesigner.button()
+    private let settingsButton = UIDesigner.button()
+    private let aboutButton = UIDesigner.button()
     
     // MARK: SKScene override methods
     
@@ -26,10 +26,10 @@ class MainMenuScene: SKScene {
         UIDesigner.layoutButtonsWithText(scene: self, buttons: elements, texts: texts, zPosition: 2.0)
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            for node in self.nodesAtPoint(location) as [SKNode] {
+            for node in self.nodesAtPoint(location) as! [SKNode] {
                 switch node {
                 case playButton:
                     goToPlayScreen()

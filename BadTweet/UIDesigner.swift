@@ -8,20 +8,28 @@
 
 import Foundation
 
-let gameFont = "Helvetica-Nueue-Thin"
-
-let blueButtonTexture = SKTexture(imageNamed: "blue_button")
-let backButtonTexture = SKTexture(imageNamed: "back_button")
-
-let buttonBottomMargin = CGFloat(5)
-
-let margin = CGFloat(18.0)
-let padding = margin / 3
-
 class UIDesigner {
     
+    static let gameFont = "Helvetica-Nueue-Thin"
+    
+    static let blueButtonTexture = SKTexture(imageNamed: "blue_button")
+    static let backButtonTexture = SKTexture(imageNamed: "back_button")
+    
+    static let buttonBottomMargin = CGFloat(5)
+    
+    static let margin = CGFloat(18.0)
+    static let padding = UIDesigner.margin / 3
+    
+    class func button() -> SKSpriteNode {
+        return SKSpriteNode(texture: UIDesigner.blueButtonTexture)
+    }
+    
+    class func label() -> SKLabelNode {
+        return SKLabelNode(fontNamed: gameFont)
+    }
+    
     class func insertTextIntoButton(button: SKSpriteNode, _ text: String) -> SKLabelNode {
-        let label = SKLabelNode(fontNamed: gameFont)
+        let label = SKLabelNode(fontNamed: UIDesigner.gameFont)
         label.text = text
         label.position.y -= label.frame.height / 2 - buttonBottomMargin
         button.addChild(label)

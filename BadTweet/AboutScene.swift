@@ -15,7 +15,7 @@ class AboutScene: SKScene {
     // MARK: UI Elements
     
     private var backButton: SKSpriteNode!
-    private let website = SKLabelNode(fontNamed: gameFont)
+    private let website = UIDesigner.label()
     
     // MARK: SKScene override methods
     
@@ -26,7 +26,7 @@ class AboutScene: SKScene {
         let fontSize = CGFloat(15) // iPhone 4s, 5, 5s
         
         // Credits
-        let lines: [SKLabelNode] = [SKLabelNode](count: 2 * 11, repeatedValue: SKLabelNode(fontNamed: gameFont))
+        let lines: [SKLabelNode] = [SKLabelNode](count: 2 * 11, repeatedValue: UIDesigner.label())
         let texts: [String] = [
             "iOS & OS X Development", "Anthony Boutinov",
             "Android Development", "Mikhail Polyubay",
@@ -40,20 +40,20 @@ class AboutScene: SKScene {
             "", "Kenney",
             "", "Jake Gundersen"
         ]
-        UIDesigner.layoutTextTable(texts, self, positionOffsetY: -title.frame.height / 2, margin: margin * 2.5)
+        UIDesigner.layoutTextTable(texts, self, positionOffsetY: -title.frame.height / 2, margin: UIDesigner.margin * 2.5)
         
         // Website
         website.text = "arwaytherunningwinner.com"
         website.fontSize = fontSize
-        website.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMinY(frame) + margin + website.frame.height / 2)
+        website.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMinY(frame) + UIDesigner.margin + website.frame.height / 2)
         addChild(website)
         
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            for node in self.nodesAtPoint(location) as [SKNode] {
+            for node in self.nodesAtPoint(location) as! [SKNode] {
                 if node == backButton {
                     presentScene(MainMenuScene(), view!)
                 } else if node == website {

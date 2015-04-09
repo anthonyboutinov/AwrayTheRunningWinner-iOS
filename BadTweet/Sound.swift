@@ -9,46 +9,44 @@
 import Foundation
 import AVFoundation
 
-// TODO: Swift 1.2 make it class vars of Sound class
-
-var Sound_music = false
-var Sound_soundEffects = false
-
-var backgroundMusic = AVAudioPlayer()
-
-let coinSound = SKAction.playSoundFileNamed("coin.wav", waitForCompletion: false)
-let jumpSound = SKAction.playSoundFileNamed("jump.wav", waitForCompletion: false)
-let hurtSound = SKAction.playSoundFileNamed("hurt.wav", waitForCompletion: false)
-let powerupSound = SKAction.playSoundFileNamed("powerup.wav", waitForCompletion: false)
-//let menuSound = SKAction.playSoundFileNamed("menu.wav", waitForCompletion: false)
-
 class Sound {
     
+    static var music = false
+    static var soundEffects = false
+    
+    static var backgroundMusic = AVAudioPlayer()
+    
+    static let coinSound = SKAction.playSoundFileNamed("coin.wav", waitForCompletion: false)
+    static let jumpSound = SKAction.playSoundFileNamed("jump.wav", waitForCompletion: false)
+    static let hurtSound = SKAction.playSoundFileNamed("hurt.wav", waitForCompletion: false)
+    static let powerupSound = SKAction.playSoundFileNamed("powerup.wav", waitForCompletion: false)
+    //static let menuSound = SKAction.playSoundFileNamed("menu.wav", waitForCompletion: false)
+    
     class func initSharedInstance() {
-        (Sound_soundEffects, Sound_music) = UserDefaults.SFXAndMusic()
+        (soundEffects, music) = UserDefaults.SFXAndMusic()
         
         backgroundMusic = Sound.setupAudioPlayer(file: "6dfcd1ecc4db", ofType:"mp3")
         backgroundMusic.volume = 0.3
-        if Sound_music {
+        if music {
             backgroundMusic.play()
         }
     }
     
     class func setupAudioPlayer(#file:NSString, ofType type:NSString) -> AVAudioPlayer  {
-        let path = NSBundle.mainBundle().pathForResource(file, ofType:type)
+        let path = NSBundle.mainBundle().pathForResource(file as String, ofType:type as String)
         let audioPlayer: AVAudioPlayer? = AVAudioPlayer(contentsOfURL: NSURL.fileURLWithPath(path!), error: nil)
         return audioPlayer!
     }
     
     class func toggleSoundEffects() {
-        Sound_soundEffects = !Sound_soundEffects
-        UserDefaults.updateSFX(Sound_soundEffects)
+        soundEffects = !soundEffects
+        UserDefaults.updateSFX(soundEffects)
     }
     
     class func toggleMusic() {
-        Sound_music = !Sound_music
-        UserDefaults.updateMusic(Sound_music)
-        if Sound_music {
+        music = !music
+        UserDefaults.updateMusic(music)
+        if music {
             backgroundMusic.play()
         } else {
             backgroundMusic.pause()
@@ -56,7 +54,7 @@ class Sound {
     }
     
     class func playMenuSound() {
-        if Sound_soundEffects {
+        if soundEffects {
             
         }
     }

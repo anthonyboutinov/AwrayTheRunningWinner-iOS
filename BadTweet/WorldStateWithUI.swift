@@ -15,7 +15,7 @@ class WorldStateWithUI: WorldState {
     
     let uiCoinsImage = SKSpriteNode(imageNamed: "hud_coins")
     let uiCoinsText = SKLabelNode()
-    let uiLivesImages: [SKSpriteNode] = [SKSpriteNode]()
+    var uiLivesImages: [SKSpriteNode] = [SKSpriteNode]()
     let uiLivesLabel = SKLabelNode()
     let uiWorldLevelLabel = SKLabelNode()
     
@@ -28,27 +28,27 @@ class WorldStateWithUI: WorldState {
     }
     override var numLives: Int {
         didSet {
-            if oldValue == defaultNumberOfLives && numLives > oldValue {
+            if oldValue == WorldState.defaultNumberOfLives && numLives > oldValue {
                 
                 // Transition from 'x sprites' to 'single sprite times number'
-                for i in 1..<defaultNumberOfLives {
+                for i in 1..<WorldState.defaultNumberOfLives {
                     uiLivesImages[i].hidden = true
                 }
                 uiLivesLabel.text = " x \(numLives)"
                 uiLivesLabel.hidden = false
                 
-            } else if oldValue == defaultNumberOfLives + 1 && numLives == defaultNumberOfLives {
+            } else if oldValue == WorldState.defaultNumberOfLives + 1 && numLives == WorldState.defaultNumberOfLives {
                 
                 // Transition from 'single sprite times number' to 'x sprites'
                 uiLivesLabel.hidden = true
-                for i in 1..<defaultNumberOfLives {
+                for i in 1..<WorldState.defaultNumberOfLives {
                     uiLivesImages[i].hidden = false
                 }
                 
-            } else if numLives <= defaultNumberOfLives {
+            } else if numLives <= WorldState.defaultNumberOfLives {
                 
                 // Case 'x sprites'
-                for i in 0..<defaultNumberOfLives {
+                for i in 0..<WorldState.defaultNumberOfLives {
                     if i < numLives {
                         uiLivesImages[i].hidden = false
                     } else {
@@ -76,7 +76,7 @@ class WorldStateWithUI: WorldState {
         
         super.init(numCoins: numCoins, numLives: numLives, world: world, level: level)
         
-        for i in 0..<defaultNumberOfLives {
+        for i in 0..<WorldState.defaultNumberOfLives {
             let life = SKSpriteNode(texture: uiLifeImageTexture)
             life.zPosition = 1
             life.anchorPoint = CGPoint(x: 0.0, y: 1.0)
@@ -138,21 +138,21 @@ class WorldStateWithUI: WorldState {
             // executed.
         } else {
             // Position life image nodes
-            for _i in 0..<defaultNumberOfLives {
+            for _i in 0..<WorldState.defaultNumberOfLives {
                 let i = CGFloat(_i)
                 let life = uiLivesImages[_i]
-                life.position = CGPoint(x: margin + life.size.width * i + padding, y: CGRectGetMaxY(scene.frame) - margin)
+                life.position = CGPoint(x: UIDesigner.margin + life.size.width * i + UIDesigner.padding, y: CGRectGetMaxY(scene.frame) - UIDesigner.margin)
             }
             
             // Position other nodes
-            uiWorldLevelLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMaxY(scene.frame) - margin)
+            uiWorldLevelLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMaxY(scene.frame) - UIDesigner.margin)
             uiWorldLevelLabel.position.y -= uiWorldLevelLabel.frame.height
             uiCoinsImage.anchorPoint = CGPoint(x: 1.0, y: 1.0)
-            uiCoinsImage.position = CGPoint(x: CGRectGetMaxX(scene.frame) - margin, y: CGRectGetMaxY(scene.frame) - margin)
+            uiCoinsImage.position = CGPoint(x: CGRectGetMaxX(scene.frame) - UIDesigner.margin, y: CGRectGetMaxY(scene.frame) - UIDesigner.margin)
             // Next line: shift coin's position more to the left from the pause
             // button so they're not intersecting each other
-            uiCoinsImage.position.x -= uiCoinsImage.size.width * 2 + margin
-            uiCoinsText.position = CGPoint(x: uiCoinsImage.position.x - uiCoinsImage.size.width - padding, y: uiCoinsImage.position.y)
+            uiCoinsImage.position.x -= uiCoinsImage.size.width * 2 + UIDesigner.margin
+            uiCoinsText.position = CGPoint(x: uiCoinsImage.position.x - uiCoinsImage.size.width - UIDesigner.padding, y: uiCoinsImage.position.y)
             uiCoinsText.position.y -= uiCoinsText.frame.height
             uiLivesLabel.position = CGPoint(x: uiLivesImages[0].position.x + uiLivesImages[0].size.width, y: uiCoinsText.position.y)
         }
