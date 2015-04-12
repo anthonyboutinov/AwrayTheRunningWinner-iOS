@@ -94,7 +94,7 @@
  </layer>
  <layer name="Walls" width="200" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3WvQ3CMBCGYRepqBiCGZDYICkp2CGMQYmE6BkJGIcFSKQUxkoc25x/CO8jfRJpHOfOl6AUAAAAAAAAclgbAQCEqXNvIBG+FcAn/kPBV62W+81gHhBLyXPTDLFhLvL75R6UevbnNMo+H3wz8tPrf+/yMPLMsamISpilxhKUgfcSluyQewMJXbpsjFwF1t0JrDG1rhmUL3avWkt0+yE2Z/Hd2X1Tl185/1vP657Zx2OEfUlYaSlRX7ubJeaMjEk9Ezmd1Ph7pKTzN9ZH+JubDZ8Z+Qf9bLjUSyohJNaqhry03+a17T+Ha8ZIrNsKreXTK/15pJ5hql4h9Y3RK13q2QiZD9e15u5bOSTW80nWLnW/Up2HkPrGPos56+FC8r6lzscbijowFIA+AAA=
+   H4sIAAAAAAAAC+3XPw6CMBTH8Q5MTh7CM5h4AxgdvAMew9HEuHsk9TheQEgYagOlra9/xO8n+SWylPa1D1ApAAAAAAAA5LA2AgAIU+eeQCK8K4BPfEPBV62W+87gfwViKblvmiE29ER+v7wHpZ79OY2y9wfvi/z0+t+7PIw8c0wqohJ6qbEEZeC5hCU75J5AQpcuGyNXgXF3AmNMjWsG5Yu9V60luv0Qm7P47Oy+qcuvnP+t53XP3MdjhHlJWGkpUV+7myVmj4xJ3RM5ndT4c6Sk8ze2j/A31xs+PfIP+t5wqZdUQkiMVQ15ab/Na9s3h2vGSIzbCo3ls1f6eqTWMFWvkPrG2Ctd6t4I6Q/XsebuWzkk1voka5d6v1Kdh5D6xj6LOevhQvK+pfbHG5iaR6iAPgAA
   </data>
  </layer>
  <layer name="Hazards" width="200" height="20">
@@ -104,7 +104,7 @@
  </layer>
  <layer name="CollidableItems" width="200" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3ZsQkAIRBEUa+MK8Ayrhj7b+IwMDAzEEbwvQp+tAxsKQAAAAAAwAmedAAAAFxk7O8WrQCYjZv0RSsAWNU3ZU1HbPSmA5j0XeBvAAAAQMoPQLKKioA+AAA=
+   H4sIAAAAAAAAC+3ZsQkAIRBEUa+MK8Ayrhj7b+IwMDAzEEbwvQp+tAxsKQAAAAAAwCmedAAAAFxibO8WrQCYjZv0RSsAWNU3ZU1HbPSmA5j0XeBnAAAAQMoPU2M9UIA+AAA=
   </data>
  </layer>
  <layer name="NoncollidableItems" width="200" height="20">

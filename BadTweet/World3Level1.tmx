@@ -68,15 +68,7 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="158" name="pokerMad" tilewidth="24" tileheight="73">
-  <image source="pokerMad.png" width="24" height="73"/>
-  <tile id="0">
-   <properties>
-    <property name="enemyClass" value="pokerMad"/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="159" name="city_spritesheet" tilewidth="35" tileheight="35">
+ <tileset firstgid="158" name="city_spritesheet" tilewidth="35" tileheight="35">
   <image source="city_spritesheet.png" width="490" height="245"/>
  </tileset>
  <layer name="Background" width="100" height="20">
@@ -91,22 +83,22 @@
  </layer>
  <layer name="Walls" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3UQQqAIBCFYS/UATxAm1pFR2jRrst3gQiCQtLJtFT8Pxhw0cjks5QCAAAAAOz0UciTVmQUqlXnGTbCs5z1d4bUA/xsTD2AhU8OfA9xXc++TTbFP8YH61Rq+xflqsYccrj/phJyWI6KhRzeW4wqVecol17ovdtnFda2Pml/M4u7TK73ymdmX6F7To6ahXL15lQ+72zreSp01g2fqfRuQB8AAA==
+   H4sIAAAAAAAAC+3UwQmEMBCF4TRkARbgxT0tluDBm8VbgSwIhmBmMsY1Ef8PHuRgxjGjOgcAAAAA+Gm3oE6tY0a5OrefYaNcy1n/z7d0AzcbSjcQYZkD38O1/LPvinVxjyFhXcrb/kW1euMcanj/Q0+Yw7zlKszhvDnIU/VCJB9l71GdRVnH9mn1w1kczcR/ryw9W+XWHIVMSqS9fvx7SevUetZYnjm2J1VurytaCg8fQB8AAA==
   </data>
  </layer>
  <layer name="Hazards" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3SoQ0AMQwDwMzRAX7sThpQ8qxqYRNwJ1kyNHAEAAAAAAAA3WX1gEKzekAzGfsfuv3j+3Pr4/WoAnno9LUAQJukJ0AfAAA=
+   H4sIAAAAAAAAC+3SoQ0AIBADwM7B/lu+weAIwcGLu6RJZUUTAAAAAAAAuqvfA2ijsv/BP3qqQ39trNw6yQS5n4ctQB8AAA==
   </data>
  </layer>
  <layer name="CollidableItems" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3XMQ0AIAxFwSIDMYjBvwlgxUADvUu6v/ytEQAAVNezAx539hv7ZnYIpbTsAAAAgIu/GPjBAiz72XhAHwAA
+   H4sIAAAAAAAAC+3XQQ3AIBBEUSoDMchAQCXhGLjhYNLyXjL3n71tKQAA3K6mAz5u36+tvekQrvKkAwAA4LD/obHW0yFE+YuBP5gytqbUQB8AAA==
   </data>
  </layer>
  <layer name="NoncollidableItems" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3WUQqAIBBFUTfZAmpfs9f8DD9yTMM3eg8IEgVXEyolAAAAALNY43VgZZHPfeR26Ipyrswxn6VsUGja0Y7/O4prqzUpNvdSXJO3SaW9pePM48rj+KllJs8+KH8PV2Mv43lPbT6yB2OV7/PL80CPG/bgudBAHwAA
+   H4sIAAAAAAAAC+3WSwrAIAxFUfe/h+zVqTjQ+IG86D1QkGLhWoW2FAAAAABRbPE+8LLM5z5zO3RlOVfmGEfpGxSafvTj/47i2mZNis2nFNfkbVJpV+mI5nkPyt/D19jgaufMxjd7cFe/nzvPAycqPpULgUAfAAA=
   </data>
  </layer>
  <layer name="Foreground" width="100" height="20">
