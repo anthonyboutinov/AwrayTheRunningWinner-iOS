@@ -74,7 +74,7 @@
  <tileset firstgid="256" name="our-tiles" tilewidth="35" tileheight="35">
   <image source="our-tiles.png" width="175" height="175"/>
  </tileset>
- <tileset firstgid="381" name="amy" tilewidth="35" tileheight="35">
+ <tileset firstgid="281" name="amy" tilewidth="35" tileheight="35">
   <image source="amy.png" width="35" height="70"/>
  </tileset>
  <layer name="Background" width="23" height="100">
@@ -89,7 +89,7 @@
  </layer>
  <layer name="Walls" width="23" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+WZS44DMQhEO3fJsWaf+99glIUlhADzqeo4MyVFVjYPjM2nu6+Lo9fjun4eZ7GfYvV+WfZTrRlptrRbZe3YSC32xL8MGxEHi21paiMT766NyllWbXTuSdbGiTn/lpXnCLbF0urGOxNzi23lka57Gd11luiaotlIvle/GWwk3ztLJnvxo7ybsD17LHaFP51PGOwMf5rzEf/U3iBl+f8izQ8RO7Lhza1V9kRZdjfnWYrOEjEPspRhd/fwab+l9B6iPZ3kdyS9BxTbm2MZXBTbU8SOZlm5Vtms+o2cB1mSbMb8zZIX779YvyuzJksTdjcvEULVQRbb0zf0HUt39vnoXlXrwB0x0f5k951hW/ypKvHusLXvyH4Z9Yfd/92zK+uuINlWzp/sd5TzDL/X950OO7oj8tsRuoYvoe+JVIVt5cvu3fon7uB0LmT7LYWugyx5PQ3FZvGtvmOtCLanbp+vnOeuPk3YEUuLkTvL5n+osRHTezdzWp//lrmq0yfYfnvv+Kd94s3+BbLt1w7wIwAA
+   H4sIAAAAAAAAC+2YSwrAIAxEPUzvf8bSRUFEg5qPM+qD0kXLZCImflI6hyd7t54ZLY2fPK5GKwJPf9HjcGNgxfBEU+c9utZodGt1VPY9JKJ6ytWv63viVXdSvKu/Vh+514zi5d9qzxhdXyMgemrB4lNixxx2zOlU3VmkvWz+ntW1BmnsemDzW8K0zkjUeh8z1/9akGtCs85L/yHmXPqx3t8wnxmj7gSkMd9l/fhgyyPaq8W5e/SbBsQ9aq1eEO8g0PxIsPj8YV5zcn3tGXIm5ooYlvNr1VxF7IXRukx9gqX/Ivr0vON/Aa880ITwIwAA
   </data>
  </layer>
  <layer name="Hazards" width="23" height="100">
@@ -99,12 +99,12 @@
  </layer>
  <layer name="CollidableItems" width="23" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3YsREAIAwCwDiGw+rsLhAbD7v/koKaoyprjT6fge596QYAAHqJHQ4AAAAAvPPRAT8cPgkbkPAjAAA=
+   H4sIAAAAAAAAC+3YsREAIAwCwDiG7j+oC5gmh91/SUHNUZW1V5MHuk/TDQAAvCV2OAAAAAAw56MDfrjqlH1y8CMAAA==
   </data>
  </layer>
  <layer name="NoncollidableItems" width="23" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3ZUQqAMAwD0N3/Drur+DscTGnaJub9+GfbrIrgGHZiVjfQVEYuKjUsX8S5zuVqsZxrLaX8lWZBcD54ztj+QmHXUTOw3dd6UjnvrDlU8kJzTraz7sabXVHaK6VZvsrO4Kme0jkwzcLU642tXwRnYGjZ3/Iq/wB3NSJrVz3/bO8dtn4RmDJg6rWrCzcOsu3wIwAA
+   H4sIAAAAAAAAC+3ZUQqAMAwD0N3/Drur+DscTGnaJub9+GfbrIrgGHZiVjfQVEYuKjXsXNR5RNxnLleL5VxrKeWvNAuC88FzxvYXCruOmoHtvtaTynlnzaGSF5pzsp11N97sitJeKc3yVXYGT/WUzoFpFqZeb2z9IjgDQ8v+llf5B7irEVm76vlne++w9YvAlAFTr11d825dU/AjAAA=
   </data>
  </layer>
  <layer name="Foreground" width="23" height="100">
