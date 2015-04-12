@@ -236,10 +236,10 @@
 			isa = PBXGroup;
 			children = (
 				A8EE9B761A8806FF00017656 /* Scenes */,
+				A8AAB6EA1A8EB05400397D88 /* Interactive Elements */,
 				A8B00D6B1A8805DF008ABABB /* WorldStateWithUI.swift */,
 				A8B00D691A88006E008ABABB /* WorldState.swift */,
 				A8AAB6F51A92767A00397D88 /* UIDesigner.swift */,
-				A8AAB6EA1A8EB05400397D88 /* Interactive Elements */,
 				A8F488971A8541F700B76BEF /* GameViewController.swift */,
 				A8598DED1A9DD925003DDF79 /* Sound.swift */,
 				A865DFE41A99DB3800FEFD03 /* UserDefaults.swift */,
