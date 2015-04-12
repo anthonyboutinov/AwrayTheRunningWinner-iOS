@@ -87,7 +87,7 @@
  </tileset>
  <layer name="Background" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3OQQkAAAgAMesYw/6ltIUoG9z/IgAAAAAAuCKn2p4AAHiqAZA5hdtAHwAA
+   H4sIAAAAAAAAC+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
   </data>
  </layer>
  <layer name="BackgroundDecor" width="100" height="20">
@@ -97,22 +97,22 @@
  </layer>
  <layer name="Walls" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3U0QqAIAwF0EnUQ5/j/39cSAUSiQ9TN6/3wOhNu2xThIiIiKit+BTZQ+sFUhYaLwreTiRoebxAnZfEe7Y9iBxBd4bXbDOJhRpxTw/52aWvtU059zXWOT2/O1+pF2/lNBnOcNeKNHue9+KvJy3+x/I8b3tRevtrRX2s2g+UHDNAnJ+Zoe/2bC77palwQB8AAA==
+   H4sIAAAAAAAAC+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
   </data>
  </layer>
  <layer name="Hazards" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3WuwkAIBQDwBdw/5mtRBxA/HDXpE0TSBUAAADs1XK6AUzJmsB/7Pst4yf4CwDADTq64IIjQB8AAA==
+   H4sIAAAAAAAAC+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
   </data>
  </layer>
  <layer name="CollidableItems" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3QsQkAIAxE0TiG42X/JdLYa2UIvAfXfy4CmCLPAADgxeoOmMRZX+zuAAAAALgomKafP0AfAAA=
+   H4sIAAAAAAAAC+3DMQ0AAAgDsFnFvwmeSeAhaZMmwBfTAAAAAAAAwL0FimkzLUAfAAA=
   </data>
  </layer>
  <layer name="NoncollidableItems" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3VwQ0AIAhDUXT/FdjVBUzUg0Llv4seaSzRDAAAZOLRA0Dejx1Sy6Q2749U38Btf3bVjLjLJ/dKXamUFWvV+3Dyp6COjJ3obX4Cr2TcCwBArAEO/p6lQB8AAA==
+   H4sIAAAAAAAAC+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
   </data>
  </layer>
  <layer name="Foreground" width="100" height="20">

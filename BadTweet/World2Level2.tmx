@@ -84,7 +84,7 @@
  </tileset>
  <layer name="Background" width="200" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3VOwrCQBRG4ezBbbgvl+VbK99a+dZKLdS1BHtvESHgGB0zyU2G88EpHS6BH4MAAAAAAAAAAIDvrtLth+5aB6IUTtLZ0EXzKEe6Ui+hvt5pKJG61IjVVLzFpZk0T2ihdxpKZCANY410z3GGfcCFou6jkvL37AMuFG0faXfxwj7gQlH28WkXLakd1bF4j33k76F9QAY091EJvv9fjKVJ1NTi7b10SOhoeywShbF8UpT/j0/+3QfyExryBftAGqZt+LSRpbSKtdY9581G2kbtdE8BflIz5PJt39h+oyy+K/JTNeTybd/YfqMsvivyY7uPJ3o8C5WAPgAA
+   H4sIAAAAAAAAC+3TOQ7CMBBGYQ7EvTgWO1TsULFDBRTAWSJ6pkgRCSfEwvEk5n3SKxONLP21GgAAAAAAAAAA392lR46eWgeiEi7S1dBN8yhH+tIgo6HeaaiQptRK1Fa8xaWFtMxopXcaKmQkjRNNdM9xhn3ABfYBpGMfQLqy76MjdeN6Ft+xD/9e2gcUoOz7mEqzuLnFd0fplNHZ7Zl/L0oUklD3AX8iQ6FgH/iFaRshbWQtbRJtdc/5sJP2cQfdU4BcGoZc/js0tm9UxLvCn7ohl/8Oje0bFfGu8Md2H2+WsGtwgD4AAA==
   </data>
  </layer>
  <layer name="BackgroundDecor" width="200" height="20">
@@ -114,7 +114,7 @@
  </layer>
  <layer name="Foreground" width="200" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3KsQkAIAxE0eyQ3V3SJWxtAgHBQt+DzzUXAQAAAAAAAAAAAAAAwE+yWDiVW91f53/TKBZmEQC8ZgHmaHEAgD4AAA==
+   H4sIAAAAAAAAC+3DAQ0AAAgDoPevagkT3AAONhIAAAAAAAAAAAAAAAAA4DIlAHyz2gOXeIA+AAA=
   </data>
  </layer>
 </map>
