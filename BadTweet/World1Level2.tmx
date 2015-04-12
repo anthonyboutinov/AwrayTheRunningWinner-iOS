@@ -76,7 +76,6 @@
   <tile id="0">
    <properties>
     <property name="contains" value="coin"/>
-    <property name="durability" value="1"/>
    </properties>
   </tile>
   <tile id="2">
@@ -97,22 +96,22 @@
  </layer>
  <layer name="Walls" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
+   H4sIAAAAAAAAC+3TUQqAIAyAYXuoh87hITpZ568eBBmuMC2n/B+MmJJMp84BAAAAAIBcvnUBgAFe+cr50eytCxjAHoUc0/LUGtZ4N+6911jsQwkvQo6l8ifrdD+feg85Sv79Uu45pWwv4s7VixBB6fm3NJ/7WCY9r+1NP7TexL2QPelNrfv5N6u19nqepazutdab780BfltAd0AfAAA=
   </data>
  </layer>
  <layer name="Hazards" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
+   H4sIAAAAAAAAC+3UwQkAAAgDMQX3n9klFBGSAe5TaAQAAAAAAPyXudub7nOnbAnv+WS2NE0M19JAHwAA
   </data>
  </layer>
  <layer name="CollidableItems" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3DMQ0AAAgDsFnFvwmeSeAhaZMmwBfTAAAAAAAAwL0FimkzLUAfAAA=
+   H4sIAAAAAAAAC+3OAQ0AAAgDoNewf1Fj3E1IQAIAAHdMOwAAAAAAvLVu67hAQB8AAA==
   </data>
  </layer>
  <layer name="NoncollidableItems" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
+   H4sIAAAAAAAAC+3W4QmAIBAGUBuj8RqjYdo1fwdXGUpm74EoCId+h2BKAAAAAN+wBXOvap2v93s+tTauP+exnOwfc73KedQ+lOZwp0ZLo/ahtdq56cOPTcGaItGfxtsCeN8OPR0fMEAfAAA=
   </data>
  </layer>
  <layer name="Foreground" width="100" height="20">

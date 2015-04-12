@@ -73,7 +73,7 @@
  </tileset>
  <layer name="Background" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3QoQ0AIBAEQQqiHhpAUBPdYjGYR3wCM8n6y5UCAAAAAAAA/K5lD0g2gt3qh14S+awGi5hbC394o/JAHwAA
+   H4sIAAAAAAAAC+3OMQ0AMAwEsQAqr/JnUA6foYpiS7dfFQAAAAAAAMBuN+zn0xTJ9wnretJgVyhAHwAA
   </data>
  </layer>
  <layer name="BackgroundDecor" width="100" height="20">
@@ -83,7 +83,7 @@
  </layer>
  <layer name="Walls" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3UwQmEMBCF4TRkARbgxT0tluDBm8VbgSwIhmBmMsY1Ef8PHuRgxjGjOgcAAAAA+Gm3oE6tY0a5OrefYaNcy1n/z7d0AzcbSjcQYZkD38O1/LPvinVxjyFhXcrb/kW1euMcanj/Q0+Yw7zlKszhvDnIU/VCJB9l71GdRVnH9mn1w1kczcR/ryw9W+XWHIVMSqS9fvx7SevUetZYnjm2J1VurytaCg8fQB8AAA==
+   H4sIAAAAAAAAC+3UQQqAIBCFYS/UATpAm3bREdp3+E4QgVCIpeNYKv0fDLjQYfBZxgAAAAAADr0t1Kk3ZKQ1mPMOu8Be7vo9U+kBPjaXHuCGJAe+h7yudz8Um+Ibc8S6lL/9i2r1xxxqeP+uFnJYbeVCDulWp1o1PpTmrK/PFljfnQv1d7PwZXJ9V5KZpbQ9l4fSnPX1Ca1j+0krZe5U2ll3RS5ng0AfAAA=
   </data>
  </layer>
  <layer name="Hazards" width="100" height="20">
