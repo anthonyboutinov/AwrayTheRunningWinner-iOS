@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="20" tilewidth="35" tileheight="35" backgroundcolor="#83cacb" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" width="206" height="20" tilewidth="35" tileheight="35" backgroundcolor="#83cacb">
  <tileset firstgid="1" name="tiles_spritesheet" tilewidth="35" tileheight="35" spacing="1">
   <image source="tiles_spritesheet.png" width="457" height="468"/>
   <tile id="0">
    <properties>
+    <property name="contains" value="powerUp"/>
     <property name="durability" value="4"/>
     <property name="isBouncy" value="1"/>
    </properties>
@@ -68,53 +69,45 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="158" name="pokerMad" tilewidth="24" tileheight="73">
-  <image source="pokerMad.png" width="24" height="73"/>
-  <tile id="0">
-   <properties>
-    <property name="enemyClass" value="pokerMad"/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="159" name="city_spritesheet" tilewidth="35" tileheight="35">
+ <tileset firstgid="158" name="city_spritesheet" tilewidth="35" tileheight="35">
   <image source="city_spritesheet.png" width="490" height="245"/>
  </tileset>
- <tileset firstgid="257" name="Design" tilewidth="35" tileheight="35">
-  <image source="../design/our-tiles.png" width="175" height="175"/>
+ <tileset firstgid="256" name="Design" tilewidth="35" tileheight="35">
+  <image source="our-tiles.png" width="175" height="175"/>
  </tileset>
- <layer name="Background" width="200" height="20">
+ <layer name="Background" width="206" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3TOQ7CMBBGYQ7EvTgWO1TsULFDBRTAWSJ6pkgRCSfEwvEk5n3SKxONLP21GgAAAAAAAAAA392lR46eWgeiEi7S1dBN8yhH+tIgo6HeaaiQptRK1Fa8xaWFtMxopXcaKmQkjRNNdM9xhn3ABfYBpGMfQLqy76MjdeN6Ft+xD/9e2gcUoOz7mEqzuLnFd0fplNHZ7Zl/L0oUklD3AX8iQ6FgH/iFaRshbWQtbRJtdc/5sJP2cQfdU4BcGoZc/js0tm9UxLvCn7ohl/8Oje0bFfGu8Md2H2+WsGtwgD4AAA==
+   H4sIAAAAAAAAA+3VOQ7CMBBG4dwh92eHih0qdqiAAjhLxAGYIkgugklIzMTW+6RXxprmV6IIAAAAAAAAAIBw3KR7jh5aB8ILZ+mS0VXzKMd6Ut/SQO80eKQhNY1aqte4N5cWlpZ6p8EjQ2lkNNY9xzl2gyr4tpu45PfsBlXwZTdl9/LGblCFuu/m017aUietW+A9dvN/T+0DHKjjbuLo+/9lIk3TZgXePkhHS6eCt8IuMQpJHXeTx6+7wf8kGYWC3cCFrM2EtJ2VtDba6J6T21bape2VbwEAAAjNC2uTgOVgQAAA
   </data>
  </layer>
- <layer name="BackgroundDecor" width="200" height="20">
+ <layer name="BackgroundDecor" width="206" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3VywnCQBQF0NRiP5aVYkT3ons7EAuwAre6CCoohCEfPxNmyJwDjxuGLO7m8aoKAAAAAACAGM6t72vPO4w5BTkXly/foc/cduOpeeUhyKbjX+gz1/sBscxxN8K7ESZ8Iuf7cQzyV6t/i1C0HHfjLcaObGMUoUgl3I9c1akLdLg9Zpm6RGY2qQsMWKcuMJG6NeRtn7rAgF3qAhOoO2bMIhgAoFx39ZHl8IA+AAA=
+   H4sIAAAAAAAAA+3VQQqCQBQG4DlLd/UuUfuofTeIDtAJ2rYRJCiQQdF0ZLT5Pnj8Mrj4N48XAgAAAAAAAITwaH2/et5hyD3Kf/f88R36lLIzb/Unr1HWHf9Cn9LuDaRS0s7EdyZOGGOL9+YW5VT7uUUo2pZ25ivF7pxSFKFIJd+btapyF2CUY+4CExxyF1hI1RrW7ZK7wATn3AUWUHXMkF00AABzNYLbuylgQAAA
   </data>
  </layer>
- <layer name="Walls" width="200" height="20">
+ <layer name="Walls" width="206" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3XPw6CMBTH8Q5MTh7CM5h4AxgdvAMew9HEuHsk9TheQEgYagOlra9/xO8n+SWylPa1D1ApAAAAAAAA5LA2AgAIU+eeQCK8K4BPfEPBV62W+87gfwViKblvmiE29ER+v7wHpZ79OY2y9wfvi/z0+t+7PIw8c0wqohJ6qbEEZeC5hCU75J5AQpcuGyNXgXF3AmNMjWsG5Yu9V60luv0Qm7P47Oy+qcuvnP+t53XP3MdjhHlJWGkpUV+7myVmj4xJ3RM5ndT4c6Sk8ze2j/A31xs+PfIP+t5wqZdUQkiMVQ15ab/Na9s3h2vGSIzbCo3ls1f6eqTWMFWvkPrG2Ctd6t4I6Q/XsebuWzkk1voka5d6v1Kdh5D6xj6LOevhQvK+pfbHG5iaR6iAPgAA
+   H4sIAAAAAAAAA+3ZPwrCMBTH8QxOnsPVVfAAgh0dvIMew1EQd2+kHscT2ECHEEr+6HtNot8P/MAuz9ekry3UGAAAAAAAAABAyKbPesiycC9o17Z0AwCqtSvdAJq2Nf/zjLHvZLyLQVPN89QNiWFOIK3WmYjpTNrc8B5WL7s39z4PL8+STSmoYca6QFw8Y+rFvQy/aK9Ut6V5ufRZeLkK1NVaA/c7Ct9S2qf93D8EktvHWby7sG9mqJV70Crz2PL38ajQl4S5k5bYNb0F4s/OmKlnpaSTGb+/1HRdju0j5MRmJmd2/oGdmZT1ksonJGrNhryc3/5x6B0lNWMk6sb+89saOXvonqfmOeXUl1zvmNz1KjE3qbVi/ztLiNb5TbGmU+/jVNfJJ+uusYeS9TV60uqvtbl5Aw8+gmdgQAAA
   </data>
  </layer>
- <layer name="Hazards" width="200" height="20">
+ <layer name="Hazards" width="206" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3XoQ3AIBBAUeZgAFRX7ORU1FZcQhCFAO8lX6AOwQlSAgAAAAAAAACA8+TZFwAAANhETv5Y9HuCWEdpnP9QB8yIjH6b0W7YEVjT3Wh19RP0uhrNUDo6wQurbvdGgD4AAA==
+   H4sIAAAAAAAAA+3XsQ3AIAwEQM/BAOw/HzRpUyAlSIQIuJO+cGUXduEIAAAAAAAAAADgVOnvAQAAAHglhR+OcWojrCM/1F8oE3r0mL2zrZtxO8BKyi2ws9yRk13gc98kYEAAAA==
   </data>
  </layer>
- <layer name="CollidableItems" width="200" height="20">
+ <layer name="CollidableItems" width="206" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3ZsQkAIRBEUa+MK8Ayrhj7b+IwMDAzEEbwvQp+tAxsKQAAAAAAwCmedAAAAFxibO8WrQCYjZv0RSsAWNU3ZU1HbPSmA5j0XeBnAAAAQMoPU2M9UIA+AAA=
+   H4sIAAAAAAAAA+3ZsQ3AIBAEQSiDAlyGi3H/TSAC8g9AF3imgo1eJ31rAAAAAAAAdT0dAAAAHLP3/RetAKjZt+qNVgBwy9qmTzrioJEOoGTtC38PAAAA/mYCbEHkUmBAAAA=
   </data>
  </layer>
- <layer name="NoncollidableItems" width="200" height="20">
+ <layer name="NoncollidableItems" width="206" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3XWwqDMBAFUPe/B/da+lFagmk1Jngbz4Ei+FHnkSHJsgAAAGetxQ94Mx9QZz44whoBYC97BhyTPDPuCv/FHQ94uuv8l3nPXIe03NbKM13POMs9OKkGtf4kxdjbzLnNYkSPjv7nr31j5nU0c26zGLVHJegVx6h9rWetWmJL6dMeV8b6WdvWnqWdjVLi+KbXfIycjaT6bZ0tWs4rLfeMpDqcVatjWo5XxXT2DPx6d1Xs5bdT+8t9WHsAmR6biq3ygD4AAA==
+   H4sIAAAAAAAAA+2XWw6EIAxF3f8e2Ot8zU9TRiitXJxzEoOJCrf2lsd1AQAAANTQzAUA91A3APNQNwDzUDeQAd4BgB7MD7DCP+1P3h7rSbF5WiP6m2l3o+yxUW3KMWSj5p8RTjxbnqIzSnZ8tj/F/6eoySNDZxu4342qLo+quUu9bjLXm6rYsvq1sfZaJapqyK7ZSrFbTWoaK3yTndu7Z7Pj9d5XyYnlSV13Y0W8u/p+5rpT4c2n/D7y7Uj+VscBn1/zSqQGFNeJrH6yffjEv4po3pm/WQ/t1vpto3s5tT2wWg17VOurrJnKM1rUe7aP6Lin1G0mXsyqNaSmKWNPvhpTNFfed6p5B8CTAADv4APRhDD9YEAAAA==
   </data>
  </layer>
- <layer name="Foreground" width="200" height="20">
+ <layer name="Foreground" width="206" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3DAQ0AAAgDoPevagkT3AAONhIAAAAAAAAAAAAAAAAA4DIlAHyz2gOXeIA+AAA=
+   H4sIAAAAAAAAA+3TwQnAIAwF0OzgGu7lRh2yU/Tag4K2aKW8B59cEjSIEQAAAAAAAAAAAAAAAMAqqVHhrXRLb19P/w6ORoWzkb8rX19gghJje5UYn2EfpZLZ8oIzVssxtleO8ZmW2hv6l3PlSp64AH0CvPNgQAAA
   </data>
  </layer>
 </map>

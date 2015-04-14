@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="20" tilewidth="35" tileheight="35" backgroundcolor="#83cacb" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" width="100" height="20" tilewidth="35" tileheight="35" backgroundcolor="#83cacb">
  <tileset firstgid="1" name="tiles_spritesheet" tilewidth="35" tileheight="35" spacing="1">
   <image source="tiles_spritesheet.png" width="457" height="468"/>
   <tile id="0">
    <properties>
-    <property name="durability" value="4"/>
+    <property name="contains" value="powerUp"/>
+    <property name="durability" value="2"/>
     <property name="isBouncy" value="1"/>
    </properties>
   </tile>
@@ -73,37 +74,37 @@
  </tileset>
  <layer name="Background" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3OMQ0AMAwEsQAqr/JnUA6foYpiS7dfFQAAAAAAAMBuN+zn0xTJ9wnretJgVyhAHwAA
+   H4sIAAAAAAAAA+3OMQ0AMAwEsQAqr/JnUA6foYpiS7dfFQAAAAAAAMBuN+zX0yTJ+wnrekaj0MNAHwAA
   </data>
  </layer>
  <layer name="BackgroundDecor" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
+   H4sIAAAAAAAAA+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
   </data>
  </layer>
  <layer name="Walls" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3UQQqAIBCFYS/UATpAm3bREdp3+E4QgVCIpeNYKv0fDLjQYfBZxgAAAAAADr0t1Kk3ZKQ1mPMOu8Be7vo9U+kBPjaXHuCGJAe+h7yudz8Um+Ibc8S6lL/9i2r1xxxqeP+uFnJYbeVCDulWp1o1PpTmrK/PFljfnQv1d7PwZXJ9V5KZpbQ9l4fSnPX1Ca1j+0krZe5U2ll3RS5ng0AfAAA=
+   H4sIAAAAAAAAA+3UwQmEMBCF4TRkARbgRU9LStiDN4u3AlkQVkKcyRg1Ef8PBjyYYZIXdQ4AAAAA8NOuhTq1joxyde5/ho3yLmd9nU/pAW7mSw+ww5ID38O5tmffFZviHj7huZS3/Ytq9cYcarj/oSfkMK11FnI4bgrqqXqhJIOyNtZnVp731mn9wyximWzvlWVmq9yeX6Eko7I21kfLI7WftSx7Ttm7JHfWBRtNwIpAHwAA
   </data>
  </layer>
  <layer name="Hazards" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3SoQ0AIBADwM7B/lu+weAIwcGLu6RJZUUTAAAAAAAAuqvfA2ijsv/BP3qqQ39trNw6yQS5n4ctQB8AAA==
+   H4sIAAAAAAAAA+3SIQ4AIAwDwL2DB/D//81gcATkmLhLmlRWNAIAAAAAAIDu8vcA2sg4/+AfPeWlV5s7rz6qRzW1AEz0F59AHwAA
   </data>
  </layer>
  <layer name="CollidableItems" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3XQQ3AIBBEUSoDMchAQCXhGLjhYNLyXjL3n71tKQAA3K6mAz5u36+tvekQrvKkAwAA4LD/obHW0yFE+YuBP5gytqbUQB8AAA==
+   H4sIAAAAAAAAA+3XQQ3AIBBEUSoDMchAQCXhGLjhYNLyXjL3n71tKQAA3K6mAz5u36+tvekQrvKkAwAA4LD/obHW0yFE+YuBP5gytqbUQB8AAA==
   </data>
  </layer>
  <layer name="NoncollidableItems" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3WSwrAIAxFUfe/h+zVqTjQ+IG86D1QkGLhWoW2FAAAAABRbPE+8LLM5z5zO3RlOVfmGEfpGxSafvTj/47i2mZNis2nFNfkbVJpV+mI5nkPyt/D19jgaufMxjd7cFe/nzvPAycqPpULgUAfAAA=
+   H4sIAAAAAAAAA+3WSwrAIAxFUfe/h+zVqTjQ+IG86D1QkGLhWoW2FAAAAABRbPE+8LLM5z5zO3RlOVfmGEfpGxSafvTj/47i2mZNis2nFNfkbVJpV+mI5nkPyt/D19jgaufMxjd7cFe/nzvPAycqPpULgUAfAAA=
   </data>
  </layer>
  <layer name="Foreground" width="100" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
+   H4sIAAAAAAAAA+3BAQEAAACAkP6v7ggKAAAAAAAAABhk6EtKQB8AAA==
   </data>
  </layer>
 </map>
